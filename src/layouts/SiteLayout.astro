@@ -1,0 +1,60 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/downloads", label: "Downloads" },
+  { href: "/docs", label: "Docs" },
+  { href: "/changelog", label: "Changelog" },
+  { href: "/roadmap", label: "Roadmap" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/media/axon-screenshot-05.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" href="/axon.png" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="sticky top-0 z-20 border-b border-white/10 bg-[#07090f]/82 backdrop-blur">
+      <nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+        <a href="/" class="flex items-center gap-3 text-sm font-semibold text-white">
+          <img src="/axon.png" alt="" class="h-8 w-8" />
+          <span>Axon</span>
+        </a>
+        <div class="hidden items-center gap-6 text-sm text-axon-muted md:flex">
+          {navItems.map((item) => (
+            <a class="transition hover:text-white" href={item.href}>{item.label}</a>
+          ))}
+        </div>
+        <a
+          href="/downloads"
+          class="rounded-full border border-axon-cyan/40 px-4 py-2 text-sm text-axon-cyan transition hover:border-axon-cyan hover:bg-axon-cyan/10"
+        >
+          Download
+        </a>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="border-t border-white/10 px-5 py-8 text-center text-sm text-axon-muted">
+      <p>Axon is a personal AI-powered code editor built by Gorden.</p>
+    </footer>
+  </body>
+</html>

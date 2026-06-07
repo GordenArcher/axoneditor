@@ -1,0 +1,82 @@
+---
+import FeatureGrid from "@components/FeatureGrid.astro";
+import SectionHeader from "@components/SectionHeader.astro";
+import SiteLayout from "@layouts/SiteLayout.astro";
+---
+
+<SiteLayout
+  title="Axon Editor - Personal AI-powered code editor"
+  description="Axon is a personal AI-powered code editor for files, panes, terminal, Git, search, previews, settings, themes, and language-server support."
+>
+  <section class="px-5 pb-16 pt-20 md:pb-24 md:pt-28">
+    <div class="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+      <div>
+        <p class="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-axon-cyan">
+          Personal code editor
+        </p>
+        <h1 class="text-5xl font-semibold leading-tight text-white md:text-7xl">
+          Axon
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-8 text-axon-muted">
+          A desktop editor built for day-to-day coding first, with language servers,
+          Git, terminal, previews, themes, and a path toward serious AI workflows.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="/downloads" class="rounded-full bg-axon-cyan px-5 py-3 text-sm font-semibold text-[#071017] transition hover:bg-white">
+            Download Axon
+          </a>
+          <a href="/docs" class="rounded-full border border-white/12 px-5 py-3 text-sm font-semibold text-white transition hover:border-white/30 hover:bg-white/5">
+            Read docs
+          </a>
+        </div>
+      </div>
+      <div class="overflow-hidden rounded-2xl border border-white/10 bg-black/30 shadow-2xl shadow-black/40">
+        <img src="/media/axon-demo.gif" alt="Axon editor opening the Axon workspace" class="w-full" />
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-white/10 bg-white/[0.025] px-5 py-16">
+    <div class="mx-auto max-w-6xl">
+      <SectionHeader
+        eyebrow="What it does"
+        title="A practical editor surface"
+        description="Axon is not a landing-page demo. The first screen is the workbench: files, editor, terminal, Git, search, diagnostics, settings, and previews."
+      />
+      <div class="mt-10">
+        <FeatureGrid />
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 py-16">
+    <div class="mx-auto max-w-6xl">
+      <SectionHeader
+        eyebrow="Screenshots"
+        title="The Axon workspace"
+        description="A quick look at the current desktop build using the Axon repository."
+      />
+      <div class="mt-10 grid gap-5">
+        {[1, 2, 3, 4, 5].map((item) => (
+          <img
+            src={`/media/axon-screenshot-0${item}.png`}
+            alt={`Axon editor screenshot ${item}`}
+            class="rounded-2xl border border-white/10 shadow-xl shadow-black/30"
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 pb-20">
+    <div class="mx-auto max-w-4xl rounded-3xl border border-white/10 bg-white/[0.035] p-8 text-center">
+      <h2 class="text-3xl font-semibold text-white">Watch the full demo</h2>
+      <p class="mt-3 text-axon-muted">
+        The full one-minute recording shows Axon running against its own repository.
+      </p>
+      <a href="/media/axon-demo-full.mp4" class="mt-6 inline-flex rounded-full border border-axon-cyan/40 px-5 py-3 text-sm font-semibold text-axon-cyan hover:bg-axon-cyan/10">
+        Open recording
+      </a>
+    </div>
+  </section>
+</SiteLayout>

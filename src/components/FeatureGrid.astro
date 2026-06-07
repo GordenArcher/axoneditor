@@ -1,0 +1,29 @@
+---
+const features = [
+  {
+    title: "Editor-first workflow",
+    description: "Files, tabs, panes, Markdown preview, HTML preview, terminal, Git, and workspace search live in one focused desktop surface.",
+  },
+  {
+    title: "Language intelligence",
+    description: "Axon talks to language servers for completions, diagnostics, hover, references, rename, and formatting.",
+  },
+  {
+    title: "Themes and fonts",
+    description: "Built-in theme extensions, Monaspace Nerd Fonts, imported fonts, and live appearance settings keep the editor personal.",
+  },
+  {
+    title: "Built for AI later",
+    description: "The app already has project context, diagnostics, Git state, and command flows that future AI features can use safely.",
+  },
+];
+---
+
+<div class="grid gap-4 md:grid-cols-2">
+  {features.map((feature) => (
+    <article class="rounded-2xl border border-white/10 bg-white/[0.035] p-5">
+      <h3 class="text-lg font-semibold text-white">{feature.title}</h3>
+      <p class="mt-3 text-sm leading-6 text-axon-muted">{feature.description}</p>
+    </article>
+  ))}
+</div>

@@ -1,0 +1,28 @@
+---
+import SiteLayout from "@layouts/SiteLayout.astro";
+
+const roadmap = [
+  "Extension marketplace foundations",
+  "Deeper LSP user experience",
+  "AI provider service and streaming chat panel",
+  "AI patch preview and apply workflow",
+  "Git diff context and safer project actions",
+];
+---
+
+<SiteLayout title="Roadmap - Axon Editor" description="The planned roadmap for Axon Editor.">
+  <section class="px-5 py-20">
+    <div class="mx-auto max-w-4xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.24em] text-axon-cyan">Roadmap</p>
+      <h1 class="mt-4 text-5xl font-semibold text-white">What comes next</h1>
+      <div class="mt-10 space-y-3">
+        {roadmap.map((item, index) => (
+          <div class="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.035] p-5">
+            <span class="grid h-8 w-8 place-items-center rounded-full bg-axon-cyan/12 text-sm font-semibold text-axon-cyan">{index + 1}</span>
+            <span class="text-white">{item}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</SiteLayout>

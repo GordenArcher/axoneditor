@@ -1,0 +1,27 @@
+---
+import SiteLayout from "@layouts/SiteLayout.astro";
+
+const docs = [
+  ["Run locally", "Start the Go core on localhost:7777, then run the Electron editor dev server."],
+  ["Updates", "Unsigned personal macOS builds may need manual replacement when Gatekeeper blocks automatic relaunch."],
+  ["Language servers", "Axon acts as an LSP client and uses external or bundled language servers for intelligence."],
+  ["Extensions", "Themes can ship as bundled extensions, user extensions, or workspace extensions."],
+];
+---
+
+<SiteLayout title="Docs - Axon Editor" description="Axon documentation for setup, updates, language servers, and extensions.">
+  <section class="px-5 py-20">
+    <div class="mx-auto max-w-4xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.24em] text-axon-cyan">Docs</p>
+      <h1 class="mt-4 text-5xl font-semibold text-white">Axon documentation</h1>
+      <div class="mt-10 grid gap-4">
+        {docs.map(([title, description]) => (
+          <article class="rounded-2xl border border-white/10 bg-white/[0.035] p-5">
+            <h2 class="text-xl font-semibold text-white">{title}</h2>
+            <p class="mt-3 leading-7 text-axon-muted">{description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</SiteLayout>
