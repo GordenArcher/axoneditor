@@ -36,41 +36,41 @@ const contributionTypes = [
 ---
 
 <SiteLayout title="Axon Extension Docs" description="Axon extension manifest format, schema URL, contribution types, and security boundary.">
-  <section class="px-5 py-16">
-    <div class="mx-auto max-w-5xl">
-      <p class="text-xs font-semibold uppercase tracking-[0.24em] text-axon-cyan">Extensions</p>
-      <h1 class="mt-4 text-4xl font-semibold text-white md:text-5xl">Declarative extension manifests</h1>
+  <section class="px-5 py-16 md:py-20">
+    <div class="mx-auto max-w-6xl">
+      <p class="text-xs font-semibold uppercase text-axon-muted">Extensions</p>
+      <h1 class="mt-4 text-4xl font-semibold leading-tight text-zinc-100 md:text-6xl">Declarative extension manifests</h1>
       <p class="mt-5 max-w-3xl text-lg leading-8 text-axon-muted">
         Axon extensions are intentionally declarative today. The app reads
         manifests and contribution files, but it does not execute arbitrary
         extension JavaScript until a real extension host and security model exist.
       </p>
 
-      <div class="mt-10 grid gap-4 md:grid-cols-2">
-        <div class="rounded-lg border border-white/10 bg-white/[0.035] p-5">
-          <h2 class="text-lg font-semibold text-white">Schema URL</h2>
-          <a href="/schemas/extension/v0.1.0.json" class="mt-3 block break-all font-mono text-sm text-axon-cyan">
+      <div class="mt-12 grid gap-6 md:grid-cols-2">
+        <div class="feature-line">
+          <h2 class="text-lg font-semibold text-zinc-100">Schema URL</h2>
+          <a href="/schemas/extension/v0.1.0.json" class="mt-3 block break-all font-mono text-sm text-axon-muted">
             https://axoneditor.com/schemas/extension/v0.1.0.json
           </a>
         </div>
-        <div class="rounded-lg border border-white/10 bg-white/[0.035] p-5">
-          <h2 class="text-lg font-semibold text-white">Extension locations</h2>
+        <div class="feature-line">
+          <h2 class="text-lg font-semibold text-zinc-100">Extension locations</h2>
           <p class="mt-3 text-sm leading-6 text-axon-muted">
             Axon loads user extensions from app data, workspace extensions from
-            <code class="mx-1 rounded bg-black/30 px-1.5 py-0.5 text-axon-cyan">.axon/extensions</code>,
+            <code class="mx-1 rounded bg-black/30 px-1.5 py-0.5 text-axon-muted">.axon/extensions</code>,
             and bundled extensions inside the app.
           </p>
         </div>
       </div>
 
-      <h2 class="mt-12 text-2xl font-semibold text-white">Manifest example</h2>
-      <pre class="mt-5 overflow-x-auto rounded-lg border border-white/10 bg-black/40 p-5 text-sm leading-6 text-axon-text"><code>{manifestExample}</code></pre>
+      <h2 class="mt-12 text-2xl font-semibold text-zinc-100">Manifest example</h2>
+      <pre class="mt-5 overflow-x-auto rounded-lg border border-white/10 p-5 text-sm leading-6 text-axon-text"><code>{manifestExample}</code></pre>
 
-      <h2 class="mt-12 text-2xl font-semibold text-white">Contribution types</h2>
-      <div class="mt-5 overflow-hidden rounded-lg border border-white/10">
+      <h2 class="mt-12 text-2xl font-semibold text-zinc-100">Contribution types</h2>
+      <div class="mt-5 overflow-hidden border-y border-white/10">
         {contributionTypes.map(([name, description]) => (
-          <div class="grid gap-2 border-b border-white/10 bg-white/[0.025] p-5 last:border-b-0 md:grid-cols-[0.25fr_1fr]">
-            <code class="text-sm text-axon-cyan">{name}</code>
+          <div class="grid gap-2 border-b border-white/10 py-5 last:border-b-0 md:grid-cols-[0.25fr_1fr]">
+            <code class="text-sm text-axon-muted">{name}</code>
             <p class="text-sm leading-6 text-axon-muted">{description}</p>
           </div>
         ))}

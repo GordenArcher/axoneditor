@@ -1,0 +1,88 @@
+---
+import SiteLayout from "@layouts/SiteLayout.astro";
+import { githubReleasesUrl, loadReleases } from "@data/releases";
+import { renderMarkdown } from "@lib/renderMarkdown";
+
+export async function getStaticPaths() {
+  const releases = await loadReleases();
+
+  return releases.map((release) => ({
+    params: { tag: release.tag },
+    props: { release },
+  }));
+}
+
+const { release } = Astro.props;
+const publishedAt = release.publishedAt
+  ? new Intl.DateTimeFormat("en", { dateStyle: "long" }).format(new Date(release.publishedAt))
+  : "Release notes from docs/releases";
+const releaseBodyHtml = await renderMarkdown(release.body || "No release notes were found in docs/releases.");
+---
+
+<SiteLayout
+  title={`Axon ${release.tag}`}
+  description={`Release notes and assets for Axon ${release.tag}.`}
+>
+  <section class="px-5 py-16 md:py-20">
+    <div class="mx-auto max-w-6xl" data-release-root data-tag={release.tag}>
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p class="text-xs font-semibold uppercase text-axon-muted">GitHub release</p>
+          <h1 class="mt-4 text-4xl font-semibold leading-tight text-zinc-100 md:text-6xl" data-release-tag>{release.tag}</h1>
+          <p class="mt-4 max-w-3xl text-lg leading-8 text-axon-muted" data-release-title>{release.title}</p>
+        </div>
+        <a href={release.htmlUrl} class="axon-button axon-button-secondary" data-github-link>
+          Open on GitHub
+        </a>
+      </div>
+
+      <div class="release-row mt-10">
+        <div class="flex flex-wrap items-center gap-3">
+          <p class="text-sm font-semibold uppercase text-axon-muted">Summary</p>
+          <p class="text-sm text-axon-muted" data-release-date>{publishedAt}</p>
+        </div>
+        <p class="mt-3 max-w-4xl leading-7 text-axon-muted" data-release-summary>{release.summary}</p>
+      </div>
+
+      <h2 class="mt-12 text-2xl font-semibold text-zinc-100">Platform assets</h2>
+      <div class="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3" data-asset-list>
+        {release.assets.length ? (
+          release.assets.map((asset) => (
+            <a
+              href={asset.downloadUrl}
+              class="platform-download-option"
+            >
+              <span class="text-xs uppercase text-axon-muted">{asset.platform}</span>
+              <span class="break-all text-sm font-medium text-zinc-100">{asset.name}</span>
+              <span class="text-sm text-axon-muted">{asset.size > 0 ? `${(asset.size / 1024 / 1024).toFixed(1)} MB` : "GitHub asset"}</span>
+            </a>
+          ))
+        ) : (
+          <div class="release-row text-sm text-axon-muted">
+            This release does not have public assets.
+          </div>
+        )}
+      </div>
+
+      <h2 class="mt-12 text-2xl font-semibold text-zinc-100">Release notes</h2>
+      <div
+        class="release-markdown release-row mt-5 text-sm leading-7 text-axon-muted"
+        data-release-body
+        set:html={releaseBodyHtml}
+      >
+      </div>
+
+      <div class="mt-10 flex flex-wrap gap-3">
+        <a href="/releases" class="axon-button axon-button-secondary">
+          Back to all releases
+        </a>
+        <a href={release.htmlUrl} class="axon-button axon-button-primary">
+          Open GitHub release
+        </a>
+        <a href={githubReleasesUrl} class="axon-button axon-button-secondary">
+          GitHub releases
+        </a>
+      </div>
+    </div>
+  </section>
+</SiteLayout>

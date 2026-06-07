@@ -1,5 +1,9 @@
 ---
 import SiteLayout from "@layouts/SiteLayout.astro";
+import { loadReleases } from "@data/releases";
+
+const releases = await loadReleases();
+const latestRelease = releases[0] ?? null;
 
 const releaseSteps = [
   "Axon checks GitHub Releases for the latest published version.",
@@ -10,35 +14,47 @@ const releaseSteps = [
 ---
 
 <SiteLayout title="Axon Update Docs" description="How Axon update checks and release downloads work.">
-  <section class="px-5 py-16">
-    <div class="mx-auto max-w-5xl">
-      <p class="text-xs font-semibold uppercase tracking-[0.24em] text-axon-cyan">Updates</p>
-      <h1 class="mt-4 text-4xl font-semibold text-white md:text-5xl">Update checks use GitHub Releases</h1>
+  <section class="px-5 py-16 md:py-20">
+    <div class="mx-auto max-w-6xl">
+      <p class="text-xs font-semibold uppercase text-axon-muted">Updates</p>
+      <h1 class="mt-4 text-4xl font-semibold leading-tight text-zinc-100 md:text-6xl">Update checks use GitHub Releases</h1>
       <p class="mt-5 max-w-3xl text-lg leading-8 text-axon-muted">
         Axon can check release metadata and show notes, but the current
         distribution language stays conservative because macOS unsigned builds
         cannot guarantee smooth automatic replacement.
       </p>
 
-      <div class="mt-10 grid gap-3">
+      <div class="mt-12 grid gap-0 border-y border-white/10">
         {releaseSteps.map((step, index) => (
-          <div class="grid gap-4 rounded-lg border border-white/10 bg-white/[0.035] p-5 md:grid-cols-[3rem_1fr]">
-            <span class="grid h-10 w-10 place-items-center rounded-lg bg-axon-cyan/12 text-sm font-semibold text-axon-cyan">
-              {index + 1}
-            </span>
+          <div class="grid gap-4 border-b border-white/10 py-5 last:border-b-0 md:grid-cols-[4rem_1fr]">
+            <span class="font-mono text-sm text-axon-muted">0{index + 1}</span>
             <p class="leading-7 text-axon-muted">{step}</p>
           </div>
         ))}
       </div>
 
-      <div class="mt-10 rounded-lg border border-axon-amber/30 bg-axon-amber/10 p-5">
-        <h2 class="text-lg font-semibold text-white">macOS limitation</h2>
+      <div class="feature-line mt-10">
+        <h2 class="text-lg font-semibold text-zinc-100">macOS limitation</h2>
         <p class="mt-3 leading-7 text-axon-muted">
           Do not treat current unsigned macOS builds as fully automatic update
           builds. Manual download and replacement remains the reliable route
           until Axon ships with an Apple Developer certificate, hardened
           runtime, and notarization.
         </p>
+      </div>
+
+      <div class="feature-line mt-10">
+        <h2 class="text-lg font-semibold text-zinc-100">Current release page</h2>
+        <p class="mt-3 leading-7 text-axon-muted">
+          The latest shipped release is
+          <span class="font-semibold text-zinc-100">{latestRelease?.tag ?? "unavailable"}</span>,
+          and the full page with assets and notes lives at the release route.
+        </p>
+        {latestRelease && (
+          <a href={`/releases/tag/${latestRelease.tag}`} class="axon-button axon-button-secondary mt-5">
+            Open release page
+          </a>
+        )}
       </div>
     </div>
   </section>

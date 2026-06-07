@@ -1,0 +1,57 @@
+---
+import SiteLayout from "@layouts/SiteLayout.astro";
+import { githubReleasesUrl, loadReleases } from "@data/releases";
+
+const releases = await loadReleases();
+const latestRelease = releases[0] ?? null;
+---
+
+<SiteLayout
+  title="Axon Releases"
+  description="Browse every Axon release from GitHub and open the matching release pages and assets."
+>
+  <section class="px-5 py-16 md:py-20">
+    <div class="mx-auto max-w-6xl">
+      <p class="text-xs font-semibold uppercase text-axon-muted">Releases</p>
+      <h1 class="mt-4 text-4xl font-semibold leading-tight text-zinc-100 md:text-6xl">All GitHub releases</h1>
+      <p class="mt-5 max-w-3xl text-lg leading-8 text-axon-muted">
+        The latest published release is
+        <span class="font-semibold text-zinc-100" data-latest-tag>{latestRelease?.tag ?? "loading"}</span>.
+        This page reads release-note Markdown from the Axon repo's docs/releases folder.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={githubReleasesUrl} class="axon-button axon-button-secondary">
+          Open GitHub releases
+        </a>
+      </div>
+
+      <div class="mt-10 border-y border-white/10" data-release-list>
+        {releases.length ? (
+          releases.map((release) => (
+            <article class="release-index-row reveal-up">
+              <div class="grid gap-4 md:grid-cols-[9rem_1fr_auto] md:items-start">
+                <p class="font-mono text-sm text-axon-muted">{release.tag}</p>
+                <div>
+                  <h2 class="text-xl font-semibold text-zinc-100">{release.title}</h2>
+                  <p class="mt-2 max-w-3xl text-sm leading-6 text-axon-muted">{release.summary}</p>
+                  <p class="mt-3 text-xs text-axon-muted">
+                    {release.assets.length} platform asset{release.assets.length === 1 ? "" : "s"}
+                    {release.prerelease ? " · pre-release" : ""}
+                  </p>
+                </div>
+                <a href={`/releases/tag/${release.tag}`} class="text-sm font-semibold text-zinc-100 transition hover:text-axon-muted">
+                  Notes and downloads
+                </a>
+              </div>
+            </article>
+          ))
+        ) : (
+          <div class="py-6 text-sm text-axon-muted">
+            No release-note files were found in docs/releases.
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+</SiteLayout>
