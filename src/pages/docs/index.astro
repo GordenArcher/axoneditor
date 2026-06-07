@@ -1,0 +1,42 @@
+---
+import SiteLayout from "@layouts/SiteLayout.astro";
+
+const docs = [
+  {
+    href: "/docs/extensions",
+    title: "Extensions",
+    description: "Manifest format, contribution types, schema URL, and the current declarative security boundary.",
+  },
+  {
+    href: "/docs/language-servers",
+    title: "Language servers",
+    description: "Supported language-server foundations, bundled server behavior, and runtime requirements.",
+  },
+  {
+    href: "/docs/updates",
+    title: "Updates",
+    description: "How Axon checks GitHub releases and why macOS unsigned builds still need manual replacement.",
+  },
+];
+---
+
+<SiteLayout title="Axon Docs" description="Documentation for Axon extensions, language servers, and update behavior.">
+  <section class="px-5 py-16">
+    <div class="mx-auto max-w-5xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.24em] text-axon-cyan">Docs</p>
+      <h1 class="mt-4 text-4xl font-semibold text-white md:text-5xl">Axon documentation</h1>
+      <p class="mt-5 max-w-3xl text-lg leading-8 text-axon-muted">
+        Focused reference pages for the pieces users need when installing,
+        extending, and understanding the current desktop app.
+      </p>
+      <div class="mt-10 grid gap-4 md:grid-cols-3">
+        {docs.map((doc) => (
+          <a href={doc.href} class="rounded-lg border border-white/10 bg-white/[0.035] p-5 transition hover:border-axon-cyan/50 hover:bg-white/[0.055]">
+            <h2 class="text-xl font-semibold text-white">{doc.title}</h2>
+            <p class="mt-3 text-sm leading-6 text-axon-muted">{doc.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</SiteLayout>

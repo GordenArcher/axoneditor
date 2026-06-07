@@ -9,10 +9,9 @@ interface Props {
 const { title, description } = Astro.props;
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/downloads", label: "Downloads" },
+  { href: "/download", label: "Download" },
   { href: "/docs", label: "Docs" },
   { href: "/changelog", label: "Changelog" },
-  { href: "/roadmap", label: "Roadmap" },
 ];
 ---
 
@@ -31,20 +30,20 @@ const navItems = [
     <title>{title}</title>
   </head>
   <body>
-    <header class="sticky top-0 z-20 border-b border-white/10 bg-[#07090f]/82 backdrop-blur">
+    <header class="sticky top-0 z-20 border-b border-white/10 bg-[#080a0d]/88 backdrop-blur">
       <nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
         <a href="/" class="flex items-center gap-3 text-sm font-semibold text-white">
-          <img src="/axon.png" alt="" class="h-8 w-8" />
+          <img src="/axon.png" alt="" class="h-8 w-8 rounded-lg" />
           <span>Axon</span>
         </a>
-        <div class="hidden items-center gap-6 text-sm text-axon-muted md:flex">
+        <div class="hidden items-center gap-5 text-sm text-axon-muted md:flex">
           {navItems.map((item) => (
             <a class="transition hover:text-white" href={item.href}>{item.label}</a>
           ))}
         </div>
         <a
-          href="/downloads"
-          class="rounded-full border border-axon-cyan/40 px-4 py-2 text-sm text-axon-cyan transition hover:border-axon-cyan hover:bg-axon-cyan/10"
+          href="/download"
+          class="axon-button border border-axon-cyan/45 px-4 py-2 text-axon-cyan hover:border-axon-cyan hover:bg-axon-cyan/10"
         >
           Download
         </a>
@@ -54,7 +53,7 @@ const navItems = [
       <slot />
     </main>
     <footer class="border-t border-white/10 px-5 py-8 text-center text-sm text-axon-muted">
-      <p>Axon is a personal AI-powered code editor built by Gorden.</p>
+      <p>Axon is a personal AI-powered code editor built seriously for daily work.</p>
     </footer>
   </body>
 </html>

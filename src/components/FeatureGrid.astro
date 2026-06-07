@@ -1,27 +1,27 @@
 ---
 const features = [
   {
-    title: "Editor-first workflow",
-    description: "Files, tabs, panes, Markdown preview, HTML preview, terminal, Git, and workspace search live in one focused desktop surface.",
+    title: "Real workbench",
+    description: "Open folders, split panes, drag tabs, edit shared Monaco models, preview Markdown/media, and keep dirty-file prompts predictable.",
   },
   {
     title: "Language intelligence",
-    description: "Axon talks to language servers for completions, diagnostics, hover, references, rename, and formatting.",
+    description: "Axon acts as an LSP client for completions, diagnostics, hover, definitions, references, rename, formatting, and code actions.",
   },
   {
-    title: "Themes and fonts",
-    description: "Built-in theme extensions, Monaspace Nerd Fonts, imported fonts, and live appearance settings keep the editor personal.",
+    title: "Git, search, terminal",
+    description: "Git-aware file colors, gutter markers, diff views, workspace search, and persistent integrated terminal tabs live inside the editor.",
   },
   {
-    title: "Built for AI later",
-    description: "The app already has project context, diagnostics, Git state, and command flows that future AI features can use safely.",
+    title: "Themes and extensions",
+    description: "Custom themes, imported fonts, bundled Monaspace Nerd Fonts, and declarative local extensions keep customization controlled.",
   },
 ];
 ---
 
 <div class="grid gap-4 md:grid-cols-2">
   {features.map((feature) => (
-    <article class="rounded-2xl border border-white/10 bg-white/[0.035] p-5">
+    <article class="rounded-lg border border-white/10 bg-white/[0.035] p-5">
       <h3 class="text-lg font-semibold text-white">{feature.title}</h3>
       <p class="mt-3 text-sm leading-6 text-axon-muted">{feature.description}</p>
     </article>
