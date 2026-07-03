@@ -1,0 +1,38 @@
+---
+interface Props {
+    name: string;
+    size?: number;
+    class?: string;
+}
+
+const { name, size = 20, class: className = "" } = Astro.props;
+
+const icons: Record<string, string> = {
+    Moon: `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 7.5A9 9 0 1 1 12 3Z"/></svg>`,
+    Sun: `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>`,
+};
+
+const svgContent = icons[name] ?? "";
+---
+
+<div
+    class:list={[className]}
+    set:html={svgContent}
+    data-icon
+    data-size={size}
+    style={`--size: ${size}px`}
+/>
+
+<style is:global>
+    [data-icon] {
+        display: inline-block;
+        width: var(--size, 20px);
+        height: var(--size, 20px);
+    }
+
+    [data-icon] svg {
+        width: 100%;
+        height: 100%;
+        stroke-width: 1.5;
+    }
+</style>

@@ -1,0 +1,44 @@
+---
+import DocsLayout from "@layouts/DocsLayout.astro";
+---
+
+<DocsLayout
+  title="First Project"
+  description="Open your first workspace and learn the core Axon workflow."
+>
+  <h1>First Project</h1>
+
+  <p>
+    The fastest way to understand Axon is to open a real project folder. Axon
+    treats the workspace folder as the base for file operations, terminal
+    sessions, Git state, search, and language-server startup.
+  </p>
+
+  <h2>Open a workspace</h2>
+  <ol>
+    <li>Launch Axon.</li>
+    <li>Use the workspace button in the title bar to choose a folder.</li>
+    <li>Wait for the sidebar to load the folder tree.</li>
+  </ol>
+
+  <h2>Create and edit files</h2>
+  <p>
+    Use the sidebar context menu to create files and folders. New entries appear
+    in the tree, inherit Git decorations from their parent folders, and can be
+    opened immediately in the editor pane.
+  </p>
+
+  <h2>Use terminal and Git</h2>
+  <p>
+    Open the terminal from the status bar when you need project commands. Open
+    Source Control when you want changed files, diffs, and history without
+    leaving the editor.
+  </p>
+
+  <h2>Set up language intelligence</h2>
+  <p>
+    Axon starts language servers based on the files in your workspace. Python
+    projects should select a virtual environment when imports live outside the
+    system Python installation.
+  </p>
+</DocsLayout>

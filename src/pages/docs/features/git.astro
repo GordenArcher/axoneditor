@@ -1,0 +1,87 @@
+---
+import DocsLayout from "@layouts/DocsLayout.astro";
+---
+
+<DocsLayout title="Git Integration" description="Git support in Axon">
+    <h1>Git Integration</h1>
+
+    <p>
+        Axon includes built-in Git support for version control workflows. You
+        can view changes, inspect diffs, browse history, work with graph
+        context, manage branches, stashes, worktrees, conflicts, and draft
+        commit messages without leaving the editor.
+    </p>
+
+    <figure class="docs-image">
+        <img src="/media/screenshots/axon-screenshot-02.png" alt="Axon source control panel with changed files and inline diff markers" loading="lazy" />
+        <figcaption>Git status belongs close to the files and editor so changed files, diffs, and line-level markers stay connected to the work you are doing.</figcaption>
+    </figure>
+
+    <h2>File Tree Git Status</h2>
+    <p>The file tree shows Git status with colored labels:</p>
+    <ul>
+        <li><span class="text-axon-green">Green</span> — Modified</li>
+        <li><span class="text-axon-red">Red</span> — Deleted</li>
+        <li><span class="text-axon-cyan">Blue</span> — Untracked</li>
+        <li><span class="text-axon-muted">Gray</span> — Ignored (hidden)</li>
+    </ul>
+
+    <h2>Gutter Markers</h2>
+    <p>In the editor, gutter markers show line-level changes:</p>
+    <ul>
+        <li><span class="text-axon-green">Green bar</span> — Added line</li>
+        <li><span class="text-axon-red">Red bar</span> — Removed line</li>
+        <li><span class="text-axon-cyan">Blue bar</span> — Modified line</li>
+    </ul>
+
+    <h2>Source Control Panel</h2>
+    <p>
+        Open the Source Control panel from the sidebar to access Git operations:
+    </p>
+    <ul>
+        <li>View all changed files</li>
+        <li>Stage / unstage changes</li>
+        <li>View diffs inline</li>
+        <li>Write commit messages and commit</li>
+        <li>Push / pull from remote</li>
+        <li>View branch information</li>
+        <li>Inspect graph, stash, worktree, and conflict surfaces as they mature</li>
+    </ul>
+
+    <h2>Diff Viewer</h2>
+    <p>
+        Click any changed file to open the diff viewer, showing side-by-side
+        comparison of the current file vs. the last commit.
+    </p>
+
+    <h2>Git History View</h2>
+    <p>
+        Axon includes a full Git history editor view showing commit logs, author
+        information, and file changes per commit.
+    </p>
+
+    <figure class="docs-image">
+        <img src="/media/screenshots/axon-screenshot-04.png" alt="Axon Git history view with a selected commit and file diff" loading="lazy" />
+        <figcaption>The history view shows commit metadata and changed files beside the diff so you can inspect how a change was made.</figcaption>
+    </figure>
+
+    <h2>Git Commands</h2>
+    <p>
+        Most Git operations are also available from the integrated terminal if
+        you prefer the command line.
+    </p>
+
+    <h2>Agent-assisted commits</h2>
+    <p>
+        Axon Agent can draft commit messages from the current Git diff. The
+        terminal command <code>axon commit</code> reads staged changes, streams
+        a message draft, and asks before running <code>git commit</code>.
+    </p>
+
+    <h2>Still being improved</h2>
+    <p>
+        Active Git work includes richer conflict resolution, safer stash flows,
+        cherry-pick and rebase flows, fuller worktree management, and later
+        pull-request review integration.
+    </p>
+</DocsLayout>

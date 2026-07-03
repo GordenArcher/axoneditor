@@ -24,6 +24,10 @@ export interface Release {
 
 const rawReleaseDocsBase = `https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/main/docs/releases`;
 const fallbackReleaseTags = [
+  "v1.1.9",
+  "v1.1.8",
+  "v1.1.7",
+  "v1.1.6",
   "v1.1.5",
   "v1.1.4",
   "v1.1.3",

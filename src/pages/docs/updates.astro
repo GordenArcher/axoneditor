@@ -1,5 +1,5 @@
 ---
-import SiteLayout from "@layouts/SiteLayout.astro";
+import HomeLayout from "@layouts/HomeLayout.astro";
 import { loadReleases } from "@data/releases";
 
 const releases = await loadReleases();
@@ -13,7 +13,7 @@ const releaseSteps = [
 ];
 ---
 
-<SiteLayout title="Axon Update Docs" description="How Axon update checks and release downloads work.">
+<HomeLayout title="Axon Update Docs" description="How Axon update checks and release downloads work.">
   <section class="px-5 py-16 md:py-20">
     <div class="mx-auto max-w-6xl">
       <p class="text-xs font-semibold uppercase text-axon-muted">Updates</p>
@@ -58,4 +58,4 @@ const releaseSteps = [
       </div>
     </div>
   </section>
-</SiteLayout>
+</HomeLayout>

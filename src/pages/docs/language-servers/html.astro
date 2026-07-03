@@ -1,0 +1,57 @@
+---
+import LanguageServerDoc from "@components/docs/LanguageServerDoc.astro";
+import DocsLayout from "@layouts/DocsLayout.astro";
+---
+
+<DocsLayout title="HTML" description="HTML language-server support in Axon">
+  <LanguageServerDoc
+    title="HTML"
+    description="Axon uses the VS Code HTML language server for markup intelligence. It powers element completions, attribute completions, hover, document links, diagnostics, symbols, and formatting for HTML documents."
+    server="vscode-html-language-server"
+    delivery="bundled npm server"
+    activation="Starts for .html and HTML-like documents"
+    overview={[
+      "HTML support should feel immediate because most web projects depend on it. The server gives Axon real markup awareness instead of relying only on syntax highlighting.",
+      "The server understands tags, attributes, document structure, embedded style/script regions, links, and formatting rules. That makes it useful for standalone HTML files and for preview-heavy workflows.",
+      "When Axon's HTML preview opens a file, the language server and preview should agree about the workspace root so linked CSS, JavaScript, images, and local files resolve predictably.",
+    ]}
+    capabilities={[
+      "Element and attribute completions for standard HTML.",
+      "Hover details for tags, attributes, and known browser APIs exposed through the server.",
+      "Diagnostics for malformed markup, invalid nesting, missing closing tags, and broken document structure where the server detects it.",
+      "Formatting, document symbols, document links, and embedded CSS/JavaScript awareness.",
+    ]}
+    setup={[
+      {
+        title: "Open the folder that owns assets",
+        body: "HTML files often depend on relative CSS, JavaScript, image, font, and media paths. Open the folder that owns those assets so both the language server and preview resolve links from the same place.",
+      },
+      {
+        title: "Use the preview for runtime behavior",
+        body: "The language server validates structure and links, but browser execution belongs to Axon's HTML preview or the external browser. JavaScript runtime errors should show in preview logs rather than as fake HTML diagnostics.",
+      },
+      {
+        title: "Keep file language detection correct",
+        body: "If an HTML file is detected as plaintext, completions and hover will be basic. The editor should map .html and related files to the HTML language before the server attaches.",
+      },
+    ]}
+    packaging={[
+      "The HTML server is bundled from vscode-langservers-extracted and must include the runtime modules it imports in production.",
+      "If HTML works in development but fails in a release build, check that vscode-langservers-extracted and its dependencies are included outside the asar path where required.",
+    ]}
+    troubleshooting={[
+      {
+        title: "No tag completions appear",
+        body: "Check that the document language is HTML and that the HTML server is running. Plaintext detection will prevent the language client from asking for HTML completions.",
+      },
+      {
+        title: "Links resolve differently in preview",
+        body: "Confirm Axon opened the correct workspace root. The preview server and language server need the same root to resolve relative paths consistently.",
+      },
+      {
+        title: "Packaged app reports missing modules",
+        body: "This points to production packaging, not HTML syntax. The extracted VS Code language server package must ship with the modules it requires at runtime.",
+      },
+    ]}
+  />
+</DocsLayout>

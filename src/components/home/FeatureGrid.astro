@@ -1,0 +1,30 @@
+---
+const features = [
+  {
+    title: "Local-first workbench",
+    description: "Open folders, split panes, preserve dirty editor state, preview files, keep themed modals fast, and let the Go backend own project services.",
+  },
+  {
+    title: "Bundled language tooling",
+    description: "Go, Rust, Python, TypeScript/TSX, HTML, CSS, JSON, YAML, Lua, and C/C++ flows cover completions, hover, diagnostics, definitions, rename, formatting, and code actions.",
+  },
+  {
+    title: "Git, tests, problems",
+    description: "Status, diffs, history, graph, conflicts, tests, and workspace-aware Problems are built as editor surfaces instead of loose terminal commands.",
+  },
+  {
+    title: "Extensions and Axon Agent",
+    description: "Built-in themes, icons, terminal, settings, search, Git, and agent surfaces are moving behind extension manifests and activation events.",
+  },
+];
+---
+
+<div class="grid gap-4 md:grid-cols-2">
+  {features.map((feature, index) => (
+    <article class="feature-line reveal-up" style={`animation-delay: ${index * 80}ms`}>
+      <p class="text-xs uppercase text-axon-muted">0{index + 1}</p>
+      <h3 class="text-lg font-semibold text-zinc-100">{feature.title}</h3>
+      <p class="mt-3 text-sm leading-6 text-axon-muted">{feature.description}</p>
+    </article>
+  ))}
+</div>

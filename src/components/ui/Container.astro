@@ -1,0 +1,23 @@
+---
+interface Props {
+    size?: "sm" | "md" | "lg" | "xl";
+    class?: string;
+}
+
+const { size = "lg", class: className = "" } = Astro.props;
+
+const sizes = {
+    sm: "max-w-3xl",
+    md: "max-w-4xl",
+    lg: "max-w-6xl",
+    xl: "max-w-7xl",
+};
+
+const classes = ["mx-auto", "w-full", "px-5", sizes[size], className]
+    .filter(Boolean)
+    .join(" ");
+---
+
+<div class={classes}>
+    <slot />
+</div>

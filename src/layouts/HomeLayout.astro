@@ -1,0 +1,73 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/download", label: "Download" },
+  { href: "/docs", label: "Docs" },
+  { href: "/blog", label: "Blog" },
+  { href: "/releases", label: "Releases" },
+  { href: "/changelog", label: "Changelog" },
+];
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark" data-theme-preference="dark" class="dark">
+  <head>
+    <script is:inline>
+      document.documentElement.dataset.theme = "dark";
+      document.documentElement.dataset.themePreference = "dark";
+      document.documentElement.classList.add("dark");
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/media/screenshots/axon-screenshot-05.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/png" href="/media/icons/axon.png" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header sticky top-0 z-20 border-b border-white/10 backdrop-blur">
+      <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+        <a href="/" class="flex items-center gap-3 text-sm font-semibold text-zinc-100">
+          <img src="/media/icons/axon.png" alt="" class="h-8 w-8 rounded-md opacity-90" />
+          <span>Axon</span>
+        </a>
+        <div class="hidden min-w-0 flex-1 items-center justify-center gap-4 text-sm text-axon-muted md:flex lg:gap-5">
+          {navItems.map((item) => (
+            <a class="transition hover:text-zinc-100" href={item.href}>
+              {item.label}
+            </a>
+          ))}
+        </div>
+        <div class="ml-auto hidden items-center gap-3 md:flex">
+          <a
+            href="/download"
+            class="axon-button axon-button-secondary px-4 py-2"
+          >
+            Download
+          </a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="border-t border-white/10 px-5 py-8 text-sm text-axon-muted">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3">
+        <p>Axon is a personal AI-powered code editor built seriously for daily work.</p>
+        <a href="/releases" class="transition hover:text-zinc-100">Releases</a>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,5 +1,5 @@
 ---
-import SiteLayout from "@layouts/SiteLayout.astro";
+import HomeLayout from "@layouts/HomeLayout.astro";
 import { githubReleasesUrl, loadReleases } from "@data/releases";
 
 const releases = await loadReleases();
@@ -13,7 +13,7 @@ const releaseFlow = [
 ];
 ---
 
-<SiteLayout title="Axon Changelog" description="How Axon release notes, changelog entries, and platform downloads are published.">
+<HomeLayout title="Axon Changelog" description="How Axon release notes, changelog entries, and platform downloads are published.">
   <section class="px-5 py-16 md:py-20">
     <div class="mx-auto max-w-6xl">
       <p class="text-xs font-semibold uppercase text-axon-muted">Changelog</p>
@@ -78,4 +78,4 @@ const releaseFlow = [
       </div>
     </div>
   </section>
-</SiteLayout>
+</HomeLayout>

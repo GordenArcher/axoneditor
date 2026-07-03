@@ -1,0 +1,61 @@
+---
+import Icon from "@components/ui/Icon.astro";
+---
+
+<div class="relative">
+    <button
+        id="theme-toggle"
+        class="flex cursor-pointer items-center justify-center rounded-md border border-axon-border p-2 text-axon-muted transition-smooth hover:bg-axon-hover hover:text-axon-text dark:border-axon-border dark:hover:bg-axon-hover"
+        aria-label="Toggle theme"
+    >
+        <span class="dark:hidden">
+            <Icon name="Moon" size={18} />
+        </span>
+        <span class="hidden dark:inline">
+            <Icon name="Sun" size={18} />
+        </span>
+    </button>
+</div>
+
+<script>
+    function getStoredTheme() {
+        try {
+            return localStorage.getItem("axon-theme");
+        } catch {
+            return null;
+        }
+    }
+
+    function setStoredTheme(theme) {
+        try {
+            localStorage.setItem("axon-theme", theme);
+        } catch {}
+    }
+
+    function getPreferredTheme() {
+        const stored = getStoredTheme();
+        if (stored === "dark" || stored === "light") return stored;
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+    }
+
+    function setTheme(theme) {
+        const root = document.documentElement;
+        if (theme === "dark") {
+            root.classList.add("dark");
+        } else {
+            root.classList.remove("dark");
+        }
+        setStoredTheme(theme);
+    }
+
+    const toggle = document.getElementById("theme-toggle");
+    if (toggle) {
+        toggle.addEventListener("click", () => {
+            const current = getPreferredTheme();
+            const next = current === "dark" ? "light" : "dark";
+            setTheme(next);
+        });
+    }
+</script>

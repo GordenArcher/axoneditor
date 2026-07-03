@@ -1,5 +1,5 @@
 ---
-import SiteLayout from "@layouts/SiteLayout.astro";
+import HomeLayout from "@layouts/HomeLayout.astro";
 import { githubReleasesUrl, loadReleases } from "@data/releases";
 import { renderMarkdown } from "@lib/renderMarkdown";
 
@@ -19,7 +19,7 @@ const publishedAt = release.publishedAt
 const releaseBodyHtml = await renderMarkdown(release.body || "No release notes were found in docs/releases.");
 ---
 
-<SiteLayout
+<HomeLayout
   title={`Axon ${release.tag}`}
   description={`Release notes and assets for Axon ${release.tag}.`}
 >
@@ -85,4 +85,4 @@ const releaseBodyHtml = await renderMarkdown(release.body || "No release notes w
       </div>
     </div>
   </section>
-</SiteLayout>
+</HomeLayout>

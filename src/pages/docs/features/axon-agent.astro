@@ -1,0 +1,76 @@
+---
+import DocsLayout from "@layouts/DocsLayout.astro";
+
+const commands = [
+  ["axon", "Start a terminal-native Axon Agent conversation in the current workspace."],
+  ["axon .", "Open the current directory in Axon without replacing an already-open workspace window."],
+  ["axon ask \"why is this slow?\"", "Stream a one-off project-aware answer from the local agent."],
+  ["axon resume", "List saved conversations for the current workspace."],
+  ["axon resume :conversation", "Restore a specific terminal conversation with its workspace context."],
+  ["axon commit", "Draft a commit message from staged changes and ask before committing."],
+  ["axon fix", "Use the current Problems snapshot to propose workspace-safe edits."],
+];
+---
+
+<DocsLayout title="Axon Agent" description="Local Axon Agent, terminal command, workspace sessions, slash commands, and project-aware workflows.">
+  <h1>Axon Agent</h1>
+
+  <p>
+    Axon Agent is local-first and project-aware. It talks through
+    <code>axon-core</code>, uses Axon-facing model names, streams responses,
+    keeps workspace conversations, and can use backend project tools for file
+    reads and code search.
+  </p>
+
+  <h2>Why the agent is part of the editor</h2>
+  <p>
+    The agent is designed to work from Axon's project state: Problems, Git,
+    terminal sessions, file watching, language servers, and workspace roots.
+    That is different from a generic chat box because the agent can be wired to
+    the same facts the editor already knows.
+  </p>
+
+  <h2>Terminal command</h2>
+  <p>
+    The shipped command is <code>axon</code>. It is the terminal surface for
+    Axon Agent and the CLI entrypoint for opening workspaces.
+  </p>
+
+  <div class="my-6 overflow-hidden border-y border-axon-border">
+    {commands.map(([command, description]) => (
+      <div class="grid gap-2 border-b border-axon-border py-4 last:border-b-0 md:grid-cols-[16rem_1fr]">
+        <code>{command}</code>
+        <p>{description}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2>Interactive sessions</h2>
+  <p>
+    Running <code>axon</code> starts a terminal-native conversation. The session
+    is scoped to the current workspace so a conversation about one project does
+    not get mixed with another project.
+  </p>
+
+  <h2>Slash commands</h2>
+  <p>
+    Inside an interactive session, <code>/</code> opens the local command
+    picker. Commands filter while typing and can be selected with arrow keys
+    and Enter. <code>/model</code> opens the Axon model picker using product
+    names instead of raw local runtime names.
+  </p>
+
+  <h2>Guardrails</h2>
+  <p>
+    Axon injects exact project facts when project context is attached and tells
+    local models not to invent placeholder paths, counts, filenames, commands,
+    URLs, emails, API names, or project facts.
+  </p>
+
+  <h2>Still being built</h2>
+  <p>
+    The next agent pass continues the terminal service boundary, improves PTY
+    reliability for long-running agent output, and replaces the raw composer
+    with a fuller terminal chat surface once the dependency stack is ready.
+  </p>
+</DocsLayout>

@@ -1,0 +1,244 @@
+---
+import HomeLayout from "@layouts/HomeLayout.astro";
+import { blogPosts, getBlogPost, type BlogSection } from "@data/blog";
+
+export function getStaticPaths() {
+  return blogPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const post = Astro.props.post ?? getBlogPost(Astro.params.slug ?? "");
+
+if (!post) {
+  return Astro.redirect("/blog");
+}
+
+const contentHeadings = post.sections
+  .filter((section): section is Extract<BlogSection, { kind: "heading" }> =>
+    section.kind === "heading",
+  )
+  .map((section) => ({
+    title: section.title,
+    id: section.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, ""),
+  }));
+
+function splitHoverPhrases(section: Extract<BlogSection, { kind: "paragraph" }>) {
+  const phrases = section.hoverPhrases ?? [];
+  if (phrases.length === 0) return [{ text: section.body, note: "" }];
+
+  const segments: Array<{ text: string; note: string }> = [];
+  let remaining = section.body;
+
+  for (const phrase of phrases) {
+    const index = remaining.indexOf(phrase.text);
+    if (index === -1) continue;
+    if (index > 0) {
+      segments.push({ text: remaining.slice(0, index), note: "" });
+    }
+    segments.push({ text: phrase.text, note: phrase.note });
+    remaining = remaining.slice(index + phrase.text.length);
+  }
+
+  if (remaining) segments.push({ text: remaining, note: "" });
+  return segments;
+}
+---
+
+<HomeLayout title={post.title} description={post.excerpt}>
+  <article class="blog-article">
+    <div class="blog-doc-shell mx-auto grid max-w-7xl gap-8 px-5 py-10 lg:grid-cols-[15rem_minmax(0,1fr)_15rem]">
+      <aside class="blog-left-nav">
+        <a href="/blog" class="blog-back-link">← Blog</a>
+        <p class="blog-nav-kicker">Articles</p>
+        <nav aria-label="Blog articles">
+          {blogPosts.map((item) => (
+            <a
+              href={`/blog/${item.slug}`}
+              class={item.slug === post.slug ? "is-active" : ""}
+            >
+              {item.title}
+            </a>
+          ))}
+        </nav>
+      </aside>
+
+      <main class="blog-doc-main">
+        <header class="blog-doc-header">
+          <div class="blog-breadcrumb">Blog / Debugging</div>
+          <h1
+            class="blog-animated-title"
+            data-blog-title
+            data-titles={JSON.stringify(post.animatedTitles)}
+          >
+            {post.title}
+          </h1>
+          <p class="blog-doc-excerpt">{post.excerpt}</p>
+
+          <div class="blog-doc-meta">
+            <span>{post.publishedAt}</span>
+            <span>{post.readingTime}</span>
+            <span>Updated {post.updatedAt}</span>
+          </div>
+
+          <div class="blog-author-line">
+            {post.authors.map((author) => (
+              <a href={author.github} class="blog-author-inline" target="_blank" rel="noreferrer">
+                <img src={author.avatar} alt="" />
+                <span>
+                  <strong>{author.name}</strong>
+                  <small>{author.role} · {author.github.replace("https://github.com/", "@")}</small>
+                </span>
+              </a>
+            ))}
+          </div>
+
+          <div class="blog-tag-row">
+            {post.tags.map((tag) => (
+              <span class="blog-tag">{tag}</span>
+            ))}
+          </div>
+        </header>
+
+        <div class="blog-reading-grid">
+          <div class="blog-content">
+            {post.sections.map((section) => {
+              if (section.kind === "paragraph") {
+                return (
+                  <p class="blog-paragraph">
+                    {splitHoverPhrases(section).map((segment) =>
+                      segment.note ? (
+                        <span class="blog-hover-phrase" data-note={segment.note}>
+                          {segment.text}
+                        </span>
+                      ) : (
+                        segment.text
+                      ),
+                    )}
+                  </p>
+                );
+              }
+
+              if (section.kind === "heading") {
+                const headingId = section.title
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, "-")
+                  .replace(/^-|-$/g, "");
+                return (
+                  <section class="blog-section-heading" id={headingId}>
+                    {section.kicker ? <p>{section.kicker}</p> : null}
+                    <h2>{section.title}</h2>
+                  </section>
+                );
+              }
+
+              if (section.kind === "code") {
+                return (
+                  <figure class="blog-code-block">
+                    <figcaption>
+                      <span>{section.filename ?? section.language}</span>
+                      <small>{section.language}</small>
+                    </figcaption>
+                    <pre><code>{section.code}</code></pre>
+                  </figure>
+                );
+              }
+
+              if (section.kind === "callout") {
+                return (
+                  <aside class={`blog-callout blog-callout-${section.tone}`}>
+                    <h3>{section.title}</h3>
+                    <p>{section.body}</p>
+                  </aside>
+                );
+              }
+
+              if (section.kind === "timeline") {
+                return (
+                  <div class="blog-timeline">
+                    {section.items.map((item) => (
+                      <article>
+                        <span>{item.label}</span>
+                        <div>
+                          <h3>{item.title}</h3>
+                          <p>{item.body}</p>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                );
+              }
+
+              if (section.kind === "links") {
+                return (
+                  <section class="blog-links">
+                    <h2>{section.title}</h2>
+                    <div>
+                      {section.items.map((item) => (
+                        <a href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noreferrer" : undefined}>
+                          <strong>{item.label}</strong>
+                          <span>{item.description}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </section>
+                );
+              }
+            })}
+
+            <section class="blog-conclusion" id="conclusion">
+              <p class="text-xs uppercase text-axon-muted">Conclusion</p>
+              <h2>What finally stayed fixed</h2>
+              <p>{post.conclusion}</p>
+            </section>
+          </div>
+        </div>
+      </main>
+
+      <aside class="blog-on-this-page">
+        <p>On this page</p>
+        <nav aria-label="On this page">
+          {contentHeadings.map((heading) => (
+            <a href={`#${heading.id}`}>{heading.title}</a>
+          ))}
+          <a href="#conclusion">What finally stayed fixed</a>
+        </nav>
+      </aside>
+    </div>
+  </article>
+
+  <script type="module">
+    const title = document.querySelector("[data-blog-title]");
+    if (title instanceof HTMLElement) {
+      const titles = JSON.parse(title.dataset.titles || "[]");
+      let index = 0;
+
+      const writeTitle = (nextText) => {
+        title.textContent = "";
+        title.dataset.writing = "true";
+        let charIndex = 0;
+
+        const tick = () => {
+          title.textContent = nextText.slice(0, charIndex);
+          if (charIndex < nextText.length) {
+            charIndex += 1;
+            window.setTimeout(tick, 38);
+            return;
+          }
+          title.dataset.writing = "false";
+        };
+
+        tick();
+      };
+
+      window.setInterval(() => {
+        index = (index + 1) % titles.length;
+        writeTitle(titles[index]);
+      }, 120000);
+    }
+  </script>
+</HomeLayout>

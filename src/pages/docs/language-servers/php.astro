@@ -1,0 +1,57 @@
+---
+import LanguageServerDoc from "@components/docs/LanguageServerDoc.astro";
+import DocsLayout from "@layouts/DocsLayout.astro";
+---
+
+<DocsLayout title="PHP" description="PHP language-server support in Axon">
+  <LanguageServerDoc
+    title="PHP"
+    description="Axon bundles Intelephense for PHP language intelligence. It provides fast completions, diagnostics, hover, definitions, references, rename, symbols, and project indexing for PHP workspaces."
+    server="intelephense"
+    delivery="bundled npm server"
+    activation="Starts for .php files and PHP workspaces"
+    overview={[
+      "PHP support is strongest after the server indexes the workspace. Composer projects, vendor packages, namespaces, framework classes, and project-local files all affect completion quality.",
+      "Axon bundles the PHP language server so users do not need to install Intelephense globally for editor support. Running the application or framework commands still depends on the user's local PHP runtime.",
+      "The most reliable setup is to open the folder that owns composer.json, vendor, app source, and framework configuration so symbols can be indexed from the correct root.",
+    ]}
+    capabilities={[
+      "Completions for classes, methods, functions, variables, namespaces, traits, interfaces, constants, and framework symbols.",
+      "Hover for PHPDoc, signatures, inferred types, declarations, and imported symbols.",
+      "Diagnostics, go to definition, references, rename, document symbols, workspace symbols, and project indexing.",
+      "Composer-aware behavior when dependencies and autoload metadata are available.",
+    ]}
+    setup={[
+      {
+        title: "Open the Composer root",
+        body: "Open the folder with composer.json and vendor when possible. Composer autoload metadata helps the server understand namespaces and framework classes.",
+      },
+      {
+        title: "Install dependencies",
+        body: "If vendor packages are missing, framework symbols and external classes may not resolve. Run composer install before judging language intelligence.",
+      },
+      {
+        title: "Let indexing finish",
+        body: "Large PHP projects can take a little time to index. Axon should keep the editor responsive and surface server status while indexing continues.",
+      },
+    ]}
+    packaging={[
+      "Intelephense is bundled as an npm server with Axon release builds.",
+      "If PHP works in development but not in the installed app, check that the bundled server package and dependency tree are included in packaged resources.",
+    ]}
+    troubleshooting={[
+      {
+        title: "Framework classes are missing",
+        body: "Check that dependencies are installed and Axon opened the Composer root. Framework symbols usually come from vendor packages and autoload metadata.",
+      },
+      {
+        title: "Completions are slow at first",
+        body: "The server may be indexing. It should improve after the workspace index is ready.",
+      },
+      {
+        title: "PHP runtime commands fail",
+        body: "The language server is separate from the PHP runtime. Running tests, artisan, symfony, or other commands still needs local PHP installed.",
+      },
+    ]}
+  />
+</DocsLayout>

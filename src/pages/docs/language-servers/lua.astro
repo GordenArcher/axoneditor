@@ -1,0 +1,57 @@
+---
+import LanguageServerDoc from "@components/docs/LanguageServerDoc.astro";
+import DocsLayout from "@layouts/DocsLayout.astro";
+---
+
+<DocsLayout title="Lua" description="Lua language-server support in Axon">
+  <LanguageServerDoc
+    title="Lua"
+    description="Axon bundles lua-language-server for Lua projects. It provides completions, diagnostics, hover, definitions, references, workspace symbols, and runtime/library-aware editing behavior."
+    server="lua-language-server"
+    delivery="managed native server"
+    activation="Starts for .lua files"
+    overview={[
+      "Lua projects differ widely. Some target plain Lua, some target Neovim, some target games, and some target embedded application runtimes. The language server needs runtime and library context to feel accurate.",
+      "Axon bundles lua-language-server as a managed native server so users should not need to install it globally from official release builds.",
+      "Project-level Lua settings become important when globals, runtime libraries, or application-specific APIs are expected. Without those settings, the server may warn about globals that are actually provided by the host runtime.",
+    ]}
+    capabilities={[
+      "Completions for locals, globals, table fields, functions, modules, methods, and configured libraries.",
+      "Hover for function signatures, inferred types, documentation comments, and known runtime APIs.",
+      "Diagnostics, definitions, references, workspace symbols, document symbols, and library-aware editing.",
+      "Better behavior for Neovim, game, or embedded runtimes when project settings describe available globals and libraries.",
+    ]}
+    setup={[
+      {
+        title: "Open the Lua project root",
+        body: "Open the folder that owns the Lua modules and project settings. Module resolution and workspace symbols depend on the server seeing the full project.",
+      },
+      {
+        title: "Configure runtime libraries when needed",
+        body: "If the project depends on host-provided globals, configure the Lua runtime or library paths so the server does not treat those globals as missing.",
+      },
+      {
+        title: "Separate server support from runtime execution",
+        body: "Axon can bundle the language server, but running Lua code still depends on the user's actual Lua runtime or host application.",
+      },
+    ]}
+    packaging={[
+      "Release builds download lua-language-server for each target platform and package it under Axon's managed language-server resources.",
+      "If production fails while development works, check the platform-architecture bundle and executable permissions for the packaged server.",
+    ]}
+    troubleshooting={[
+      {
+        title: "Known globals are marked undefined",
+        body: "The server probably does not know the target runtime or library. Configure project settings for the host environment.",
+      },
+      {
+        title: "Definitions do not cross modules",
+        body: "Check workspace root and module paths. Lua module resolution depends on how the project loads files.",
+      },
+      {
+        title: "Server binary fails in release",
+        body: "Check packaged resources for the matching lua-language-server binary and verify it can execute on the user's platform.",
+      },
+    ]}
+  />
+</DocsLayout>

@@ -1,0 +1,60 @@
+---
+import LanguageServerDoc from "@components/docs/LanguageServerDoc.astro";
+import DocsLayout from "@layouts/DocsLayout.astro";
+---
+
+<DocsLayout
+  title="TypeScript and JavaScript"
+  description="TypeScript and JavaScript language-server support in Axon"
+>
+  <LanguageServerDoc
+    title="TypeScript and JavaScript"
+    description="Axon uses typescript-language-server with the TypeScript compiler services for TypeScript, JavaScript, JSX, and TSX files. This is the main server behind completions, hover, diagnostics, definitions, references, rename, formatting, symbols, and code actions in web projects."
+    server="typescript-language-server with TypeScript"
+    delivery="bundled npm server"
+    activation="Starts for .ts, .tsx, .js, .jsx, .mjs, .cjs, and projects with package.json, tsconfig.json, or jsconfig.json"
+    overview={[
+      "TypeScript support is project-aware. The server reads tsconfig.json and jsconfig.json to understand path aliases, JSX settings, module resolution, strictness, included files, excluded files, and the shape of the workspace. Opening the correct project root matters because the server uses that root to decide which config file owns the current file.",
+      "JavaScript support uses the same TypeScript engine. That means plain JS projects can still receive useful completions, hover information, diagnostics, and navigation when package dependencies and jsconfig settings are available.",
+      "Axon should rely on this server instead of Monaco-only guesses for real editor behavior. Monaco can color and tokenize code, but the language server is what understands imported types, external packages, workspace symbols, renamed identifiers, and cross-file navigation.",
+    ]}
+    capabilities={[
+      "Completions for variables, functions, imported symbols, JSX tags, object keys, methods, and project types.",
+      "Hover text for inferred types, function signatures, documentation comments, imported symbols, and external package APIs.",
+      "Go to definition, go to type definition, references, rename, document symbols, workspace symbols, formatting, diagnostics, and code actions.",
+      "Better local-type resolution when the workspace root contains the package manager files and TypeScript configuration that own the source tree.",
+    ]}
+    setup={[
+      {
+        title: "Open the real project root",
+        body: "Open the folder that owns package.json and tsconfig.json or jsconfig.json. If Axon opens only a nested src folder, the server may miss path aliases, workspace references, generated types, and package metadata.",
+      },
+      {
+        title: "Install dependencies before judging completions",
+        body: "The server reads installed package types from node_modules and project files. If dependencies are missing, imported types can look unresolved even though Axon's LSP wiring is correct.",
+      },
+      {
+        title: "Use config files for aliases",
+        body: "Aliases such as @/components or ~/lib need tsconfig or jsconfig paths. Without those settings, the server cannot know how the project resolves local imports.",
+      },
+    ]}
+    packaging={[
+      "The TypeScript server is bundled as an npm dependency with Axon. Release builds should not require users to install typescript-language-server globally before completions work.",
+      "If the server works in development but fails in the packaged app, check that the package and its TypeScript dependency were included in the app resources and that the production resolver starts the bundled command instead of assuming a global binary.",
+    ]}
+    troubleshooting={[
+      {
+        title: "Local types do not resolve",
+        body: "Check that Axon opened the project root, dependencies are installed, and the file belongs to the expected tsconfig or jsconfig. This is the most common reason a type appears in one editor but not another.",
+      },
+      {
+        title: "Definitions do not jump across files",
+        body: "The server needs the correct workspace folder and config ownership. If Monaco shows a generic completion but go-to-definition does not leave the file, the language client may not be attached to the right project model.",
+      },
+      {
+        title: "Completions feel basic",
+        body: "Basic completions usually mean the standalone editor is answering before the language server has project context. The fix is to make sure the server is running, the file language is correct, and the project config can be found.",
+      },
+    ]}
+  />
+</DocsLayout>

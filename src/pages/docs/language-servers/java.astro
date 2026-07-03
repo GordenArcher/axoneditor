@@ -1,0 +1,57 @@
+---
+import LanguageServerDoc from "@components/docs/LanguageServerDoc.astro";
+import DocsLayout from "@layouts/DocsLayout.astro";
+---
+
+<DocsLayout title="Java" description="Java language-server support in Axon">
+  <LanguageServerDoc
+    title="Java"
+    description="Axon uses the Eclipse JDT Language Server for Java projects. It provides project-aware completions, diagnostics, imports, hover, definitions, references, rename, formatting, and symbols."
+    server="Eclipse JDT Language Server"
+    delivery="managed native server with local JDK requirement"
+    activation="Starts for .java files and Java workspaces"
+    overview={[
+      "Java language intelligence depends on the project model. Maven, Gradle, source roots, generated files, classpaths, annotation processors, and the selected JDK all affect what the server can understand.",
+      "Axon can bundle the Java language-server distribution, but a local JDK is still required for real Java projects. The JDK is part of how the server runs and how project analysis understands Java language levels.",
+      "Opening the repository root or the folder that owns the build files gives the server the best chance of resolving imports, dependencies, generated code, and project structure.",
+    ]}
+    capabilities={[
+      "Completions for classes, methods, fields, packages, imports, constructors, overrides, and generated symbols.",
+      "Hover for types, signatures, Javadocs, package members, inherited methods, and class information.",
+      "Diagnostics, go to definition, references, rename, organize imports, formatting, document symbols, and workspace symbols.",
+      "Build-file-aware behavior for Maven and Gradle projects when the local JDK and project metadata are available.",
+    ]}
+    setup={[
+      {
+        title: "Install a JDK",
+        body: "Bundling the server does not remove the JDK requirement. Java projects need a local JDK for project analysis, build behavior, language-level support, and runtime integration.",
+      },
+      {
+        title: "Open the build root",
+        body: "Open the folder that owns pom.xml, build.gradle, settings.gradle, or the project metadata. Opening only src/main/java can prevent the server from seeing dependencies and source sets.",
+      },
+      {
+        title: "Allow indexing time",
+        body: "Large Java projects can take time to import and index. Axon should show a running/indexing state and logs instead of making the editor feel frozen.",
+      },
+    ]}
+    packaging={[
+      "The Java server is packaged as a managed native/server bundle, but it expects a working local JDK.",
+      "If release builds fail, check both Axon's packaged server path and the user's JDK availability. The error message should distinguish those two cases.",
+    ]}
+    troubleshooting={[
+      {
+        title: "Server fails with runtime errors",
+        body: "Check whether a compatible JDK is installed and visible to Axon. A bundled server cannot analyze Java without the needed Java runtime setup.",
+      },
+      {
+        title: "Imports do not resolve",
+        body: "Open the Maven or Gradle root and make sure dependencies can be restored. Missing build metadata often appears as missing imports.",
+      },
+      {
+        title: "Indexing takes a while",
+        body: "That can be normal for large Java workspaces. Axon should expose progress and logs so users can tell whether the server is working or stuck.",
+      },
+    ]}
+  />
+</DocsLayout>

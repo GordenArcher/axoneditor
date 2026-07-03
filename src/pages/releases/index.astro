@@ -1,12 +1,12 @@
 ---
-import SiteLayout from "@layouts/SiteLayout.astro";
+import HomeLayout from "@layouts/HomeLayout.astro";
 import { githubReleasesUrl, loadReleases } from "@data/releases";
 
 const releases = await loadReleases();
 const latestRelease = releases[0] ?? null;
 ---
 
-<SiteLayout
+<HomeLayout
   title="Axon Releases"
   description="Browse every Axon release from GitHub and open the matching release pages and assets."
 >
@@ -54,4 +54,4 @@ const latestRelease = releases[0] ?? null;
       </div>
     </div>
   </section>
-</SiteLayout>
+</HomeLayout>

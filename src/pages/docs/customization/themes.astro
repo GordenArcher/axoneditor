@@ -1,0 +1,74 @@
+---
+import DocsLayout from "@layouts/DocsLayout.astro";
+
+const themeExample = `{
+  "name": "my-theme",
+  "type": "dark",
+  "colors": {
+    "editor.background": "#1e1e2e",
+    "editor.foreground": "#cdd6f4",
+    "editor.lineHighlightBackground": "#313244",
+    "editor.selectionBackground": "#45475a",
+    "terminal.background": "#1e1e2e",
+    "terminal.foreground": "#cdd6f4",
+    "sideBar.background": "#181825",
+    "sideBar.foreground": "#cdd6f4"
+  },
+  "tokenColors": [
+    {
+      "scope": "keyword",
+      "settings": { "foreground": "#cba6f7" }
+    },
+    {
+      "scope": "string",
+      "settings": { "foreground": "#a6e3a1" }
+    }
+  ]
+}`;
+
+const fontExample = `{
+  "editor.fontFamily": "Monaspace Neon, SF Mono, monospace",
+  "editor.fontSize": 14,
+  "editor.fontLigatures": true
+}`;
+---
+
+<DocsLayout title="Themes" description="Customizing Axon appearance">
+  <h1>Themes</h1>
+
+  <p>
+    Axon includes a built-in dark theme with Catppuccin-inspired colors. You can
+    customize colors, import fonts, or create your own themes.
+  </p>
+
+  <h2>Built-in Theme</h2>
+  <p>
+    The default Sora dark theme features:
+  </p>
+  <ul>
+    <li>Deep blue-gray background (<code>#07090f</code>)</li>
+    <li>High contrast editor colors</li>
+    <li>Catppuccin icon colors</li>
+    <li>Monaspace Neon font for code</li>
+    <li>Inter font for UI</li>
+  </ul>
+
+  <h2>Changing Themes</h2>
+  <p>
+    Open the Command Palette (<code>Cmd+Shift+P</code> / <code>Ctrl+Shift+P</code>)
+    and type <code>Theme</code> to switch themes.
+  </p>
+
+  <h2>Custom Themes</h2>
+  <p>
+    Create a custom theme by adding a JSON file to your extensions folder:
+  </p>
+  <pre><code>{themeExample}</code></pre>
+
+  <h2>Font Customization</h2>
+  <p>
+    Axon ships with Monaspace Neon fonts pre-installed. You can change fonts in
+    Settings:
+  </p>
+  <pre><code>{fontExample}</code></pre>
+</DocsLayout>

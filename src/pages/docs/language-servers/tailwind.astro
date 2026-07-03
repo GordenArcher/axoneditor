@@ -1,0 +1,57 @@
+---
+import LanguageServerDoc from "@components/docs/LanguageServerDoc.astro";
+import DocsLayout from "@layouts/DocsLayout.astro";
+---
+
+<DocsLayout title="Tailwind CSS" description="Tailwind CSS language-server support in Axon">
+  <LanguageServerDoc
+    title="Tailwind CSS"
+    description="Axon bundles the Tailwind CSS language server for utility-class completions, hover previews, color previews, variants, and class-name diagnostics in Tailwind projects."
+    server="@tailwindcss/language-server"
+    delivery="bundled npm server"
+    activation="Starts when Tailwind config or Tailwind usage is detected in supported files"
+    overview={[
+      "Tailwind support is not the same as CSS support. CSS language intelligence handles stylesheet syntax, while the Tailwind server understands utility classes inside HTML, JSX, TSX, and supported class-like strings.",
+      "The server needs project context. It must find the Tailwind configuration or framework setup, understand content paths, and read project-defined theme values before completions feel like a real editor.",
+      "Axon should avoid showing Tailwind completions in the wrong places. Class suggestions should appear inside class attributes, className values, supported framework strings, and other contexts the server identifies as Tailwind class lists.",
+    ]}
+    capabilities={[
+      "Utility-class completions for spacing, colors, layout, typography, responsive variants, states, and project theme values.",
+      "Hover previews that explain generated CSS for a class.",
+      "Color previews and diagnostics for invalid or unknown classes.",
+      "Support inside HTML, JSX, TSX, and configured class attributes or class-like strings.",
+    ]}
+    setup={[
+      {
+        title: "Open the Tailwind project root",
+        body: "Open the folder that owns tailwind.config.*, package.json, framework config, and source files. Content paths and theme values depend on the project root.",
+      },
+      {
+        title: "Install dependencies",
+        body: "The bundled language server can start, but the project still needs its Tailwind package and configuration so completions match the actual app.",
+      },
+      {
+        title: "Keep contexts precise",
+        body: "Tailwind suggestions should appear where classes belong. If they show inside unrelated style or plain strings, the editor integration needs tighter context filtering.",
+      },
+    ]}
+    packaging={[
+      "The Tailwind language server is bundled as an npm dependency. Users should not need to install @tailwindcss/language-server globally for official release builds.",
+      "If release builds do not provide Tailwind completions while development does, check that the npm package and dependency tree are included in the packaged app.",
+    ]}
+    troubleshooting={[
+      {
+        title: "No class completions appear",
+        body: "Check that the workspace contains Tailwind configuration or detectable Tailwind usage, dependencies are installed, and the current cursor is inside a class context.",
+      },
+      {
+        title: "Completions appear in the wrong place",
+        body: "The editor should filter completion contexts. Tailwind should not pollute normal CSS property values or unrelated strings.",
+      },
+      {
+        title: "Project theme values are missing",
+        body: "The server probably did not find the project config or package setup. Open the correct root and confirm Tailwind is installed in the project.",
+      },
+    ]}
+  />
+</DocsLayout>

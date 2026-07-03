@@ -1,0 +1,69 @@
+---
+import DocsLayout from "@layouts/DocsLayout.astro";
+
+const extensionTree = `my-extension/
+├── axon.extension.json
+├── themes/
+│   └── my-theme.axon-theme.json
+├── snippets/
+│   └── javascript.json
+└── icons/
+    └── file.svg`;
+
+const manifestExample = `{
+  "$schema": "https://axoneditor.com/schemas/extension/v0.1.0.json",
+  "id": "my-extension",
+  "name": "My Extension",
+  "publisher": "GordenArcher",
+  "version": "1.0.0",
+  "description": "Adds custom functionality",
+  "contributes": {
+    "themes": [
+      {
+        "id": "my-theme",
+        "label": "My Theme",
+        "path": "./themes/my-theme.axon-theme.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets/javascript.json"
+      }
+    ]
+  }
+}`;
+---
+
+<DocsLayout title="Extensions" description="Extending Axon functionality">
+  <h1>Extensions</h1>
+
+  <p>
+    Axon supports a declarative extension system. Extensions can add language
+    support, themes, keybindings, and custom commands.
+  </p>
+
+  <h2>Installing Extensions</h2>
+  <p>
+    Extensions are installed by adding them to the <code>extensions</code>
+    directory in your Axon config folder (<code>~/.axonc/extensions/</code>).
+  </p>
+
+  <h2>Extension Structure</h2>
+  <pre><code>{extensionTree}</code></pre>
+
+  <h2>Extension Manifest</h2>
+  <pre><code>{manifestExample}</code></pre>
+
+  <h2>Built-in Extensions</h2>
+  <p>
+    Language server support is implemented as built-in extensions. You can
+    disable individual language servers in Settings.
+  </p>
+
+  <h2>Roadmap</h2>
+  <p>
+    A full extension marketplace and discovery system is planned. Currently,
+    extensions must be installed manually.
+  </p>
+</DocsLayout>

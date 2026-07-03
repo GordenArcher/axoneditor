@@ -1,0 +1,57 @@
+---
+import LanguageServerDoc from "@components/docs/LanguageServerDoc.astro";
+import DocsLayout from "@layouts/DocsLayout.astro";
+---
+
+<DocsLayout title="Docker" description="Docker language-server support in Axon">
+  <LanguageServerDoc
+    title="Docker"
+    description="Axon includes Docker language-server support for Dockerfiles and container authoring. It improves instruction completions, hover text, symbols, and diagnostics while editing Docker-related files."
+    server="Docker language server"
+    delivery="bundled npm server"
+    activation="Starts for Dockerfile and recognized Docker-related files"
+    overview={[
+      "Docker language support helps catch container-file mistakes before a build fails. It should understand common Dockerfile instructions, arguments, instruction order, and syntax-level issues.",
+      "This server is editor intelligence only. Users do not need Docker Desktop just to receive Dockerfile completions, but they do need Docker or another container runtime to actually build and run containers.",
+      "Axon's HTML preview, terminal, and Docker language support are separate systems. Docker diagnostics should come from the language server, while build output belongs in the terminal or Output panel.",
+    ]}
+    capabilities={[
+      "Instruction completions for Dockerfile authoring.",
+      "Hover information for recognized instructions and arguments.",
+      "Diagnostics for malformed instructions and syntax-level Dockerfile issues.",
+      "Document symbols and editor navigation where the upstream server provides them.",
+    ]}
+    setup={[
+      {
+        title: "Use recognized file names",
+        body: "Docker support should activate for Dockerfile, Dockerfile.* variants, and other recognized Docker-related files. If the file is detected as plaintext, language features will not attach.",
+      },
+      {
+        title: "Open the project root for context",
+        body: "Dockerfiles often copy local files, refer to scripts, or depend on project structure. Opening the root folder keeps path-related diagnostics and previewed context predictable.",
+      },
+      {
+        title: "Separate editing from running",
+        body: "Language support can work without a running Docker daemon. Build, run, and compose commands still happen through the user's local container tooling.",
+      },
+    ]}
+    packaging={[
+      "The Docker language server is bundled as an npm server with Axon.",
+      "Release builds should start it from packaged resources without asking users to install a Docker language server globally.",
+    ]}
+    troubleshooting={[
+      {
+        title: "Dockerfile is treated as plaintext",
+        body: "Check file-name detection. Dockerfile has no extension, so the editor must map it by basename, not only by extension.",
+      },
+      {
+        title: "No completions appear",
+        body: "Confirm the Docker server is running and the file language is Dockerfile. A server cannot attach to a document mapped to the wrong language.",
+      },
+      {
+        title: "Build fails but editor shows no diagnostics",
+        body: "The language server catches syntax-level issues. Runtime image, network, cache, and daemon failures belong to Docker itself and should be read from terminal or build output.",
+      },
+    ]}
+  />
+</DocsLayout>

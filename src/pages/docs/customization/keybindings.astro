@@ -1,0 +1,77 @@
+---
+import DocsLayout from "@layouts/DocsLayout.astro";
+
+const customKeybindings = `[
+  {
+    "key": "ctrl+shift+r",
+    "command": "workbench.action.reloadWindow"
+  },
+  {
+    "key": "cmd+k cmd+s",
+    "command": "workbench.action.openSettings"
+  },
+  {
+    "key": "ctrl+shift+e",
+    "command": "workbench.view.explorer"
+  }
+]`;
+
+const removeKeybinding = `[
+  {
+    "key": "cmd+w",
+    "command": "-"
+  }
+]`;
+---
+
+<DocsLayout title="Keybindings" description="Custom keyboard shortcuts in Axon">
+  <h1>Keybindings</h1>
+
+  <p>
+    Axon allows you to customize keyboard shortcuts to match your workflow.
+    Keybindings are stored in <code>~/.axonc/keybindings.json</code>.
+  </p>
+
+  <h2>Default Keybindings</h2>
+
+  <div class="overflow-x-auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Command</th>
+          <th>macOS</th>
+          <th>Windows/Linux</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>New File</td><td><code>Cmd+N</code></td><td><code>Ctrl+N</code></td></tr>
+        <tr><td>Open File</td><td><code>Cmd+O</code></td><td><code>Ctrl+O</code></td></tr>
+        <tr><td>Save</td><td><code>Cmd+S</code></td><td><code>Ctrl+S</code></td></tr>
+        <tr><td>Save All</td><td><code>Cmd+Alt+S</code></td><td><code>Ctrl+Alt+S</code></td></tr>
+        <tr><td>Close Tab</td><td><code>Cmd+W</code></td><td><code>Ctrl+W</code></td></tr>
+        <tr><td>Find</td><td><code>Cmd+F</code></td><td><code>Ctrl+F</code></td></tr>
+        <tr><td>Replace</td><td><code>Cmd+H</code></td><td><code>Ctrl+H</code></td></tr>
+        <tr><td>Find in Files</td><td><code>Cmd+Shift+F</code></td><td><code>Ctrl+Shift+F</code></td></tr>
+        <tr><td>Command Palette</td><td><code>Cmd+Shift+P</code></td><td><code>Ctrl+Shift+P</code></td></tr>
+        <tr><td>Toggle Terminal</td><td><code>Cmd+`</code></td><td><code>Ctrl+`</code></td></tr>
+        <tr><td>Split Pane Right</td><td><code>Cmd+\</code></td><td><code>Ctrl+\</code></td></tr>
+        <tr><td>Go to Definition</td><td><code>F12</code></td><td><code>F12</code></td></tr>
+        <tr><td>Find References</td><td><code>Shift+F12</code></td><td><code>Shift+F12</code></td></tr>
+        <tr><td>Rename Symbol</td><td><code>F2</code></td><td><code>F2</code></td></tr>
+        <tr><td>Format Document</td><td><code>Shift+Alt+F</code></td><td><code>Shift+Alt+F</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Custom Keybindings</h2>
+  <p>
+    Add custom keybindings to <code>keybindings.json</code>:
+  </p>
+  <pre><code>{customKeybindings}</code></pre>
+
+  <h2>Removing Keybindings</h2>
+  <p>
+    To remove a default keybinding, set its command to <code>-</code>:
+  </p>
+  <pre><code>{removeKeybinding}</code></pre>
+</DocsLayout>

@@ -1,0 +1,104 @@
+---
+import Button from "@components/ui/Button.astro";
+
+const navItems = [
+    { href: "/", label: "Home" },
+    { href: "/docs", label: "Docs" },
+    { href: "/blog", label: "Blog" },
+    { href: "/download", label: "Download" },
+    { href: "/releases", label: "Releases" },
+];
+---
+
+<header
+    class="sticky top-0 z-20 border-b border-axon-border bg-axon-bg/95 backdrop-blur dark:border-axon-border dark:bg-axon-bg/95"
+>
+    <div
+        class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-3"
+    >
+        <a
+            href="/"
+            class="axon-header-brand flex cursor-pointer items-center gap-3 text-sm font-semibold text-axon-text dark:text-axon-text"
+        >
+            <img src="/media/icons/axon.png" alt="Axon logo" class="h-8 w-8 rounded-md" />
+            <span>Axon</span>
+        </a>
+
+        <button
+            type="button"
+            class="mobile-nav-toggle md:hidden"
+            aria-label="Toggle navigation"
+            aria-expanded="false"
+            data-mobile-nav-toggle
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <nav class="axon-site-nav order-3 hidden w-full min-w-0 flex-col gap-2 border-t border-white/10 pt-3 md:order-none md:flex md:w-auto md:flex-1 md:flex-row md:items-center md:justify-center md:gap-5 md:border-t-0 md:pt-0" data-mobile-nav>
+            {
+                navItems.map((item) => (
+                    <a
+                        href={item.href}
+                        class="shrink-0 cursor-pointer rounded-md px-2 py-2 text-sm text-axon-muted transition-smooth hover:text-axon-text dark:text-axon-muted dark:hover:text-axon-text md:px-0 md:py-0"
+                    >
+                        {item.label}
+                    </a>
+                ))
+            }
+        </nav>
+
+        <div class="flex items-center gap-3">
+            <Button
+                href="/download"
+                variant="primary"
+                class="hidden sm:inline-flex"
+            >
+                Download
+            </Button>
+        </div>
+    </div>
+</header>
+
+<script type="module">
+    if (!window.__axonMobileNavBound) {
+        window.__axonMobileNavBound = true;
+
+        document.addEventListener("click", (event) => {
+            const target = event.target instanceof Element ? event.target : null;
+            const toggle = target?.closest("[data-mobile-nav-toggle]");
+            const nav = document.querySelector("[data-mobile-nav]");
+            const button = document.querySelector("[data-mobile-nav-toggle]");
+
+            if (!(nav instanceof HTMLElement) || !(button instanceof HTMLButtonElement)) return;
+
+            if (toggle) {
+                const isOpen = nav.hasAttribute("data-open");
+                nav.toggleAttribute("data-open", !isOpen);
+                nav.classList.toggle("hidden", isOpen);
+                nav.classList.toggle("flex", !isOpen);
+                button.setAttribute("aria-expanded", String(!isOpen));
+                return;
+            }
+
+            if (target?.closest("[data-mobile-nav] a")) {
+                nav.removeAttribute("data-open");
+                nav.classList.add("hidden");
+                nav.classList.remove("flex");
+                button.setAttribute("aria-expanded", "false");
+            }
+        });
+
+        window.addEventListener("resize", () => {
+            if (!window.matchMedia("(min-width: 768px)").matches) return;
+            const nav = document.querySelector("[data-mobile-nav]");
+            const button = document.querySelector("[data-mobile-nav-toggle]");
+            if (!(nav instanceof HTMLElement) || !(button instanceof HTMLButtonElement)) return;
+            nav.removeAttribute("data-open");
+            nav.classList.add("hidden");
+            nav.classList.remove("flex");
+            button.setAttribute("aria-expanded", "false");
+        });
+    }
+</script>

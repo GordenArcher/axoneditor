@@ -1,0 +1,154 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Header from "@components/layout/Header.astro";
+import { getSidebarNav } from "@lib/navigation";
+
+interface Props {
+    title: string;
+    description: string;
+}
+
+const { title, description } = Astro.props;
+const sidebarNav = getSidebarNav();
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const activeSection =
+    sidebarNav.find((section) =>
+        section.items.some(
+            (item) => (item.href.replace(/\/$/, "") || "/") === currentPath,
+        ),
+    )?.section ?? "Documentation";
+---
+
+<BaseLayout title={title} description={description}>
+    <Header />
+    <div class="grid min-h-[calc(100vh-4rem)] gap-6 px-4 pb-8 pt-5 sm:px-6 lg:grid-cols-[21.5rem_minmax(0,1fr)] lg:px-8">
+        <aside class="hidden border-r border-white/10 pr-5 lg:block">
+            <div class="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto">
+                <div class="mb-7 grid grid-cols-[1fr_3.25rem] gap-3">
+                        <a
+                            href="/docs"
+                            class="flex h-12 items-center gap-3 rounded-lg border border-white/10 bg-black px-4 text-[15px] text-zinc-500 transition duration-200 hover:border-zinc-500/60 hover:text-zinc-100"
+                        >
+                            <span class="text-base text-zinc-500">⌕</span>
+                            <span>Search...</span>
+                            <span class="ml-auto font-mono text-xs text-zinc-600">⌘K</span>
+                        </a>
+                        <a
+                            href="/docs/features/axon-agent"
+                            class="flex h-12 items-center justify-center rounded-lg border border-white/10 bg-black text-lg text-zinc-500 transition duration-200 hover:border-zinc-500/60 hover:text-zinc-100"
+                            aria-label="Open Axon Agent docs"
+                        >
+                            ✦
+                        </a>
+                </div>
+                <nav aria-label="Documentation navigation" class="space-y-9 pb-8">
+                {
+                    sidebarNav.map((section) => (
+                        <section>
+                            <h2 class="px-3 text-[15px] font-semibold text-zinc-200">
+                                {section.section}
+                            </h2>
+                            <ul class="mt-2 space-y-1">
+                                {section.items.map((item) => (
+                                    <li>
+                                        <a
+                                            href={item.href}
+                                            class:list={[
+                                                "group flex items-center justify-between rounded-lg px-3 py-2.5 text-[15px] transition duration-200",
+                                                (item.href.replace(/\/$/, "") || "/") ===
+                                                    currentPath
+                                                    ? "bg-[#242426] text-zinc-100"
+                                                    : "text-zinc-500 hover:bg-[#141416] hover:text-zinc-200",
+                                            ]}
+                                        >
+                                            <span>{item.label}</span>
+                                            {item.href !== "/docs" && (
+                                                <span class="text-zinc-700 transition group-hover:text-zinc-500">›</span>
+                                            )}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </section>
+                    ))
+                }
+                </nav>
+            </div>
+        </aside>
+
+        <main class="min-w-0">
+            <section class="overflow-hidden rounded-[18px] border border-white/10 bg-black shadow-2xl shadow-black/30">
+                <div class="grid min-h-[calc(100vh-7.25rem)] xl:grid-cols-[minmax(0,1fr)_18rem]">
+                    <div class="min-w-0">
+            <article
+                class="mx-auto min-w-0 max-w-4xl animate-[fadeInUp_420ms_ease_both] px-5 py-16 sm:px-8 md:px-12 md:py-20
+                before:mb-5 before:block before:text-[15px] before:font-medium before:text-zinc-500 before:content-[attr(data-section)]
+                [&>h1]:mb-5 [&>h1]:text-4xl [&>h1]:font-semibold [&>h1]:leading-tight [&>h1]:text-zinc-100 md:[&>h1]:text-5xl
+                [&>h2]:mb-4 [&>h2]:mt-16 [&>h2]:scroll-mt-28 [&>h2]:text-3xl [&>h2]:font-semibold [&>h2]:text-zinc-100
+                [&>h3]:mb-2 [&>h3]:mt-8 [&>h3]:scroll-mt-28 [&>h3]:text-lg [&>h3]:font-semibold [&>h3]:text-zinc-100
+                [&_p]:max-w-3xl [&_p]:text-[17px] [&_p]:leading-8 [&_p]:text-zinc-500
+                [&>p:first-of-type]:text-xl [&>p:first-of-type]:leading-8 [&>p:first-of-type]:text-zinc-500
+                [&_a]:text-zinc-100 [&_a]:underline [&_a]:decoration-zinc-600 [&_a]:underline-offset-4 [&_a]:transition [&_a:hover]:decoration-zinc-100
+                [&_ul]:my-6 [&_ul]:grid [&_ul]:gap-2 [&_li]:relative [&_li]:pl-5 [&_li]:text-[16px] [&_li]:leading-7 [&_li]:text-zinc-500
+                [&_li:before]:absolute [&_li:before]:left-0 [&_li:before]:top-[0.72rem] [&_li:before]:h-1.5 [&_li:before]:w-1.5 [&_li:before]:rounded-full [&_li:before]:bg-zinc-500
+                [&_pre]:my-7 [&_pre]:overflow-x-auto [&_pre]:rounded-[18px] [&_pre]:border [&_pre]:border-white/10 [&_pre]:bg-[#050505] [&_pre]:p-5 [&_pre]:text-sm [&_pre]:leading-6 [&_pre]:text-zinc-200
+                [&_:not(pre)>code]:rounded [&_:not(pre)>code]:border [&_:not(pre)>code]:border-white/10 [&_:not(pre)>code]:bg-[#151517] [&_:not(pre)>code]:px-1.5 [&_:not(pre)>code]:py-0.5 [&_:not(pre)>code]:font-mono [&_:not(pre)>code]:text-[0.88em] [&_:not(pre)>code]:text-zinc-200
+                [&_figure]:my-8 [&_figure]:overflow-hidden [&_figure]:rounded-[18px] [&_figure]:border [&_figure]:border-white/10 [&_figure]:bg-black
+                [&_figure_img]:w-full [&_figure_img]:border-b [&_figure_img]:border-white/10
+                [&_figcaption]:px-4 [&_figcaption]:py-3 [&_figcaption]:text-sm [&_figcaption]:leading-6 [&_figcaption]:text-zinc-500
+                [&_.grid]:max-w-none"
+                data-section={activeSection}
+                data-docs-content
+            >
+                <slot />
+            </article>
+                    </div>
+
+                    <aside class="hidden bg-black xl:block" aria-label="On this page" data-docs-toc-shell>
+                        <div class="sticky top-28 p-14">
+                            <p class="flex items-center gap-2 text-[17px] font-semibold text-zinc-300">
+                                <span class="text-zinc-500">≡</span>
+                                On this page
+                            </p>
+                            <nav class="mt-2 grid gap-2 border-l border-white/10 pl-5" data-docs-toc></nav>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script type="module">
+        const content = document.querySelector("[data-docs-content]");
+        const toc = document.querySelector("[data-docs-toc]");
+
+        if (content instanceof HTMLElement && toc instanceof HTMLElement) {
+            const headings = Array.from(
+                content.querySelectorAll("h2, h3"),
+            ).filter((heading) => heading instanceof HTMLHeadingElement);
+
+            for (const heading of headings) {
+                if (!heading.id) {
+                    heading.id = heading.textContent
+                        .toLowerCase()
+                        .replace(/[^a-z0-9]+/g, "-")
+                        .replace(/^-|-$/g, "");
+                }
+
+                const link = document.createElement("a");
+                link.href = `#${heading.id}`;
+                link.textContent = heading.textContent || "";
+                link.dataset.depth = heading.tagName === "H3" ? "3" : "2";
+                link.className =
+                    heading.tagName === "H3"
+                        ? "block rounded-md py-1 pl-2 pr-2 text-[15px] leading-6 text-zinc-600 transition hover:text-zinc-300"
+                        : "block rounded-md py-1 pl-2 pr-2 text-[16px] leading-6 text-zinc-500 transition hover:text-zinc-200";
+                toc.append(link);
+            }
+
+            if (headings.length === 0) {
+                toc.closest("[data-docs-toc-shell]")?.setAttribute("hidden", "");
+            }
+        }
+    </script>
+</BaseLayout>

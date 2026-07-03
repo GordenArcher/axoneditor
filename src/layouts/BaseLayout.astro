@@ -1,0 +1,36 @@
+---
+import "../styles/global.css";
+import "../styles/typography.css";
+import "../styles/animations.css";
+
+interface Props {
+    title: string;
+    description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark" data-theme-preference="dark" class="dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content={description} />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content={`${title} | Axon Editor`} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <link rel="icon" type="image/png" href="/media/icons/axon.png" />
+        <title>{`${title} | Axon Editor`}</title>
+    </head>
+    <body>
+        <slot />
+    </body>
+</html>
+
+<script is:inline>
+    document.documentElement.dataset.theme = "dark";
+    document.documentElement.dataset.themePreference = "dark";
+    document.documentElement.classList.add("dark");
+</script>

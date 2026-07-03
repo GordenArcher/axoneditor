@@ -1,0 +1,57 @@
+---
+import LanguageServerDoc from "@components/docs/LanguageServerDoc.astro";
+import DocsLayout from "@layouts/DocsLayout.astro";
+---
+
+<DocsLayout title="C#" description="C# language-server support in Axon">
+  <LanguageServerDoc
+    title="C#"
+    description="Axon uses OmniSharp for C# language intelligence. OmniSharp reads solution and project files to provide completions, diagnostics, hover, definitions, references, rename, formatting, and symbols."
+    server="OmniSharp"
+    delivery="managed native server with local .NET requirement"
+    activation="Starts for .cs files and C# workspaces with .sln or .csproj files"
+    overview={[
+      "C# support depends on the solution or project graph. Target frameworks, NuGet packages, project references, generated files, analyzers, and SDK settings all affect completions and diagnostics.",
+      "Axon can bundle OmniSharp, but C# projects commonly still need the local .NET SDK/runtime. The SDK is what understands SDK-style projects, restores packages, and provides framework references.",
+      "The most reliable setup is to open the folder that owns the .sln or .csproj files so the server can build the same project graph the developer uses.",
+    ]}
+    capabilities={[
+      "Completions for classes, methods, properties, fields, namespaces, interfaces, and project symbols.",
+      "Hover for type information, method signatures, XML documentation, framework APIs, and project declarations.",
+      "Diagnostics, definitions, references, rename, formatting, document symbols, and solution-aware navigation.",
+      "Better behavior for multi-project solutions when package restore and project references are valid.",
+    ]}
+    setup={[
+      {
+        title: "Install the .NET SDK",
+        body: "Axon can bundle the server, but real C# project analysis usually depends on a local .NET SDK. Without it, framework references and project loading can fail.",
+      },
+      {
+        title: "Open the solution root",
+        body: "Open the folder that owns the .sln or main .csproj. Opening only a nested source folder can make OmniSharp miss references and package metadata.",
+      },
+      {
+        title: "Restore packages",
+        body: "Run restore when packages are missing. The language server can only resolve references that exist in the project graph.",
+      },
+    ]}
+    packaging={[
+      "OmniSharp is bundled as a managed server for release builds, but the local .NET runtime requirement remains separate.",
+      "If Axon reports a generic server failure, logs should show whether the packaged server path is missing or whether .NET/project loading failed after the server started.",
+    ]}
+    troubleshooting={[
+      {
+        title: "Framework symbols are missing",
+        body: "Install or repair the .NET SDK and restore project packages. Bundling OmniSharp does not bundle every target framework for every project.",
+      },
+      {
+        title: "Only one file has completions",
+        body: "The server may not have loaded the solution. Open the root with .sln or .csproj and check LSP logs for project-load errors.",
+      },
+      {
+        title: "Rename or references are incomplete",
+        body: "Cross-project features depend on the full solution graph. Missing project references or failed package restore can reduce the result.",
+      },
+    ]}
+  />
+</DocsLayout>

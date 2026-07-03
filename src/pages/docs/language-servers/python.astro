@@ -1,0 +1,57 @@
+---
+import LanguageServerDoc from "@components/docs/LanguageServerDoc.astro";
+import DocsLayout from "@layouts/DocsLayout.astro";
+---
+
+<DocsLayout title="Python" description="Python language-server support in Axon">
+  <LanguageServerDoc
+    title="Python"
+    description="Axon uses Pyright for Python language intelligence. Pyright provides completions, diagnostics, hover, definitions, references, symbols, rename, import analysis, and type-aware navigation for Python workspaces."
+    server="pyright-langserver"
+    delivery="bundled npm server"
+    activation="Starts for .py files and Python workspaces; interpreter selection is shown when Python files are present"
+    overview={[
+      "Python is sensitive to the interpreter used by the project. A file can be valid Python, but imports such as Django, DRF, FastAPI, NumPy, Celery, or a local app package will not resolve unless the server analyzes the environment where those packages are installed.",
+      "Axon should work for basic Python syntax without forcing a virtual environment selection. The interpreter picker becomes important when imports live outside the system Python or when the project uses a venv, Poetry, Pipenv, pyenv, or another environment manager.",
+      "The editor should only surface Python environment controls when the workspace actually contains Python. Showing Python loading or failed states in a non-Python workspace creates noise and makes LSP status feel broken even when the server is simply irrelevant.",
+    ]}
+    capabilities={[
+      "Completions for modules, classes, functions, methods, local variables, typed attributes, imported names, and project-local packages.",
+      "Hover for inferred types, function signatures, docstrings, imported symbols, classes, modules, and variables.",
+      "Diagnostics for missing imports, type issues, syntax errors, unreachable code, invalid calls, and project configuration problems.",
+      "Go to definition, references, rename, document symbols, workspace symbols, and import-aware navigation through the selected environment.",
+    ]}
+    setup={[
+      {
+        title: "Select the project interpreter when imports are external",
+        body: "Use the interpreter or virtual environment that the project itself uses. For a Django REST Framework project, that is usually the venv where django, djangorestframework, and the project's other dependencies are installed.",
+      },
+      {
+        title: "Open the backend or project root",
+        body: "Open the folder that owns pyproject.toml, requirements.txt, manage.py, setup.py, poetry.lock, or the source package. Opening the wrong parent or a nested folder can prevent Pyright from seeing project-local imports.",
+      },
+      {
+        title: "Do not confuse syntax support with environment support",
+        body: "Basic completions can work without a selected interpreter, but accurate third-party imports need the environment. This is the same reason larger editors ask for or auto-detect a Python interpreter.",
+      },
+    ]}
+    packaging={[
+      "Pyright is bundled as an npm server, so official Axon releases should not require a global pyright install.",
+      "The selected interpreter path points to the user's local Python or virtual environment. Axon does not bundle the user's project packages; it tells Pyright which Python environment should be used for analysis.",
+    ]}
+    troubleshooting={[
+      {
+        title: "The server exits after selecting a venv",
+        body: "Check that the interpreter path still exists, is executable, and belongs to the same architecture as the app environment. Also check LSP logs for Pyright startup arguments and path errors.",
+      },
+      {
+        title: "Imports are still unresolved",
+        body: "Confirm the selected interpreter has the package installed, the workspace root is correct, and project-local source folders are visible from the opened folder.",
+      },
+      {
+        title: "Python appears in non-Python projects",
+        body: "That is an Axon UX bug. Python status and environment controls should be scoped to workspaces or files where Python is relevant.",
+      },
+    ]}
+  />
+</DocsLayout>

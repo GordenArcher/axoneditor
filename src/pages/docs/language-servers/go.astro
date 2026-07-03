@@ -1,0 +1,57 @@
+---
+import LanguageServerDoc from "@components/docs/LanguageServerDoc.astro";
+import DocsLayout from "@layouts/DocsLayout.astro";
+---
+
+<DocsLayout title="Go" description="Go language-server support in Axon">
+  <LanguageServerDoc
+    title="Go"
+    description="Axon uses gopls for Go language intelligence. Gopls is responsible for Go completions, diagnostics, hover, definitions, references, rename, formatting, code actions, package analysis, and module-aware navigation."
+    server="gopls"
+    delivery="managed native server"
+    activation="Starts for .go files and Go workspaces with go.mod or go.work"
+    overview={[
+      "Go support is module-aware. The server reads go.mod, go.work, package imports, generated files, build tags, and the workspace folder to understand what code belongs together.",
+      "The most reliable setup is to open the folder that owns the Go module or workspace. If Axon opens a nested folder outside the module root, gopls may still start, but package resolution, definitions, and diagnostics can become incomplete.",
+      "Axon bundles gopls as a managed native server in release builds. That means users should not need to install gopls globally just to get normal editor support from an official download.",
+    ]}
+    capabilities={[
+      "Completions for package members, local variables, imported identifiers, struct fields, methods, functions, and generated symbols.",
+      "Hover for types, function signatures, documentation comments, constants, interfaces, methods, and package declarations.",
+      "Go to definition, references, rename, formatting, diagnostics, code actions, organize imports, document symbols, and workspace symbols.",
+      "Module-aware behavior through go.mod, go.work, build tags, package graph analysis, and generated file awareness where gopls supports it.",
+    ]}
+    setup={[
+      {
+        title: "Open the module root",
+        body: "Open the folder that contains go.mod or the repository root that contains go.work. This gives gopls the same module graph the Go command sees when building or testing the project.",
+      },
+      {
+        title: "Generated files and build tags",
+        body: "If a project depends on generated Go files, run the generator before judging diagnostics. Build tags can also change which files belong to the active package, so missing tags can make symbols appear unavailable.",
+      },
+      {
+        title: "Go toolchain still matters",
+        body: "Axon can bundle gopls, but real Go analysis still relies on the local Go toolchain for module behavior, package loading, tests, and commands that gopls delegates to Go tooling.",
+      },
+    ]}
+    packaging={[
+      "Release builds download gopls into the managed language-server bundle for each platform and architecture. Packaged Axon resolves it from resources/language-servers/<platform>-<arch>/go/bin/gopls.",
+      "Development builds may use editor/build/language-servers when the generated bundle exists. If that folder is missing, dev mode can fall back to a globally installed gopls, which is why development can look correct while the packaged app exposes a bundling issue.",
+    ]}
+    troubleshooting={[
+      {
+        title: "Gopls starts in dev but not in production",
+        body: "Check the packaged resources path, architecture folder, executable permission, and wrapper script. The release asset must include the managed gopls binary for the user's platform.",
+      },
+      {
+        title: "Completions appear but definitions do not jump",
+        body: "That usually points to workspace ownership or project loading. Confirm Axon opened the module root and that gopls logs show the package was loaded without fatal module errors.",
+      },
+      {
+        title: "Imports or generated types are missing",
+        body: "Run go mod tidy, make sure dependencies can be downloaded, generate required files, and confirm the current file belongs to the expected package under go.mod or go.work.",
+      },
+    ]}
+  />
+</DocsLayout>

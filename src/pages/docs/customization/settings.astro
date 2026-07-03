@@ -1,0 +1,73 @@
+---
+import DocsLayout from "@layouts/DocsLayout.astro";
+
+const editorSettings = `{
+  "editor.fontSize": 14,
+  "editor.fontFamily": "Monaspace Neon",
+  "editor.fontLigatures": true,
+  "editor.lineHeight": 1.5,
+  "editor.minimap.enabled": true,
+  "editor.wordWrap": "off",
+  "editor.tabSize": 2,
+  "editor.renderWhitespace": "selection",
+  "editor.cursorBlink": "blink"
+}`;
+
+const appearanceSettings = `{
+  "window.zoomLevel": 0,
+  "workbench.colorTheme": "sora-dark",
+  "workbench.iconTheme": "catppuccin",
+  "editor.fontFamily": "Inter, system-ui"
+}`;
+
+const terminalSettings = `{
+  "terminal.integrated.fontSize": 13,
+  "terminal.integrated.cursorBlink": true,
+  "terminal.integrated.shell.linux": "/bin/bash",
+  "terminal.integrated.shell.osx": "/bin/zsh"
+}`;
+
+const gitSettings = `{
+  "git.enabled": true,
+  "git.autofetch": true,
+  "git.confirmSync": true
+}`;
+
+const extensionSettings = `{
+  "extensions.autoUpdate": true,
+  "extensions.ignoreRecommendations": false
+}`;
+---
+
+<DocsLayout title="Settings" description="Configuring Axon behavior">
+  <h1>Settings</h1>
+
+  <p>
+    Axon stores configuration in <code>~/.axonc/settings.json</code>. You can
+    edit settings through the Settings UI or directly in the JSON file.
+  </p>
+
+  <h2>Opening Settings</h2>
+  <ul>
+    <li>Click the Settings gear icon in the sidebar</li>
+    <li>From the command palette: <code>Open Settings</code></li>
+    <li>Keyboard shortcut: <code>Cmd+,</code> (<code>Ctrl+,</code>)</li>
+  </ul>
+
+  <h2>Available Settings</h2>
+
+  <h3>Editor</h3>
+  <pre><code>{editorSettings}</code></pre>
+
+  <h3>Appearance</h3>
+  <pre><code>{appearanceSettings}</code></pre>
+
+  <h3>Terminal</h3>
+  <pre><code>{terminalSettings}</code></pre>
+
+  <h3>Git</h3>
+  <pre><code>{gitSettings}</code></pre>
+
+  <h3>Extensions</h3>
+  <pre><code>{extensionSettings}</code></pre>
+</DocsLayout>

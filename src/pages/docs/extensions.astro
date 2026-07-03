@@ -1,13 +1,13 @@
 ---
-import SiteLayout from "@layouts/SiteLayout.astro";
+import HomeLayout from "@layouts/HomeLayout.astro";
 
 const manifestExample = `{
   "$schema": "https://axoneditor.com/schemas/extension/v0.1.0.json",
-  "id": "gorden-archer.anysphere-theme",
-  "name": "Anysphere Theme",
+  "id": "example.axon-theme",
+  "name": "Example Axon Theme",
   "publisher": "GordenArcher",
   "version": "1.0.0",
-  "description": "A dark Anysphere-inspired theme for Axon.",
+  "description": "A local theme extension for Axon.",
   "author": "Gorden Archer",
   "categories": ["Themes"],
   "activationEvents": ["onStartup"],
@@ -15,36 +15,68 @@ const manifestExample = `{
     "commands": [],
     "themes": [
       {
-        "id": "anysphere-dark",
-        "label": "Anysphere Dark",
-        "path": "./themes/anysphere.axon-theme.json"
+        "id": "example-dark",
+        "label": "Example Dark",
+        "path": "./themes/example-dark.json"
       }
     ],
+    "iconThemes": [],
     "languages": [],
     "snippets": [],
-    "icons": []
+    "views": [],
+    "terminalProfiles": [],
+    "agents": []
   }
 }`;
 
 const contributionTypes = [
-  ["themes", "Theme contribution files that Axon can load without executing extension code."],
+  ["themes", "Theme contribution files loaded from built-in, user, workspace, or marketplace extension packages."],
+  ["iconThemes", "File and folder icon packages that can become selectable icon themes as the registry wiring continues."],
+  ["views", "Workbench surfaces such as Search, Settings, Source Control, Terminal, Problems, Testing, and Agent."],
+  ["commands", "Command metadata that can activate built-in or runtime extension commands through Axon's command registry."],
+  ["terminalProfiles", "Terminal profile contributions used by the terminal workbench and future profile picker."],
+  ["agents", "Agent contributions that identify Axon Agent surfaces and local agent capabilities."],
   ["languages", "Language declarations with extensions, filenames, aliases, and optional configuration paths."],
   ["snippets", "Snippet contribution files grouped by language."],
-  ["icons", "Icon assets that can be referenced by the extension system."],
-  ["commands", "Command metadata. The current system reads metadata but does not run arbitrary JavaScript."],
+];
+
+const extensionLayers = [
+  {
+    title: "Built-in extensions",
+    body: "Themes, icons, terminal, search, settings, Git, Problems, Testing, and Agent ship under extensions/builtin and declare the same manifest shape as user extensions.",
+  },
+  {
+    title: "Install state",
+    body: "Axon discovers internal, user, workspace, and local marketplace packages, tracks enablement, and refreshes the contribution registry after install or reload.",
+  },
+  {
+    title: "Activation path",
+    body: "Commands and views activate through onCommand and onView events before opening the existing workbench surfaces or a generic extension view bridge.",
+  },
 ];
 ---
 
-<SiteLayout title="Axon Extension Docs" description="Axon extension manifest format, schema URL, contribution types, and security boundary.">
+<HomeLayout title="Axon Extension Docs" description="Axon extension manifest format, schema URL, contribution types, registry activation, and current extension-host boundaries.">
   <section class="px-5 py-16 md:py-20">
     <div class="mx-auto max-w-6xl">
       <p class="text-xs font-semibold uppercase text-axon-muted">Extensions</p>
-      <h1 class="mt-4 text-4xl font-semibold leading-tight text-zinc-100 md:text-6xl">Declarative extension manifests</h1>
+      <h1 class="mt-4 text-4xl font-semibold leading-tight text-zinc-100 md:text-6xl">Extension manifests are becoming the workbench contract.</h1>
       <p class="mt-5 max-w-3xl text-lg leading-8 text-axon-muted">
-        Axon extensions are intentionally declarative today. The app reads
-        manifests and contribution files, but it does not execute arbitrary
-        extension JavaScript until a real extension host and security model exist.
+        Axon reads extension manifests from built-ins, user extensions,
+        workspace extensions, and the local marketplace. Themes and icons are
+        registry data, while built-in workbench surfaces are being routed
+        through activation events so the editor stops hard-coding every feature
+        into the main app shell.
       </p>
+
+      <div class="mt-10 grid gap-5 md:grid-cols-3">
+        {extensionLayers.map((item) => (
+          <article class="feature-line">
+            <h2 class="text-lg font-semibold text-zinc-100">{item.title}</h2>
+            <p class="mt-3 text-sm leading-6 text-axon-muted">{item.body}</p>
+          </article>
+        ))}
+      </div>
 
       <div class="mt-12 grid gap-6 md:grid-cols-2">
         <div class="feature-line">
@@ -56,9 +88,10 @@ const contributionTypes = [
         <div class="feature-line">
           <h2 class="text-lg font-semibold text-zinc-100">Extension locations</h2>
           <p class="mt-3 text-sm leading-6 text-axon-muted">
-            Axon loads user extensions from app data, workspace extensions from
+            Axon loads bundled extensions from the app, user extensions from
+            app data, workspace extensions from
             <code class="mx-1 rounded bg-black/30 px-1.5 py-0.5 text-axon-muted">.axon/extensions</code>,
-            and bundled extensions inside the app.
+            and marketplace installs from Axon's local extension package cache.
           </p>
         </div>
       </div>
@@ -75,6 +108,17 @@ const contributionTypes = [
           </div>
         ))}
       </div>
+
+      <div class="mt-12 rounded-lg border border-white/10 bg-[#0b0b0c] p-5">
+        <h2 class="text-xl font-semibold text-zinc-100">Current boundary</h2>
+        <p class="mt-3 text-sm leading-6 text-axon-muted">
+          Axon has runtime command activation and a registry-backed view bridge,
+          but extension-owned renderer UI is still intentionally isolated. Built-in
+          views open their native workbench surfaces today; third-party views use
+          a generic extension view surface until Axon has a full renderer
+          view-provider boundary and extension asset protocol.
+        </p>
+      </div>
     </div>
   </section>
-</SiteLayout>
+</HomeLayout>

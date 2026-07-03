@@ -1,12 +1,12 @@
 ---
-import SiteLayout from "@layouts/SiteLayout.astro";
+import HomeLayout from "@layouts/HomeLayout.astro";
 import { githubReleasesUrl, loadReleases } from "@data/releases";
 
 const releases = await loadReleases();
 const latestRelease = releases[0] ?? null;
 ---
 
-<SiteLayout title="Download Axon Editor" description="Download Axon Editor release builds for macOS, Windows, and Linux.">
+<HomeLayout title="Download Axon Editor" description="Download Axon Editor release builds for macOS, Windows, and Linux.">
   <section class="px-5 py-16 md:py-20">
     <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
       <div class="reveal-up">
@@ -92,4 +92,4 @@ const latestRelease = releases[0] ?? null;
       </div>
     </div>
   </section>
-</SiteLayout>
+</HomeLayout>

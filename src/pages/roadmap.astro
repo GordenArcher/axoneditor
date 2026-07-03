@@ -1,28 +1,56 @@
 ---
-import SiteLayout from "@layouts/SiteLayout.astro";
+import HomeLayout from "@layouts/HomeLayout.astro";
 
 const roadmap = [
-  "Extension marketplace foundations",
-  "Deeper LSP user experience",
-  "AI provider service and streaming chat panel",
-  "AI patch preview and apply workflow",
-  "Git diff context and safer project actions",
+  {
+    title: "Finish the extension host wiring",
+    body: "Activation, commands, contributed views, theme and icon selection, terminal profiles, language metadata, agents, tasks, and install state should flow through the same registry path.",
+  },
+  {
+    title: "Move built-in workbench features behind extensions",
+    body: "Terminal, Agent, Source Control, Search, Settings, Problems, Testing, themes, and icons are being moved under extensions/builtin with explicit service boundaries.",
+  },
+  {
+    title: "Complete the terminal and agent boundary",
+    body: "The PTY session layer, terminal workbench extension, Axon CLI, resume flow, slash commands, and future Charmbracelet chat composer need one reliable contract.",
+  },
+  {
+    title: "Keep hardening language intelligence",
+    body: "External definition jumps, cross-file autocomplete, package export imports, TSX and HTML tokenization, semantic tokens, inlay hints, workspace symbols, and richer code actions remain active work.",
+  },
+  {
+    title: "Make startup and diagnostics observable",
+    body: "Electron ready, preload availability, renderer ready, core health, workspace restore, extension activation, build failures, and first terminal prompt need clear timing and cause reports.",
+  },
+  {
+    title: "Push multi-root project state through every surface",
+    body: "Problems, Git, search, terminals, tests, language servers, and Axon Agent should all understand which workspace root owns the current action.",
+  },
 ];
 ---
 
-<SiteLayout title="Roadmap - Axon Editor" description="The planned roadmap for Axon Editor.">
+<HomeLayout title="Roadmap - Axon Editor" description="The planned roadmap for Axon Editor.">
   <section class="px-5 py-16 md:py-20">
     <div class="mx-auto max-w-6xl">
       <p class="text-xs font-semibold uppercase text-axon-muted">Roadmap</p>
       <h1 class="mt-4 max-w-3xl text-4xl font-semibold leading-tight text-zinc-100 md:text-6xl">What comes next</h1>
+      <p class="mt-5 max-w-3xl text-lg leading-8 text-axon-muted">
+        Axon is in the middle of an architecture migration. New work is being
+        shaped around a production IDE structure: workbench surfaces, platform
+        services, built-in extensions, extension-facing APIs, and backend
+        service boundaries.
+      </p>
       <div class="mt-12 grid gap-0">
         {roadmap.map((item, index) => (
-          <div class="grid gap-4 border-t border-white/10 py-5 md:grid-cols-[4rem_1fr]">
+          <div class="grid gap-4 border-t border-white/10 py-6 md:grid-cols-[4rem_1fr]">
             <span class="font-mono text-sm text-axon-muted">0{index + 1}</span>
-            <span class="text-zinc-100">{item}</span>
+            <div>
+              <h2 class="text-lg font-semibold text-zinc-100">{item.title}</h2>
+              <p class="mt-2 max-w-3xl text-sm leading-6 text-axon-muted">{item.body}</p>
+            </div>
           </div>
         ))}
       </div>
     </div>
   </section>
-</SiteLayout>
+</HomeLayout>
