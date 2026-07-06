@@ -1,12 +1,43 @@
 ---
 import DocsLayout from "@layouts/DocsLayout.astro";
-import Button from "@components/ui/Button.astro";
-import Card from "@components/ui/Card.astro";
 
-const highlights = [
-    ["Go backend", "Project services, terminal PTYs, file watching, and release flows live outside the renderer."],
-    ["Bundled LSPs", "TypeScript/TSX, Go, Rust, Python, HTML, CSS, JSON, YAML, Lua, and C/C++ tooling is documented here."],
-    ["Extension path", "Built-ins, contributed views, commands, themes, icons, terminal profiles, and install state are moving through manifests."],
+const quickstarts = [
+    {
+        href: "/docs/getting-started/installation",
+        icon: "↓",
+        title: "Install Axon",
+        description: "Download the current desktop build for macOS, Windows, or Linux.",
+    },
+    {
+        href: "/docs/getting-started/first-project",
+        icon: "⌘",
+        title: "Open a project",
+        description: "Load a real workspace and learn the core editor flow.",
+    },
+    {
+        href: "/docs/language-servers",
+        icon: "{}",
+        title: "Language tooling",
+        description: "Review the bundled and managed servers Axon uses for code intelligence.",
+    },
+    {
+        href: "/docs/features/editor",
+        icon: "▦",
+        title: "Editor features",
+        description: "Understand panes, files, problems, previews, search, and terminal workflows.",
+    },
+    {
+        href: "/docs/customization/settings",
+        icon: "◐",
+        title: "Customize Axon",
+        description: "Configure settings, themes, keybindings, and extension behavior.",
+    },
+    {
+        href: "/docs/updates",
+        icon: "↻",
+        title: "Updates",
+        description: "Track release assets, platform builds, and version expectations.",
+    },
 ];
 ---
 
@@ -14,56 +45,64 @@ const highlights = [
     title="Documentation"
     description="Axon Editor documentation for installation, workbench features, language tooling, extensions, updates, and the local agent."
 >
-    <h1>Documentation</h1>
+    <h1>Introduction</h1>
 
     <p class="text-lg">
-        Axon is a local-first desktop code editor built with Electron, React,
-        TypeScript, and a Go backend. The docs cover the current workbench,
-        bundled language tooling, Git and terminal flows, extension manifests,
-        releases, and the Axon Agent surfaces being built into the editor.
+        Axon is a local-first desktop code editor built for serious daily work.
     </p>
 
-    <div class="my-8 grid gap-3 md:grid-cols-3">
-        {highlights.map(([label, body]) => (
-            <div class="rounded-lg border border-white/10 bg-[#0b0b0c] p-4 transition duration-200 hover:-translate-y-0.5 hover:border-zinc-500/60 hover:bg-[#141416]">
-                <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500">{label}</p>
-                <p class="mt-2 text-sm leading-6 text-zinc-400">{body}</p>
-            </div>
+    <div class="my-10 flex max-w-3xl items-start gap-4 rounded-lg border border-axon-border bg-axon-panel px-6 py-5">
+        <span class="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-axon-muted text-[12px] font-semibold text-axon-text">
+            i
+        </span>
+        <p class="m-0 text-[16px] leading-7 text-axon-text">
+            These docs cover installation, editor workflows, bundled language
+            servers, Git and terminal behavior, extensions, releases, and the
+            Axon Agent surfaces being built into the editor.
+        </p>
+    </div>
+
+    <h2>Quickstart</h2>
+
+    <p>
+        Start with the pages below to get Axon installed, open a project, and
+        verify the editor features that matter most.
+    </p>
+
+    <div class="my-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {quickstarts.map((item) => (
+            <a
+                href={item.href}
+                class="group flex min-h-[11rem] flex-col rounded-lg border border-axon-border bg-axon-panel p-6 !no-underline transition duration-200 hover:border-zinc-500 hover:bg-axon-panel-soft"
+            >
+                <span class="flex h-9 items-center text-[24px] font-semibold leading-none text-axon-text">
+                    {item.icon}
+                </span>
+                <h3 class="mb-0 mt-auto text-[19px] font-semibold leading-7 text-axon-text">
+                    {item.title}
+                </h3>
+                <p class="mb-0 mt-2 text-[15px] leading-6 text-axon-muted">
+                    {item.description}
+                </p>
+            </a>
         ))}
     </div>
 
-    <div class="grid gap-4 sm:grid-cols-2 my-8">
-        <Card title="Getting Started" href="/docs/getting-started/installation">
-            Install Axon, set up your first project, and learn the basics.
-        </Card>
-        <Card title="Editor Features" href="/docs/features/editor">
-            Split panes, Problems, terminal sessions, Git workflows, tests, search, and previews.
-        </Card>
-        <Card title="Language Servers" href="/docs/language-servers">
-            Bundled or managed tooling for TypeScript/TSX, Go, Rust, Python, HTML, CSS, JSON, YAML, Lua, and C/C++.
-        </Card>
-        <Card title="Customization" href="/docs/customization/themes">
-            Themes, settings, keybindings, and extensions.
-        </Card>
-        <Card title="Extensions" href="/docs/extensions">
-            Extension manifests, activation events, contributed views, themes, icons, and the registry model.
-        </Card>
-        <Card title="Updates" href="/docs/updates">
-            Release assets, platform builds, update notes, and version expectations.
-        </Card>
-    </div>
+    <h2>Explore</h2>
 
-    <div
-        class="my-8 rounded-lg border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))] p-6"
-    >
-        <h2 class="mt-0 border-0 pt-0">Quick Install</h2>
-        <p>Download the latest version for your platform, then use the docs to verify language servers, terminal behavior, extensions, and updates.</p>
-        <div class="mt-4 flex flex-wrap gap-3">
-            <Button href="/download" variant="primary"
-                >Download for macOS</Button
-            >
-            <Button href="/download" variant="secondary">Windows</Button>
-            <Button href="/download" variant="secondary">Linux</Button>
-        </div>
+    <p>
+        Use the left navigation to move through Axon’s feature docs. The right
+        column tracks the current page sections when a page has headings.
+    </p>
+
+    <div class="my-8 grid gap-4 sm:grid-cols-2">
+        <a href="/docs/features/axon-agent" class="rounded-lg border border-axon-border bg-axon-panel p-5 !no-underline transition duration-200 hover:border-zinc-500 hover:bg-axon-panel-soft">
+            <h3 class="mt-0 text-lg font-semibold text-axon-text">Axon Agent</h3>
+            <p class="mb-0 text-sm leading-6 text-axon-muted">Local agent surfaces, editor context, and planned workflow integration.</p>
+        </a>
+        <a href="/docs/development/building" class="rounded-lg border border-axon-border bg-axon-panel p-5 !no-underline transition duration-200 hover:border-zinc-500 hover:bg-axon-panel-soft">
+            <h3 class="mt-0 text-lg font-semibold text-axon-text">Development</h3>
+            <p class="mb-0 text-sm leading-6 text-axon-muted">Build Axon from source and understand the release process.</p>
+        </a>
     </div>
 </DocsLayout>

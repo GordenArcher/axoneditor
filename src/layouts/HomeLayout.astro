@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Header from "@components/layout/Header.astro";
 
 interface Props {
   title: string;
@@ -7,14 +8,6 @@ interface Props {
 }
 
 const { title, description } = Astro.props;
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/download", label: "Download" },
-  { href: "/docs", label: "Docs" },
-  { href: "/blog", label: "Blog" },
-  { href: "/releases", label: "Releases" },
-  { href: "/changelog", label: "Changelog" },
-];
 ---
 
 <!doctype html>
@@ -36,30 +29,8 @@ const navItems = [
     <link rel="icon" type="image/png" href="/media/icons/axon.png" />
     <title>{title}</title>
   </head>
-  <body>
-    <header class="site-header sticky top-0 z-20 border-b border-white/10 backdrop-blur">
-      <nav class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
-        <a href="/" class="flex items-center gap-3 text-sm font-semibold text-zinc-100">
-          <img src="/media/icons/axon.png" alt="" class="h-8 w-8 rounded-md opacity-90" />
-          <span>Axon</span>
-        </a>
-        <div class="hidden min-w-0 flex-1 items-center justify-center gap-4 text-sm text-axon-muted md:flex lg:gap-5">
-          {navItems.map((item) => (
-            <a class="transition hover:text-zinc-100" href={item.href}>
-              {item.label}
-            </a>
-          ))}
-        </div>
-        <div class="ml-auto hidden items-center gap-3 md:flex">
-          <a
-            href="/download"
-            class="axon-button axon-button-secondary px-4 py-2"
-          >
-            Download
-          </a>
-        </div>
-      </nav>
-    </header>
+  <body class="min-h-screen bg-axon-bg font-sans text-zinc-300">
+    <Header />
     <main>
       <slot />
     </main>

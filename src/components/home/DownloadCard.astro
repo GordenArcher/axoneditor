@@ -42,18 +42,18 @@ const glyphs: Record<string, string> = {
 };
 ---
 
-<div class:list={["platform-download", compact && "platform-download-compact"]} data-platform-download>
+<div class:list={["relative z-40 block", compact ? "max-w-56" : "max-w-72"]} data-platform-download>
   {assets.length ? (
     <>
-      <div class="platform-picker" data-platform-picker>
+      <div class="group relative mb-2" data-platform-picker>
         <button
           type="button"
-          class="platform-picker-trigger"
+          class="relative grid min-h-10 w-full grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-lg border border-white/10 bg-transparent px-3 py-2 text-left text-axon-text transition hover:border-white/25 aria-expanded:border-white/25"
           data-platform-trigger
           aria-haspopup="listbox"
           aria-expanded="false"
         >
-          <span data-platform-primary-icon class="platform-download-icon" set:html={glyphs[platformIcon(assets[0].platform)] ?? glyphs.download}></span>
+          <span data-platform-primary-icon class="grid h-4 w-4 shrink-0 place-items-center [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-current" set:html={glyphs[platformIcon(assets[0].platform)] ?? glyphs.download}></span>
           <span class="min-w-0">
             <span class="block text-sm font-semibold text-zinc-100" data-platform-selected-label>
               {shortPlatform(assets[0].platform)}
@@ -62,14 +62,14 @@ const glyphs: Record<string, string> = {
               {assets[0].name}
             </span>
           </span>
-          <span class="platform-picker-arrow" aria-hidden="true">⌄</span>
+          <span class="text-lg leading-none text-axon-muted" aria-hidden="true">⌄</span>
         </button>
 
-        <div class="platform-picker-menu" data-platform-menu role="listbox" aria-label="Select platform download">
+        <div class="absolute inset-x-0 top-[calc(100%+0.35rem)] z-50 hidden overflow-hidden rounded-lg border border-white/15 bg-black shadow-2xl shadow-black/50 group-data-[open]:block" data-platform-menu role="listbox" aria-label="Select platform download">
           {assets.map((asset, index) => (
             <button
               type="button"
-              class="platform-picker-option"
+              class="grid min-h-14 w-full grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 border-b border-white/10 bg-transparent px-3 py-2 text-left text-axon-text last:border-b-0 hover:bg-white/[0.06] aria-selected:bg-white/[0.06]"
               role="option"
               aria-selected={index === 0 ? "true" : "false"}
               data-platform-option
@@ -79,7 +79,7 @@ const glyphs: Record<string, string> = {
               data-platform-url={asset.downloadUrl}
               data-platform-file={asset.name}
             >
-              <span class="platform-download-icon" set:html={glyphs[platformIcon(asset.platform)] ?? glyphs.download}></span>
+              <span class="grid h-4 w-4 shrink-0 place-items-center [&_svg]:h-4 [&_svg]:w-4 [&_svg]:fill-current" set:html={glyphs[platformIcon(asset.platform)] ?? glyphs.download}></span>
               <span class="min-w-0">
                 <span class="block text-sm font-semibold text-zinc-100">{shortPlatform(asset.platform)}</span>
                 <span class="block truncate text-xs text-axon-muted">{asset.name}</span>
@@ -93,7 +93,7 @@ const glyphs: Record<string, string> = {
       </div>
       <a
         href={assets[0].downloadUrl}
-        class="axon-button axon-button-primary gap-2"
+        class="inline-flex min-h-9 items-center gap-2 rounded-md bg-axon-text px-4 py-2 text-sm font-medium text-axon-bg transition hover:opacity-90"
         data-platform-primary
       >
         <span data-platform-primary-label>Download for {shortPlatform(assets[0].platform)}</span>
@@ -105,7 +105,7 @@ const glyphs: Record<string, string> = {
       )}
     </>
   ) : (
-    <a href="/releases" class="axon-button axon-button-secondary">
+    <a href="/releases" class="inline-flex items-center gap-2 rounded-md border border-axon-border bg-transparent px-4 py-2 text-sm font-medium text-axon-text transition hover:bg-axon-hover">
       View release assets
     </a>
   )}

@@ -1,5 +1,5 @@
 ---
-import HomeLayout from "@layouts/HomeLayout.astro";
+import DocsLayout from "@layouts/DocsLayout.astro";
 
 const manifestExample = `{
   "$schema": "https://axoneditor.com/schemas/extension/v0.1.0.json",
@@ -56,69 +56,57 @@ const extensionLayers = [
 ];
 ---
 
-<HomeLayout title="Axon Extension Docs" description="Axon extension manifest format, schema URL, contribution types, registry activation, and current extension-host boundaries.">
-  <section class="px-5 py-16 md:py-20">
-    <div class="mx-auto max-w-6xl">
-      <p class="text-xs font-semibold uppercase text-axon-muted">Extensions</p>
-      <h1 class="mt-4 text-4xl font-semibold leading-tight text-zinc-100 md:text-6xl">Extension manifests are becoming the workbench contract.</h1>
-      <p class="mt-5 max-w-3xl text-lg leading-8 text-axon-muted">
-        Axon reads extension manifests from built-ins, user extensions,
-        workspace extensions, and the local marketplace. Themes and icons are
-        registry data, while built-in workbench surfaces are being routed
-        through activation events so the editor stops hard-coding every feature
-        into the main app shell.
-      </p>
+<DocsLayout title="Axon Extension Docs" description="Axon extension manifest format, schema URL, contribution types, registry activation, and current extension-host boundaries.">
+  <h1>Extension manifests are becoming the workbench contract.</h1>
+  <p>
+    Axon reads extension manifests from built-ins, user extensions, workspace
+    extensions, and the local marketplace. Themes and icons are registry data,
+    while built-in workbench surfaces are being routed through activation events
+    so the editor stops hard-coding every feature into the main app shell.
+  </p>
 
-      <div class="mt-10 grid gap-5 md:grid-cols-3">
-        {extensionLayers.map((item) => (
-          <article class="feature-line">
-            <h2 class="text-lg font-semibold text-zinc-100">{item.title}</h2>
-            <p class="mt-3 text-sm leading-6 text-axon-muted">{item.body}</p>
-          </article>
-        ))}
+  <div class="my-8 grid gap-4 md:grid-cols-3">
+    {extensionLayers.map((item) => (
+      <article class="rounded-lg border border-axon-border bg-axon-panel p-5">
+        <h2 class="m-0 text-base font-semibold text-axon-text">{item.title}</h2>
+        <p class="mt-3 text-sm leading-6 text-axon-muted">{item.body}</p>
+      </article>
+    ))}
+  </div>
+
+  <h2>Schema URL</h2>
+  <p>
+    <a href="/schemas/extension/v0.1.0.json">
+      https://axoneditor.com/schemas/extension/v0.1.0.json
+    </a>
+  </p>
+
+  <h2>Extension locations</h2>
+  <p>
+    Axon loads bundled extensions from the app, user extensions from app data,
+    workspace extensions from <code>.axon/extensions</code>, and marketplace
+    installs from Axon's local extension package cache.
+  </p>
+
+  <h2>Manifest example</h2>
+  <pre><code>{manifestExample}</code></pre>
+
+  <h2>Contribution types</h2>
+  <div class="my-6 overflow-hidden border-y border-axon-border">
+    {contributionTypes.map(([name, description]) => (
+      <div class="grid gap-2 border-b border-axon-border py-4 last:border-b-0 md:grid-cols-[0.25fr_1fr]">
+        <code class="text-sm text-axon-muted">{name}</code>
+        <p class="m-0 text-sm leading-6 text-axon-muted">{description}</p>
       </div>
+    ))}
+  </div>
 
-      <div class="mt-12 grid gap-6 md:grid-cols-2">
-        <div class="feature-line">
-          <h2 class="text-lg font-semibold text-zinc-100">Schema URL</h2>
-          <a href="/schemas/extension/v0.1.0.json" class="mt-3 block break-all font-mono text-sm text-axon-muted">
-            https://axoneditor.com/schemas/extension/v0.1.0.json
-          </a>
-        </div>
-        <div class="feature-line">
-          <h2 class="text-lg font-semibold text-zinc-100">Extension locations</h2>
-          <p class="mt-3 text-sm leading-6 text-axon-muted">
-            Axon loads bundled extensions from the app, user extensions from
-            app data, workspace extensions from
-            <code class="mx-1 rounded bg-black/30 px-1.5 py-0.5 text-axon-muted">.axon/extensions</code>,
-            and marketplace installs from Axon's local extension package cache.
-          </p>
-        </div>
-      </div>
-
-      <h2 class="mt-12 text-2xl font-semibold text-zinc-100">Manifest example</h2>
-      <pre class="mt-5 overflow-x-auto rounded-lg border border-white/10 p-5 text-sm leading-6 text-axon-text"><code>{manifestExample}</code></pre>
-
-      <h2 class="mt-12 text-2xl font-semibold text-zinc-100">Contribution types</h2>
-      <div class="mt-5 overflow-hidden border-y border-white/10">
-        {contributionTypes.map(([name, description]) => (
-          <div class="grid gap-2 border-b border-white/10 py-5 last:border-b-0 md:grid-cols-[0.25fr_1fr]">
-            <code class="text-sm text-axon-muted">{name}</code>
-            <p class="text-sm leading-6 text-axon-muted">{description}</p>
-          </div>
-        ))}
-      </div>
-
-      <div class="mt-12 rounded-lg border border-white/10 bg-[#0b0b0c] p-5">
-        <h2 class="text-xl font-semibold text-zinc-100">Current boundary</h2>
-        <p class="mt-3 text-sm leading-6 text-axon-muted">
-          Axon has runtime command activation and a registry-backed view bridge,
-          but extension-owned renderer UI is still intentionally isolated. Built-in
-          views open their native workbench surfaces today; third-party views use
-          a generic extension view surface until Axon has a full renderer
-          view-provider boundary and extension asset protocol.
-        </p>
-      </div>
-    </div>
-  </section>
-</HomeLayout>
+  <h2>Current boundary</h2>
+  <p>
+    Axon has runtime command activation and a registry-backed view bridge, but
+    extension-owned renderer UI is still intentionally isolated. Built-in views
+    open their native workbench surfaces today; third-party views use a generic
+    extension view surface until Axon has a full renderer view-provider boundary
+    and extension asset protocol.
+  </p>
+</DocsLayout>

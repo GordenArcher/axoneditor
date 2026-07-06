@@ -28,17 +28,17 @@ const releaseFlow = [
 
       <div class="mt-8 flex flex-wrap gap-3">
         {latestRelease && (
-          <a href={`/releases/tag/${latestRelease.tag}`} class="axon-button axon-button-primary">
+          <a href={`/releases/tag/${latestRelease.tag}`} class="inline-flex items-center gap-2 rounded-md bg-axon-text px-4 py-2 text-sm font-medium text-axon-bg transition hover:opacity-90">
             Latest notes: {latestRelease.tag}
           </a>
         )}
-        <a href="/releases" class="axon-button axon-button-secondary">Browse releases</a>
-        <a href={githubReleasesUrl} class="axon-button axon-button-secondary">GitHub releases</a>
+        <a href="/releases" class="inline-flex items-center gap-2 rounded-md border border-axon-border bg-transparent px-4 py-2 text-sm font-medium text-axon-text transition hover:bg-axon-hover">Browse releases</a>
+        <a href={githubReleasesUrl} class="inline-flex items-center gap-2 rounded-md border border-axon-border bg-transparent px-4 py-2 text-sm font-medium text-axon-text transition hover:bg-axon-hover">GitHub releases</a>
       </div>
     </div>
   </section>
 
-  <section class="section-line px-5 py-14">
+  <section class="border-y border-white/10 px-5 py-14">
     <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
       <div>
         <p class="text-xs font-semibold uppercase text-axon-muted">Update model</p>

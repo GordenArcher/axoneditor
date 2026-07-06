@@ -1,6 +1,4 @@
 ---
-import Button from "@components/ui/Button.astro";
-
 const navItems = [
     { href: "/", label: "Home" },
     { href: "/docs", label: "Docs" },
@@ -11,14 +9,14 @@ const navItems = [
 ---
 
 <header
-    class="sticky top-0 z-20 border-b border-axon-border bg-axon-bg/95 backdrop-blur dark:border-axon-border dark:bg-axon-bg/95"
+    class="sticky top-0 z-20 border-b border-axon-border bg-axon-bg/95 backdrop-blur"
 >
     <div
         class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-3"
     >
         <a
             href="/"
-            class="axon-header-brand flex cursor-pointer items-center gap-3 text-sm font-semibold text-axon-text dark:text-axon-text"
+            class="flex cursor-pointer items-center gap-3 text-sm font-semibold text-axon-text"
         >
             <img src="/media/icons/axon.png" alt="Axon logo" class="h-8 w-8 rounded-md" />
             <span>Axon</span>
@@ -26,22 +24,22 @@ const navItems = [
 
         <button
             type="button"
-            class="mobile-nav-toggle md:hidden"
+            class="inline-grid h-9 w-9 cursor-pointer place-items-center gap-[0.18rem] rounded-lg border border-white/15 text-axon-text md:hidden [&[aria-expanded=true]>span:nth-child(1)]:translate-y-[0.28rem] [&[aria-expanded=true]>span:nth-child(1)]:rotate-45 [&[aria-expanded=true]>span:nth-child(2)]:opacity-0 [&[aria-expanded=true]>span:nth-child(3)]:-translate-y-[0.28rem] [&[aria-expanded=true]>span:nth-child(3)]:-rotate-45"
             aria-label="Toggle navigation"
             aria-expanded="false"
             data-mobile-nav-toggle
         >
-            <span></span>
-            <span></span>
-            <span></span>
+            <span class="block h-px w-4 bg-current transition duration-150"></span>
+            <span class="block h-px w-4 bg-current transition duration-150"></span>
+            <span class="block h-px w-4 bg-current transition duration-150"></span>
         </button>
 
-        <nav class="axon-site-nav order-3 hidden w-full min-w-0 flex-col gap-2 border-t border-white/10 pt-3 md:order-none md:flex md:w-auto md:flex-1 md:flex-row md:items-center md:justify-center md:gap-5 md:border-t-0 md:pt-0" data-mobile-nav>
+        <nav class="order-3 hidden w-full min-w-0 flex-col gap-2 border-t border-white/10 pt-3 md:order-none md:flex md:w-auto md:flex-1 md:flex-row md:items-center md:justify-center md:gap-5 md:border-t-0 md:pt-0" data-mobile-nav>
             {
                 navItems.map((item) => (
                     <a
                         href={item.href}
-                        class="shrink-0 cursor-pointer rounded-md px-2 py-2 text-sm text-axon-muted transition-smooth hover:text-axon-text dark:text-axon-muted dark:hover:text-axon-text md:px-0 md:py-0"
+                        class="shrink-0 cursor-pointer rounded-md px-2 py-2 text-sm text-axon-muted transition hover:text-axon-text md:px-0 md:py-0"
                     >
                         {item.label}
                     </a>
@@ -50,13 +48,12 @@ const navItems = [
         </nav>
 
         <div class="flex items-center gap-3">
-            <Button
+            <a
                 href="/download"
-                variant="primary"
-                class="hidden sm:inline-flex"
+                class="hidden items-center gap-2 rounded-md bg-axon-text px-4 py-2 text-sm font-medium text-axon-bg transition hover:opacity-90 sm:inline-flex"
             >
                 Download
-            </Button>
+            </a>
         </div>
     </div>
 </header>

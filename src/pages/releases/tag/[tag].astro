@@ -31,12 +31,12 @@ const releaseBodyHtml = await renderMarkdown(release.body || "No release notes w
           <h1 class="mt-4 text-4xl font-semibold leading-tight text-zinc-100 md:text-6xl" data-release-tag>{release.tag}</h1>
           <p class="mt-4 max-w-3xl text-lg leading-8 text-axon-muted" data-release-title>{release.title}</p>
         </div>
-        <a href={release.htmlUrl} class="axon-button axon-button-secondary" data-github-link>
+        <a href={release.htmlUrl} class="inline-flex items-center gap-2 rounded-md border border-axon-border bg-transparent px-4 py-2 text-sm font-medium text-axon-text transition hover:bg-axon-hover" data-github-link>
           Open on GitHub
         </a>
       </div>
 
-      <div class="release-row mt-10">
+      <div class="border-t border-white/10 pt-6 mt-10">
         <div class="flex flex-wrap items-center gap-3">
           <p class="text-sm font-semibold uppercase text-axon-muted">Summary</p>
           <p class="text-sm text-axon-muted" data-release-date>{publishedAt}</p>
@@ -50,7 +50,7 @@ const releaseBodyHtml = await renderMarkdown(release.body || "No release notes w
           release.assets.map((asset) => (
             <a
               href={asset.downloadUrl}
-              class="platform-download-option"
+              class="grid min-h-16 grid-cols-[minmax(8rem,0.35fr)_minmax(0,1fr)_auto] items-center gap-4 rounded-lg border border-white/10 p-4 transition hover:bg-white/[0.06]"
             >
               <span class="text-xs uppercase text-axon-muted">{asset.platform}</span>
               <span class="break-all text-sm font-medium text-zinc-100">{asset.name}</span>
@@ -58,7 +58,7 @@ const releaseBodyHtml = await renderMarkdown(release.body || "No release notes w
             </a>
           ))
         ) : (
-          <div class="release-row text-sm text-axon-muted">
+          <div class="border-t border-white/10 pt-6 text-sm text-axon-muted">
             This release does not have public assets.
           </div>
         )}
@@ -66,20 +66,20 @@ const releaseBodyHtml = await renderMarkdown(release.body || "No release notes w
 
       <h2 class="mt-12 text-2xl font-semibold text-zinc-100">Release notes</h2>
       <div
-        class="release-markdown release-row mt-5 text-sm leading-7 text-axon-muted"
+        class="release-markdown border-t border-white/10 pt-6 mt-5 text-sm leading-7 text-axon-muted"
         data-release-body
         set:html={releaseBodyHtml}
       >
       </div>
 
       <div class="mt-10 flex flex-wrap gap-3">
-        <a href="/releases" class="axon-button axon-button-secondary">
+        <a href="/releases" class="inline-flex items-center gap-2 rounded-md border border-axon-border bg-transparent px-4 py-2 text-sm font-medium text-axon-text transition hover:bg-axon-hover">
           Back to all releases
         </a>
-        <a href={release.htmlUrl} class="axon-button axon-button-primary">
+        <a href={release.htmlUrl} class="inline-flex items-center gap-2 rounded-md bg-axon-text px-4 py-2 text-sm font-medium text-axon-bg transition hover:opacity-90">
           Open GitHub release
         </a>
-        <a href={githubReleasesUrl} class="axon-button axon-button-secondary">
+        <a href={githubReleasesUrl} class="inline-flex items-center gap-2 rounded-md border border-axon-border bg-transparent px-4 py-2 text-sm font-medium text-axon-text transition hover:bg-axon-hover">
           GitHub releases
         </a>
       </div>

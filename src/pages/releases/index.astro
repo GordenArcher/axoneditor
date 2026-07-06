@@ -21,7 +21,7 @@ const latestRelease = releases[0] ?? null;
       </p>
 
       <div class="mt-8 flex flex-wrap gap-3">
-        <a href={githubReleasesUrl} class="axon-button axon-button-secondary">
+        <a href={githubReleasesUrl} class="inline-flex items-center gap-2 rounded-md border border-axon-border bg-transparent px-4 py-2 text-sm font-medium text-axon-text transition hover:bg-axon-hover">
           Open GitHub releases
         </a>
       </div>
@@ -29,7 +29,7 @@ const latestRelease = releases[0] ?? null;
       <div class="mt-10 border-y border-white/10" data-release-list>
         {releases.length ? (
           releases.map((release) => (
-            <article class="release-index-row reveal-up">
+            <article class="border-b border-white/10 py-5 last:border-b-0 animate-[reveal-up_720ms_cubic-bezier(0.16,1,0.3,1)_both]">
               <div class="grid gap-4 md:grid-cols-[9rem_1fr_auto] md:items-start">
                 <p class="font-mono text-sm text-axon-muted">{release.tag}</p>
                 <div>

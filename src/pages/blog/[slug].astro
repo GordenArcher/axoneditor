@@ -50,69 +50,76 @@ function splitHoverPhrases(section: Extract<BlogSection, { kind: "paragraph" }>)
 ---
 
 <HomeLayout title={post.title} description={post.excerpt}>
-  <article class="blog-article">
-    <div class="blog-doc-shell mx-auto grid max-w-7xl gap-8 px-5 py-10 lg:grid-cols-[15rem_minmax(0,1fr)_15rem]">
-      <aside class="blog-left-nav">
-        <a href="/blog" class="blog-back-link">← Blog</a>
-        <p class="blog-nav-kicker">Articles</p>
-        <nav aria-label="Blog articles">
+  <article>
+    <div class="mx-auto grid max-w-7xl gap-8 px-5 py-10 lg:grid-cols-[15rem_minmax(0,1fr)_15rem]">
+      <aside class="hidden lg:block">
+        <div class="sticky top-24">
+        <a href="/blog" class="text-sm font-medium text-axon-muted transition hover:text-zinc-100">← Blog</a>
+        <p class="mt-8 text-xs font-semibold uppercase text-axon-muted">Articles</p>
+        <nav aria-label="Blog articles" class="mt-3 grid gap-1">
           {blogPosts.map((item) => (
             <a
               href={`/blog/${item.slug}`}
-              class={item.slug === post.slug ? "is-active" : ""}
+              class:list={[
+                "rounded-md px-2 py-1.5 text-sm leading-5 transition",
+                item.slug === post.slug
+                  ? "bg-axon-panel text-zinc-100"
+                  : "text-axon-muted hover:bg-axon-panel hover:text-zinc-100",
+              ]}
             >
               {item.title}
             </a>
           ))}
         </nav>
+        </div>
       </aside>
 
-      <main class="blog-doc-main">
-        <header class="blog-doc-header">
-          <div class="blog-breadcrumb">Blog / Debugging</div>
+      <main class="min-w-0">
+        <header class="rounded-lg border border-white/10 p-6 md:p-8">
+          <div class="text-sm text-axon-muted">Blog / Debugging</div>
           <h1
-            class="blog-animated-title"
+            class="mt-4 text-4xl font-semibold leading-tight text-zinc-100 md:text-5xl data-[writing=true]:after:ml-1 data-[writing=true]:after:inline-block data-[writing=true]:after:h-[0.82em] data-[writing=true]:after:w-0.5 data-[writing=true]:after:animate-[caret-pulse_900ms_steps(1)_infinite] data-[writing=true]:after:bg-current data-[writing=true]:after:content-['']"
             data-blog-title
             data-titles={JSON.stringify(post.animatedTitles)}
           >
             {post.title}
           </h1>
-          <p class="blog-doc-excerpt">{post.excerpt}</p>
+          <p class="mt-5 text-lg leading-8 text-axon-muted">{post.excerpt}</p>
 
-          <div class="blog-doc-meta">
+          <div class="mt-5 flex flex-wrap gap-3 text-xs uppercase text-axon-muted">
             <span>{post.publishedAt}</span>
             <span>{post.readingTime}</span>
             <span>Updated {post.updatedAt}</span>
           </div>
 
-          <div class="blog-author-line">
+          <div class="mt-6 flex flex-wrap gap-3">
             {post.authors.map((author) => (
-              <a href={author.github} class="blog-author-inline" target="_blank" rel="noreferrer">
-                <img src={author.avatar} alt="" />
+              <a href={author.github} class="inline-flex items-center gap-3 rounded-full border border-white/10 px-3 py-2 text-sm text-axon-muted transition hover:border-white/25 hover:text-zinc-100" target="_blank" rel="noreferrer">
+                <img src={author.avatar} alt="" class="h-8 w-8 rounded-full" />
                 <span>
-                  <strong>{author.name}</strong>
-                  <small>{author.role} · {author.github.replace("https://github.com/", "@")}</small>
+                  <strong class="block text-zinc-100">{author.name}</strong>
+                  <small class="block text-xs text-axon-muted">{author.role} · {author.github.replace("https://github.com/", "@")}</small>
                 </span>
               </a>
             ))}
           </div>
 
-          <div class="blog-tag-row">
+          <div class="mt-5 flex flex-wrap gap-2">
             {post.tags.map((tag) => (
-              <span class="blog-tag">{tag}</span>
+              <span class="rounded-full border border-white/10 px-2.5 py-1 text-xs text-axon-muted">{tag}</span>
             ))}
           </div>
         </header>
 
-        <div class="blog-reading-grid">
-          <div class="blog-content">
+        <div class="mt-8">
+          <div class="grid gap-8">
             {post.sections.map((section) => {
               if (section.kind === "paragraph") {
                 return (
-                  <p class="blog-paragraph">
+                  <p class="text-base leading-8 text-axon-muted">
                     {splitHoverPhrases(section).map((segment) =>
                       segment.note ? (
-                        <span class="blog-hover-phrase" data-note={segment.note}>
+                        <span class="relative rounded bg-white/[0.04] px-1 text-zinc-100" title={segment.note}>
                           {segment.text}
                         </span>
                       ) : (
@@ -129,43 +136,43 @@ function splitHoverPhrases(section: Extract<BlogSection, { kind: "paragraph" }>)
                   .replace(/[^a-z0-9]+/g, "-")
                   .replace(/^-|-$/g, "");
                 return (
-                  <section class="blog-section-heading" id={headingId}>
-                    {section.kicker ? <p>{section.kicker}</p> : null}
-                    <h2>{section.title}</h2>
+                  <section class="scroll-mt-24" id={headingId}>
+                    {section.kicker ? <p class="text-xs font-semibold uppercase text-axon-muted">{section.kicker}</p> : null}
+                    <h2 class="mt-2 text-3xl font-semibold text-zinc-100">{section.title}</h2>
                   </section>
                 );
               }
 
               if (section.kind === "code") {
                 return (
-                  <figure class="blog-code-block">
-                    <figcaption>
+                  <figure class="overflow-hidden rounded-lg border border-white/10 bg-black">
+                    <figcaption class="flex items-center justify-between border-b border-white/10 px-4 py-3 text-xs text-axon-muted">
                       <span>{section.filename ?? section.language}</span>
                       <small>{section.language}</small>
                     </figcaption>
-                    <pre><code>{section.code}</code></pre>
+                    <pre class="overflow-x-auto p-4 text-sm leading-6 text-zinc-200"><code>{section.code}</code></pre>
                   </figure>
                 );
               }
 
               if (section.kind === "callout") {
                 return (
-                  <aside class={`blog-callout blog-callout-${section.tone}`}>
-                    <h3>{section.title}</h3>
-                    <p>{section.body}</p>
+                  <aside class="rounded-lg border border-white/10 bg-axon-panel p-5">
+                    <h3 class="text-base font-semibold text-zinc-100">{section.title}</h3>
+                    <p class="mt-2 text-sm leading-6 text-axon-muted">{section.body}</p>
                   </aside>
                 );
               }
 
               if (section.kind === "timeline") {
                 return (
-                  <div class="blog-timeline">
+                  <div class="grid gap-4">
                     {section.items.map((item) => (
-                      <article>
-                        <span>{item.label}</span>
+                      <article class="grid gap-4 rounded-lg border border-white/10 p-5 md:grid-cols-[5rem_1fr]">
+                        <span class="font-mono text-sm text-axon-muted">{item.label}</span>
                         <div>
-                          <h3>{item.title}</h3>
-                          <p>{item.body}</p>
+                          <h3 class="font-semibold text-zinc-100">{item.title}</h3>
+                          <p class="mt-2 text-sm leading-6 text-axon-muted">{item.body}</p>
                         </div>
                       </article>
                     ))}
@@ -175,13 +182,13 @@ function splitHoverPhrases(section: Extract<BlogSection, { kind: "paragraph" }>)
 
               if (section.kind === "links") {
                 return (
-                  <section class="blog-links">
-                    <h2>{section.title}</h2>
-                    <div>
+                  <section>
+                    <h2 class="text-2xl font-semibold text-zinc-100">{section.title}</h2>
+                    <div class="mt-4 grid gap-3">
                       {section.items.map((item) => (
-                        <a href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noreferrer" : undefined}>
-                          <strong>{item.label}</strong>
-                          <span>{item.description}</span>
+                        <a class="rounded-lg border border-white/10 p-4 transition hover:bg-white/[0.04]" href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noreferrer" : undefined}>
+                          <strong class="block text-zinc-100">{item.label}</strong>
+                          <span class="mt-1 block text-sm leading-6 text-axon-muted">{item.description}</span>
                         </a>
                       ))}
                     </div>
@@ -190,23 +197,25 @@ function splitHoverPhrases(section: Extract<BlogSection, { kind: "paragraph" }>)
               }
             })}
 
-            <section class="blog-conclusion" id="conclusion">
+            <section class="scroll-mt-24 rounded-lg border border-white/10 p-5" id="conclusion">
               <p class="text-xs uppercase text-axon-muted">Conclusion</p>
-              <h2>What finally stayed fixed</h2>
-              <p>{post.conclusion}</p>
+              <h2 class="mt-2 text-2xl font-semibold text-zinc-100">What finally stayed fixed</h2>
+              <p class="mt-3 leading-7 text-axon-muted">{post.conclusion}</p>
             </section>
           </div>
         </div>
       </main>
 
-      <aside class="blog-on-this-page">
-        <p>On this page</p>
-        <nav aria-label="On this page">
+      <aside class="hidden lg:block">
+        <div class="sticky top-24">
+        <p class="text-sm font-semibold text-zinc-100">On this page</p>
+        <nav aria-label="On this page" class="mt-3 grid gap-1 border-l border-white/10 pl-4">
           {contentHeadings.map((heading) => (
-            <a href={`#${heading.id}`}>{heading.title}</a>
+            <a class="text-sm leading-5 text-axon-muted transition hover:text-zinc-100" href={`#${heading.id}`}>{heading.title}</a>
           ))}
-          <a href="#conclusion">What finally stayed fixed</a>
+          <a class="text-sm leading-5 text-axon-muted transition hover:text-zinc-100" href="#conclusion">What finally stayed fixed</a>
         </nav>
+        </div>
       </aside>
     </div>
   </article>

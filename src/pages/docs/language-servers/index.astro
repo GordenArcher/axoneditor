@@ -194,7 +194,7 @@ const troubleshooting = [
 <DocsLayout title="Axon Language Server Docs" description="Axon language-server support, bundled server behavior, and runtime requirements.">
   <section>
     <header>
-      <p class="mb-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500">Language servers</p>
+      <p class="mb-3 text-[11px] font-semibold uppercase text-axon-muted">Language servers</p>
       <h1>Axon is an LSP client</h1>
       <p>
         Axon uses language servers for completions, diagnostics, hover,
@@ -224,10 +224,10 @@ const troubleshooting = [
 
       <div class="my-6 grid gap-4 md:grid-cols-2">
         {coreFlow.map((item, index) => (
-          <article class="group rounded-lg border border-white/10 bg-[#0b0b0c] p-5 transition duration-200 hover:-translate-y-0.5 hover:border-zinc-500/60 hover:bg-[#141416]">
-            <span class="font-mono text-xs text-zinc-500 transition group-hover:text-zinc-300">{String(index + 1).padStart(2, "0")}</span>
-            <h3 class="mt-4 text-base font-semibold text-zinc-100">{item.title}</h3>
-            <p class="mt-2 text-sm leading-6 text-zinc-400">{item.body}</p>
+          <article class="group rounded-lg border border-axon-border bg-axon-panel p-5 transition duration-200 hover:border-zinc-500">
+            <span class="font-mono text-xs text-axon-muted">{String(index + 1).padStart(2, "0")}</span>
+            <h3 class="mt-4 text-base font-semibold text-axon-text">{item.title}</h3>
+            <p class="mt-2 text-sm leading-6 text-axon-muted">{item.body}</p>
           </article>
         ))}
       </div>
@@ -244,12 +244,12 @@ const troubleshooting = [
 
       <div class="my-6 grid gap-4 md:grid-cols-2">
         {deliveryModels.map((item) => (
-          <article class="rounded-lg border border-white/10 bg-[#0b0b0c] p-5 transition duration-200 hover:-translate-y-0.5 hover:border-zinc-500/60 hover:bg-[#141416]">
-            <h3 class="text-base font-semibold text-zinc-100">{item.title}</h3>
-            <p class="mt-2 text-sm leading-6 text-zinc-400">{item.body}</p>
-            <div class="mt-4 rounded-md border border-white/10 bg-black p-3">
-              <span class="block text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500">Examples</span>
-              <strong class="mt-1 block text-sm font-medium text-zinc-200">{item.examples}</strong>
+          <article class="rounded-lg border border-axon-border bg-axon-panel p-5 transition duration-200 hover:border-zinc-500">
+            <h3 class="text-base font-semibold text-axon-text">{item.title}</h3>
+            <p class="mt-2 text-sm leading-6 text-axon-muted">{item.body}</p>
+            <div class="mt-4 rounded-md border border-axon-border bg-axon-bg p-3">
+              <span class="block text-[11px] font-semibold uppercase text-axon-muted">Examples</span>
+              <strong class="mt-1 block text-sm font-medium text-axon-text">{item.examples}</strong>
             </div>
           </article>
         ))}
@@ -267,20 +267,20 @@ const troubleshooting = [
 
       <div class="my-6 grid gap-8">
         {languageGroups.map((group) => (
-          <section class="rounded-lg border border-white/10 bg-[#070707] p-5">
+          <section class="rounded-lg border border-axon-border bg-axon-panel p-5">
             <div class="grid gap-2 md:grid-cols-[14rem_1fr] md:items-start">
-              <h3 class="text-base font-semibold text-zinc-100">{group.title}</h3>
-              <p class="text-sm leading-6 text-zinc-400">{group.body}</p>
+              <h3 class="text-base font-semibold text-axon-text">{group.title}</h3>
+              <p class="text-sm leading-6 text-axon-muted">{group.body}</p>
             </div>
             <div class="mt-5 grid gap-3 md:grid-cols-2">
               {group.languages.map((item) => (
-                <a href={item.href} class="group rounded-lg border border-white/10 bg-[#0b0b0c] p-4 no-underline transition duration-200 hover:-translate-y-0.5 hover:border-zinc-500/60 hover:bg-[#141416]">
+                <a href={item.href} class="group rounded-lg border border-axon-border bg-axon-bg p-4 !no-underline transition duration-200 hover:border-zinc-500 hover:bg-axon-panel-soft">
                   <div>
-                    <span class="text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500">{item.delivery}</span>
-                    <h4 class="mt-2 text-base font-semibold text-zinc-100 transition group-hover:text-white">{item.name}</h4>
+                    <span class="text-[10px] font-semibold uppercase text-axon-muted">{item.delivery}</span>
+                    <h4 class="mt-2 text-base font-semibold text-axon-text transition group-hover:text-white">{item.name}</h4>
                     <p class="mt-1 font-mono text-xs text-zinc-500">{item.server}</p>
                   </div>
-                  <p class="mt-3 text-sm leading-6 text-zinc-400">{item.details}</p>
+                  <p class="mt-3 text-sm leading-6 text-axon-muted">{item.details}</p>
                 </a>
               ))}
             </div>
@@ -319,9 +319,9 @@ const troubleshooting = [
       <h2>Troubleshooting checklist</h2>
       <div class="my-6 grid gap-4 md:grid-cols-2">
         {troubleshooting.map((item) => (
-          <article class="rounded-lg border border-white/10 bg-[#0b0b0c] p-5 transition duration-200 hover:-translate-y-0.5 hover:border-zinc-500/60 hover:bg-[#141416]">
-            <h3 class="text-base font-semibold text-zinc-100">{item.title}</h3>
-            <p class="mt-2 text-sm leading-6 text-zinc-400">{item.body}</p>
+          <article class="rounded-lg border border-axon-border bg-axon-panel p-5 transition duration-200 hover:border-zinc-500">
+            <h3 class="text-base font-semibold text-axon-text">{item.title}</h3>
+            <p class="mt-2 text-sm leading-6 text-axon-muted">{item.body}</p>
           </article>
         ))}
       </div>

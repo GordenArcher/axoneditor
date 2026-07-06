@@ -11,26 +11,26 @@ export interface NavSection {
 export function getSidebarNav(): NavSection[] {
   return [
     {
-      section: "Getting Started",
+      section: "Get started",
       items: [
         { href: "/docs", label: "Introduction" },
         { href: "/docs/getting-started/installation", label: "Installation" },
-        { href: "/docs/getting-started/first-project", label: "First Project" },
+        { href: "/docs/getting-started/first-project", label: "First project" },
       ],
     },
     {
-      section: "Core Features",
+      section: "Learn",
       items: [
         { href: "/docs/features/editor", label: "Editor" },
-        { href: "/docs/features/split-panes", label: "Split Panes" },
+        { href: "/docs/features/split-panes", label: "Split panes" },
         { href: "/docs/features/terminal", label: "Terminal" },
         { href: "/docs/features/axon-agent", label: "Axon Agent" },
-        { href: "/docs/features/git", label: "Git Integration" },
+        { href: "/docs/features/git", label: "Git integration" },
         { href: "/docs/features/search", label: "Search" },
       ],
     },
     {
-      section: "Language Servers",
+      section: "Language servers",
       items: [
         { href: "/docs/language-servers", label: "Overview" },
         {
@@ -66,9 +66,9 @@ export function getSidebarNav(): NavSection[] {
     {
       section: "Development",
       items: [
-        { href: "/docs/development/building", label: "Building from Source" },
+        { href: "/docs/development/building", label: "Building from source" },
         { href: "/docs/development/contributing", label: "Contributing" },
-        { href: "/docs/development/release-process", label: "Release Process" },
+        { href: "/docs/development/release-process", label: "Release process" },
       ],
     },
   ];

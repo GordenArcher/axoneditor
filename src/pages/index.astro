@@ -38,7 +38,7 @@ const heroModes = [
 >
   <section class="px-5 pb-12 pt-10 md:pb-16 md:pt-16">
     <div class="mx-auto max-w-6xl">
-      <div class="reveal-up max-w-3xl">
+      <div class="animate-[reveal-up_720ms_cubic-bezier(0.16,1,0.3,1)_both] max-w-3xl">
         <p class="mb-5 text-sm font-semibold uppercase text-axon-muted">Axon Editor</p>
         <h1 class="max-w-3xl text-4xl font-semibold leading-tight text-zinc-100 md:text-6xl">
           A local-first editor where the project state actually connects.
@@ -60,7 +60,7 @@ const heroModes = [
     </div>
   </section>
 
-  <section class="video-band px-5 pb-16">
+  <section class="px-5 pb-16">
     <div class="mx-auto max-w-6xl">
       <div class="mb-5 flex flex-wrap items-end justify-between gap-4">
         <div>
@@ -71,7 +71,7 @@ const heroModes = [
         </div>
       </div>
 
-      <div class="video-stage reveal-video" data-video-stage data-custom-video>
+      <div class="group relative aspect-video translate-y-12 scale-[0.96] overflow-hidden rounded-lg border border-white/10 bg-black opacity-75 shadow-2xl shadow-black/40 transition duration-700 data-[visible]:translate-y-0 data-[visible]:scale-100 data-[visible]:opacity-100" data-video-stage data-custom-video>
         <video
           data-demo-video
           class="h-full w-full object-cover"
@@ -80,39 +80,39 @@ const heroModes = [
           preload="metadata"
           poster="/media/screenshots/axon-screenshot-05.png"
         ></video>
-        <button type="button" class="video-center-play" data-video-play aria-label="Play demo">▶</button>
-        <div class="video-controls">
-          <button type="button" data-video-play class="video-icon-button" aria-label="Play demo">▶</button>
-          <span class="video-time" data-video-current>0:00</span>
-          <input type="range" min="0" max="100" value="0" step="0.1" class="video-progress" data-video-progress aria-label="Video progress" />
-          <span class="video-time" data-video-duration>0:00</span>
-          <button type="button" data-video-mute class="video-icon-button" aria-label="Mute demo">●</button>
-          <button type="button" data-video-fullscreen class="video-icon-button" aria-label="Fullscreen demo">□</button>
+        <button type="button" class="absolute left-1/2 top-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-black/60 text-zinc-100 backdrop-blur transition group-data-[playing]:pointer-events-none group-data-[playing]:opacity-0" data-video-play aria-label="Play demo">▶</button>
+        <div class="absolute inset-x-4 bottom-4 grid grid-cols-[auto_auto_minmax(4rem,1fr)_auto_auto_auto] items-center gap-2 rounded-lg border border-white/10 bg-black/70 p-3 backdrop-blur max-md:grid-cols-[auto_minmax(4rem,1fr)_auto]">
+          <button type="button" data-video-play class="grid h-8 w-8 place-items-center rounded-md text-zinc-100 transition hover:bg-white/10" aria-label="Play demo">▶</button>
+          <span class="font-mono text-xs text-axon-muted max-md:hidden" data-video-current>0:00</span>
+          <input type="range" min="0" max="100" value="0" step="0.1" class="w-full accent-zinc-100" data-video-progress aria-label="Video progress" />
+          <span class="font-mono text-xs text-axon-muted max-md:hidden" data-video-duration>0:00</span>
+          <button type="button" data-video-mute class="grid h-8 w-8 place-items-center rounded-md text-zinc-100 transition hover:bg-white/10 max-md:hidden" aria-label="Mute demo">●</button>
+          <button type="button" data-video-fullscreen class="grid h-8 w-8 place-items-center rounded-md text-zinc-100 transition hover:bg-white/10 max-md:hidden" aria-label="Fullscreen demo">□</button>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section-line px-5 py-16">
+  <section class="border-y border-white/10 px-5 py-16">
     <div class="mx-auto max-w-6xl">
-      <div class="hero-product-panel reveal-up reveal-delay-1" aria-label="Axon editor capabilities">
-        <div class="hero-copy-panel">
+      <div class="animate-[reveal-up_720ms_cubic-bezier(0.16,1,0.3,1)_both] [animation-delay:120ms]" aria-label="Axon editor capabilities">
+        <div>
           <p class="text-xs uppercase text-axon-muted">Axon is built for</p>
           <p class="mt-4 min-h-[4.5rem] text-3xl font-semibold leading-tight text-zinc-100 md:text-5xl">
-            <span data-typewriter data-phrases={JSON.stringify(heroModes)}>{heroModes[0]}</span><span class="type-caret"></span>
+            <span data-typewriter data-phrases={JSON.stringify(heroModes)}>{heroModes[0]}</span><span class="ml-1 inline-block h-[0.82em] w-0.5 animate-[caret-pulse_900ms_steps(1)_infinite] bg-current"></span>
           </p>
           <div class="mt-8 grid gap-4 text-sm text-axon-muted md:grid-cols-2">
-            <p class="hero-signal"><span>01</span> Fast shell, split panes, stable saves</p>
-            <p class="hero-signal"><span>02</span> Git graph, diffs, conflicts, worktrees</p>
-            <p class="hero-signal"><span>03</span> PTY terminal sessions and Axon CLI</p>
-            <p class="hero-signal"><span>04</span> LSP completions, imports, definitions</p>
+            <p class="grid grid-cols-[2rem_minmax(0,1fr)] gap-4 border-t border-white/10 pt-3"><span class="font-mono text-zinc-500">01</span> Fast shell, split panes, stable saves</p>
+            <p class="grid grid-cols-[2rem_minmax(0,1fr)] gap-4 border-t border-white/10 pt-3"><span class="font-mono text-zinc-500">02</span> Git graph, diffs, conflicts, worktrees</p>
+            <p class="grid grid-cols-[2rem_minmax(0,1fr)] gap-4 border-t border-white/10 pt-3"><span class="font-mono text-zinc-500">03</span> PTY terminal sessions and Axon CLI</p>
+            <p class="grid grid-cols-[2rem_minmax(0,1fr)] gap-4 border-t border-white/10 pt-3"><span class="font-mono text-zinc-500">04</span> LSP completions, imports, definitions</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section-line px-5 py-16">
+  <section class="border-y border-white/10 px-5 py-16">
     <div class="mx-auto max-w-6xl">
       <p class="text-xs font-semibold uppercase text-axon-muted">Workbench</p>
       <h2 class="mt-3 max-w-3xl text-3xl font-semibold leading-tight text-zinc-100 md:text-4xl">
@@ -131,7 +131,7 @@ const heroModes = [
 
   <section class="px-5 py-16">
     <div class="mx-auto max-w-6xl">
-      <div class="reveal-up max-w-3xl">
+      <div class="animate-[reveal-up_720ms_cubic-bezier(0.16,1,0.3,1)_both] max-w-3xl">
         <p class="text-xs font-semibold uppercase text-axon-muted">Downloads</p>
         <h2 class="mt-3 text-3xl font-semibold text-zinc-100 md:text-4xl">
           Platform-specific builds, directly from GitHub Releases.
@@ -141,14 +141,14 @@ const heroModes = [
           Every release asset remains visible so Mac Intel, Apple Silicon,
           Windows, and Linux users can choose the exact build they need.
         </p>
-        <a href="/download" class="axon-button axon-button-secondary mt-6">
+        <a href="/download" class="inline-flex items-center gap-2 rounded-md border border-axon-border bg-transparent px-4 py-2 text-sm font-medium text-axon-text transition hover:bg-axon-hover mt-6">
           Open download page
         </a>
       </div>
     </div>
   </section>
 
-  <section class="section-line px-5 py-16">
+  <section class="border-y border-white/10 px-5 py-16">
     <div class="mx-auto max-w-6xl">
       <p class="text-xs font-semibold uppercase text-axon-muted">Foundations</p>
       <h2 class="mt-3 max-w-3xl text-3xl font-semibold leading-tight text-zinc-100 md:text-4xl">
@@ -161,7 +161,7 @@ const heroModes = [
       </p>
       <div class="mt-10 grid gap-6 md:grid-cols-3">
         {workflowHighlights.map((item, index) => (
-          <article class="feature-line reveal-up" style={`animation-delay: ${index * 90}ms`}>
+          <article class="border-t border-white/10 pt-5 animate-[reveal-up_720ms_cubic-bezier(0.16,1,0.3,1)_both]" style={`animation-delay: ${index * 90}ms`}>
             <p class="text-xs uppercase text-axon-muted">0{index + 1}</p>
             <h3 class="mt-3 text-xl font-semibold text-zinc-100">{item.title}</h3>
             <p class="mt-3 text-sm leading-6 text-axon-muted">{item.body}</p>
@@ -180,19 +180,19 @@ const heroModes = [
       <p class="mt-4 max-w-3xl leading-7 text-axon-muted">
         Real product screenshots from the current project docs.
       </p>
-      <div class="screenshot-marquee mt-10">
-        <div class="screenshot-strip">
+      <div class="mt-10 overflow-hidden">
+        <div class="grid w-max auto-cols-[minmax(18rem,36rem)] grid-flow-col gap-4 pb-3 animate-[screenshot-marquee_32s_linear_infinite] hover:[animation-play-state:paused]">
           {[1, 2, 3, 4, 5, 1, 2, 3, 4, 5].map((item) => (
             <button
               type="button"
-              class="screenshot-thumb"
+              class="block w-[min(36rem,82vw)] cursor-zoom-in border-0 bg-transparent p-0"
               data-screenshot-src={`/media/screenshots/axon-screenshot-${String(item).padStart(2, "0")}.png`}
               data-screenshot-alt={`Axon editor screenshot ${item}`}
             >
               <img
                 src={`/media/screenshots/axon-screenshot-${String(item).padStart(2, "0")}.png`}
                 alt={`Axon editor screenshot ${item}`}
-                class="axon-frame"
+                class="w-full rounded-lg transition hover:-translate-y-0.5 hover:opacity-85"
               />
             </button>
           ))}
@@ -201,9 +201,9 @@ const heroModes = [
     </div>
   </section>
 
-  <div class="screenshot-lightbox" data-screenshot-lightbox aria-hidden="true">
-    <button type="button" class="screenshot-lightbox-close" data-screenshot-close aria-label="Close screenshot">×</button>
-    <img src="" alt="" data-screenshot-image />
+  <div class="fixed inset-0 z-[80] hidden place-items-center bg-black/85 p-8 data-[open]:grid" data-screenshot-lightbox aria-hidden="true">
+    <button type="button" class="fixed right-5 top-5 grid h-10 w-10 place-items-center rounded-lg border border-white/20 bg-black/70 text-zinc-100" data-screenshot-close aria-label="Close screenshot">×</button>
+    <img class="max-h-[min(86vh,900px)] max-w-[min(94vw,1400px)] rounded-lg" src="" alt="" data-screenshot-image />
   </div>
 
   <script type="module">

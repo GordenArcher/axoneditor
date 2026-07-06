@@ -1,7 +1,5 @@
 ---
 import "../styles/global.css";
-import "../styles/typography.css";
-import "../styles/animations.css";
 
 interface Props {
     title: string;
@@ -24,7 +22,7 @@ const { title, description } = Astro.props;
         <link rel="icon" type="image/png" href="/media/icons/axon.png" />
         <title>{`${title} | Axon Editor`}</title>
     </head>
-    <body>
+    <body class="min-h-screen bg-axon-bg font-sans text-zinc-300">
         <slot />
     </body>
 </html>
