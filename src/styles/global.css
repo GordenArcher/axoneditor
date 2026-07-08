@@ -34,3 +34,35 @@
     transform: translateX(calc(-50% - 0.5rem));
   }
 }
+
+@keyframes float-panel {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--float-rotate, 0deg));
+  }
+
+  50% {
+    transform: translate3d(0, var(--float-y, -0.8rem), 0) rotate(var(--float-rotate, 0deg));
+  }
+}
+
+@keyframes token-glow {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes rail-scan {
+  from {
+    transform: translateY(-100%);
+  }
+
+  to {
+    transform: translateY(260%);
+  }
+}

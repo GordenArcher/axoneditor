@@ -66,6 +66,268 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "why-axon-needed-its-own-token-coloring-pipeline",
+    title: "Why Axon Needed Its Own Token Coloring Pipeline",
+    animatedTitles: [
+      "Why Axon Needed Its Own Token Coloring Pipeline",
+      "The Theme Was Right. The Editor Still Looked Wrong.",
+      "Monaco Was Not Enough For Rich Code Color",
+      "The CSP Bug That Made Syntax Highlighting Look Broken",
+    ],
+    excerpt:
+      "Ayu and One had the right colors, Monaco had tokens, LSP had semantic data, and Axon still looked flat. This is the story of the token-coloring architecture that finally made the editor feel rich.",
+    authors: [
+      {
+        name: "Gorden Archer",
+        role: "Creator of Axon",
+        avatar: "https://github.com/GordenArcher.png?size=96",
+        github: "https://github.com/GordenArcher",
+      },
+    ],
+    publishedAt: "2026-07-07",
+    updatedAt: "2026-07-07",
+    readingTime: "18 min read",
+    tags: ["Axon", "Syntax Highlighting", "Monaco", "TextMate", "LSP", "Debugging"],
+    coverImage: "/media/screenshots/axon-screenshot-05.png",
+    conclusion:
+      "The final architecture is the part I want to keep protecting: Monaco owns editing, TextMate and LSP add richer language meaning, Axon fallbacks repair obvious local gaps, and Axon's decoration layer owns the final paint when Monaco's built-in theme path is not enough. The painful lesson is that rich code color is not one feature. It is a pipeline, and the editor has to prove every layer before I trust what I see on screen.",
+    sections: [
+      {
+        kind: "paragraph",
+        body: "This bug annoyed me more than most because it was visible every second the editor was open. Axon could have the right theme selected, the right colors imported, and the same Ayu or One palette I was comparing against in another editor, but the code still looked flat. JSX tags were weak. TypeScript types stayed plain. Go member access lost color. Python imports fell back to white. HTML inside TSX did not look like real HTML. It was not the kind of issue I could wave away as polish because code color is part of whether an editor feels serious.",
+        hoverPhrases: [
+          {
+            text: "visible every second",
+            note: "A bad syntax pipeline is not hidden infrastructure. It stares back from every file.",
+          },
+          {
+            text: "feels serious",
+            note: "This was the bar: Axon had to feel like a real editor, not a demo with colors sprinkled on top.",
+          },
+        ],
+      },
+      {
+        kind: "callout",
+        tone: "warning",
+        title: "The misleading symptom",
+        body: "The final symptom looked like a bad theme, but the actual failure was spread across token identity, Monaco's paint path, TextMate grammar loading, semantic tokens, bracket colorization, and one renderer CSP rule.",
+      },
+      {
+        kind: "heading",
+        kicker: "Wrong first suspect",
+        title: "I started by blaming the theme files",
+      },
+      {
+        kind: "paragraph",
+        body: "The obvious suspect was the theme data. If a token is white when I expect blue, gold, green, or muted gray, the theme looks guilty. So I checked the imported Ayu data, checked One, checked Axon's generated Monaco rules, checked the normalizer, and kept asking why the same palette looked richer somewhere else. That work was not wasted, but it was only one layer of the problem.",
+        hoverPhrases: [
+          {
+            text: "the theme looks guilty",
+            note: "It was a reasonable guess because the bug was visual, but it was not enough.",
+          },
+        ],
+      },
+      {
+        kind: "paragraph",
+        body: "Some mappings really were missing. Axon needed a capture registry that could route design-level syntax names into the lower-level names emitted by Monaco, TextMate, and semantic tokens. Broad ideas like function, type, property, tag, punctuation.bracket, diff.plus, and diff.minus needed stable aliases. A good theme is not useful if the editor does not produce token identities that can reach those colors.",
+      },
+      {
+        kind: "code",
+        language: "txt",
+        filename: "the first rule I had to accept",
+        code: "A good theme is not enough. The editor must produce useful token identities before the theme can paint them.",
+      },
+      {
+        kind: "heading",
+        kicker: "Second wrong turn",
+        title: "Monaco tokens were too shallow by themselves",
+      },
+      {
+        kind: "paragraph",
+        body: "After the theme mapping improved, the editor still did not feel rich enough. That is where Monaco's normal tokenization became the next suspect. Monarch tokenizers are fast and useful, but they often emit broad classes such as identifier, delimiter, or other. That is not enough information to make a serious theme shine. The theme can have a perfect color for type, but if the token stream only says identifier, the editor cannot magically know that the word is a component, class, property, module, or normal variable.",
+        hoverPhrases: [
+          {
+            text: "identifier, delimiter, or other",
+            note: "These are useful baseline tokens, but they are not rich enough for a modern IDE-grade color system.",
+          },
+        ],
+      },
+      {
+        kind: "paragraph",
+        body: "That explained why some files looked okay while others stayed weak. HTML could look fine in a plain .html file, then lose richness inside TSX. Go calls could look decent, but the receiver fields stayed plain. Python imports could expose aliases and class-like names that should clearly stand out, but Monaco still had no strong identity for them. The visual problem was really a language identity problem.",
+      },
+      {
+        kind: "heading",
+        kicker: "The external proof",
+        title: "The Monaco issue changed the architecture decision",
+      },
+      {
+        kind: "paragraph",
+        body: "The important turn was checking Monaco's own issue history. I found microsoft/monaco-editor#1833, opened on February 14, 2020: semantic highlighting does not appear to work due to theming. It is still open, labeled as a probable Monaco bug, tagged under semantic-tokens, and sitting in the backlog. That changed how I read the failures in Axon. This was not only a local mapping mistake. Monaco could receive useful token information and still fail to apply the final theme color in the way a full editor experience needs.",
+        hoverPhrases: [
+          {
+            text: "microsoft/monaco-editor#1833",
+            note: "That issue was the moment I stopped treating Monaco's built-in semantic paint path as the only source of truth.",
+          },
+        ],
+      },
+      {
+        kind: "links",
+        title: "Reference that confirmed the direction",
+        items: [
+          {
+            label: "Monaco editor issue #1833",
+            href: "https://github.com/microsoft/monaco-editor/issues/1833",
+            description: "The long-running Monaco semantic highlighting/theming issue that made it clear Axon needed to own a final decoration layer instead of trusting Monaco's paint path alone.",
+          },
+        ],
+      },
+      {
+        kind: "callout",
+        tone: "info",
+        title: "The architecture split",
+        body: "Monaco remains the editor engine. Axon owns the final IDE experience. If Monaco paints correctly, good. If it does not, Axon has to merge TextMate, LSP, fallbacks, and theme captures into its own final paint layer.",
+      },
+      {
+        kind: "heading",
+        kicker: "The pipeline",
+        title: "The fix became layered instead of magical",
+      },
+      {
+        kind: "paragraph",
+        body: "The working rule became simple: Axon should not wait for one perfect source. It should combine all useful sources and paint the best result it has. Monaco gives the editor model, layout, cursor, editing behavior, and baseline tokens. TextMate adds real grammar scopes where Monarch is too shallow. LSP semantic tokens add symbol meaning when the language server is ready. Axon fallbacks repair high-value local syntax gaps. The decoration layer applies the final rich colors when Monaco's built-in paint path is not strong enough.",
+      },
+      {
+        kind: "timeline",
+        items: [
+          {
+            label: "01",
+            title: "Theme import",
+            body: "Imported themes become Axon syntax tokens instead of one-off Monaco-only colors.",
+          },
+          {
+            label: "02",
+            title: "Capture registry",
+            body: "Design-level captures such as type, function, property, tag, and punctuation map into Monaco, TextMate, and semantic-token-facing names.",
+          },
+          {
+            label: "03",
+            title: "TextMate and LSP",
+            body: "Grammar scopes and semantic tokens add the detail Monaco's baseline token stream often cannot provide.",
+          },
+          {
+            label: "04",
+            title: "Axon decorations",
+            body: "When Monaco has the information but does not paint it correctly, Axon applies final theme-aware decorations over exact ranges.",
+          },
+        ],
+      },
+      {
+        kind: "heading",
+        kicker: "The painful blocker",
+        title: "The architecture still looked broken because WebAssembly was blocked",
+      },
+      {
+        kind: "paragraph",
+        body: "This is the part that made the whole thing feel ridiculous. The grammar modules were loading. The capture registry had grown. Semantic decoration code existed. The token inspector could show expected colors. The active theme syntax count looked right. And yet the editor still looked flat. It was tempting to keep changing theme aliases forever, but the architecture was already close. The runtime layer was failing before the grammar engine could do its job.",
+        hoverPhrases: [
+          {
+            text: "keep changing theme aliases forever",
+            note: "This was the trap. The theme could not fix a blocked grammar engine.",
+          },
+        ],
+      },
+      {
+        kind: "paragraph",
+        body: "The token inspector finally exposed it: the TextMate highlighter was not ready because Electron's renderer Content-Security-Policy blocked WebAssembly compilation. The inlined Oniguruma engine needed that path. Without it, the TextMate layer never really came alive, so the whole pipeline looked broken even though the code structure was right. The symptom looked like a theme failure. The cause was an HTML CSP header.",
+      },
+      {
+        kind: "code",
+        language: "txt",
+        filename: "token inspector error",
+        code: "WebAssembly.instantiate(): Compiling or instantiating WebAssembly module violates the Content Security policy directive because 'unsafe-eval' is not an allowed source of script.",
+      },
+      {
+        kind: "callout",
+        tone: "success",
+        title: "The moment it started working",
+        body: "Once the renderer CSP allowed the WebAssembly path needed by the inlined Oniguruma engine, TextMate became ready and TSX/JSX jumped from flat Monaco tokens to rich Axon colors.",
+      },
+      {
+        kind: "heading",
+        kicker: "The tool that saved the work",
+        title: "The token inspector made the bug debuggable",
+      },
+      {
+        kind: "paragraph",
+        body: "The token inspector changed the debugging from screenshots and frustration into proof. It reports the file path, language id, Monaco model token, rendered class, active theme id, syntax count, semantic token type, semantic selector, expected color, decoration class, TextMate readiness, TextMate errors, and capture matches. That matters because a wrong color can come from many places, and guessing from the screen is not good enough.",
+      },
+      {
+        kind: "timeline",
+        items: [
+          {
+            label: "Theme",
+            title: "Does the active theme have the color?",
+            body: "The inspector shows active theme id and syntax count so I can tell whether the theme data is even loaded.",
+          },
+          {
+            label: "Token",
+            title: "What did Monaco produce?",
+            body: "The model token and rendered class explain whether Monaco gave Axon a useful identity or a generic fallback.",
+          },
+          {
+            label: "Grammar",
+            title: "Is TextMate actually ready?",
+            body: "The WebAssembly CSP failure became obvious only because the inspector exposed TextMate readiness and errors.",
+          },
+          {
+            label: "Paint",
+            title: "What color should Axon apply?",
+            body: "Semantic selector, expected color, and decoration class show whether Axon's final paint layer has enough information.",
+          },
+        ],
+      },
+      {
+        kind: "heading",
+        kicker: "The final shape",
+        title: "Language fallbacks are part of the architecture, but they must stay targeted",
+      },
+      {
+        kind: "paragraph",
+        body: "TextMate and LSP are strong, but they do not remove the need for practical local fallbacks. Python imports are a good example: aliases and class-like names should not stay plain white when the syntax around them makes their role obvious. Go member chains are another example. In h.applicationService.GetByID(c.Request.Context(), c.Param(\"id\"), \"\"), applicationService and Request should read as properties, while GetByID, Context, and Param should read as calls. Axon can improve that without pretending to know arbitrary symbol meaning.",
+      },
+      {
+        kind: "paragraph",
+        body: "The important discipline is that fallbacks cannot become random theme overrides. A fallback belongs in the pipeline only when the grammar or LSP repeatedly misses a high-value local syntax pattern and the richer classification is obvious from nearby syntax. That keeps the architecture strong instead of turning syntax highlighting into a pile of special cases.",
+        hoverPhrases: [
+          {
+            text: "cannot become random theme overrides",
+            note: "This is the line that keeps the coloring system maintainable.",
+          },
+        ],
+      },
+      {
+        kind: "heading",
+        kicker: "The rule going forward",
+        title: "Monaco owns editing. Axon owns the final color experience.",
+      },
+      {
+        kind: "paragraph",
+        body: "That is the architectural decision I want to keep. Monaco owns the editor surface: models, cursors, layout, input, selections, and the base token stream. Axon owns the rich IDE experience layered on top. Theme imports, capture mapping, TextMate scopes, LSP semantic tokens, language fallbacks, and final decorations all exist so Axon can make code feel alive even when one layer is incomplete, late, or wrong.",
+      },
+      {
+        kind: "paragraph",
+        body: "The pain was worth documenting because this is exactly the kind of bug that comes back if I only remember the final fix and forget the trail. The next time syntax color looks wrong, I should not start by changing colors. I should open the token inspector, prove which layer failed, and fix that layer inside the pipeline.",
+        hoverPhrases: [
+          {
+            text: "prove which layer failed",
+            note: "That is the whole point of the architecture: no more guessing from screenshots alone.",
+          },
+        ],
+      },
+    ],
+  },
+  {
     slug: "the-go-lsp-fix-that-finally-worked",
     title: "The Go LSP Fix That Finally Worked",
     animatedTitles: [

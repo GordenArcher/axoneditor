@@ -49,7 +49,15 @@ function splitHoverPhrases(section: Extract<BlogSection, { kind: "paragraph" }>)
 }
 ---
 
-<HomeLayout title={post.title} description={post.excerpt}>
+<HomeLayout
+  title={post.title}
+  description={post.excerpt}
+  image={post.coverImage}
+  type="article"
+  publishedAt={post.publishedAt}
+  updatedAt={post.updatedAt}
+  tags={post.tags}
+>
   <article>
     <div class="mx-auto grid max-w-7xl gap-8 px-5 py-10 lg:grid-cols-[15rem_minmax(0,1fr)_15rem]">
       <aside class="hidden lg:block">
@@ -119,8 +127,11 @@ function splitHoverPhrases(section: Extract<BlogSection, { kind: "paragraph" }>)
                   <p class="text-base leading-8 text-axon-muted">
                     {splitHoverPhrases(section).map((segment) =>
                       segment.note ? (
-                        <span class="relative rounded bg-white/[0.04] px-1 text-zinc-100" title={segment.note}>
+                        <span class="group/phrase relative inline-flex cursor-help text-zinc-100 decoration-dotted underline-offset-4 hover:underline focus-within:underline" tabindex="0">
                           {segment.text}
+                          <span class="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 hidden w-64 -translate-x-1/2 rounded-md border border-white/10 bg-[#0d1117] px-3 py-2 text-left text-xs leading-5 text-zinc-300 shadow-2xl shadow-black/50 group-hover/phrase:block group-focus-within/phrase:block">
+                            {segment.note}
+                          </span>
                         </span>
                       ) : (
                         segment.text
