@@ -5,3 +5,4 @@ dist
 .env
 .env.local
 AXON_FEATURES_AND_WORK.md
+.vercel

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/docs",
+      "destination": "https://axoneditor-docs.vercel.app",
+      "permanent": true
+    },
+    {
+      "source": "/docs/:path*",
+      "destination": "https://axoneditor-docs.vercel.app/docs/:path*",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/404.html"
+    }
+  ]
+}
