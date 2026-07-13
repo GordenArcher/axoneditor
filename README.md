@@ -1,6 +1,8 @@
-# Axon Editor Documentation Site
+# Axon Editor Website
 
-Documentation website for [Axon](https://github.com/GordenArcher/axon) — a lightweight, AI-powered code editor built with Electron, React, TypeScript, and Go.
+Landing website, blog, downloads, and release history for [Axon](https://github.com/GordenArcher/axon), a lightweight AI-powered code editor built with Electron, React, TypeScript, and Go.
+
+Product documentation is maintained separately at [axoneditor-docs.vercel.app](https://axoneditor-docs.vercel.app).
 
 ## Tech Stack
 
@@ -26,14 +28,12 @@ axoneditor/
 │   ├── assets/              # Static assets (avoid if possible)
 │   │
 │   ├── components/
-│   │   ├── layout/          # Header, Footer, Sidebar, ThemeToggle
-│   │   ├── docs/            # DocLayout, TOC, CodeBlock, Callout, PlatformTabs
+│   │   ├── layout/          # Header and footer
 │   │   ├── ui/              # Button, Card, Icon, Container
 │   │   └── home/            # Hero, FeatureGrid, DownloadCard
 │   │
 │   ├── layouts/
 │   │   ├── BaseLayout.astro    # HTML shell, theme script
-│   │   ├── DocsLayout.astro    # Sidebar + content area
 │   │   └── HomeLayout.astro    # Full width, no sidebar
 │   │
 │   ├── pages/
@@ -41,34 +41,7 @@ axoneditor/
 │   │   ├── download.astro       # Download page
 │   │   ├── changelog.astro
 │   │   ├── roadmap.astro
-│   │   ├── releases/[...slug].astro
-│   │   └── docs/
-│   │       ├── index.astro
-│   │       ├── getting-started/
-│   │       │   ├── index.astro
-│   │       │   ├── installation.astro
-│   │       │   └── first-project.astro
-│   │       ├── features/
-│   │       │   ├── editor.astro
-│   │       │   ├── split-panes.astro
-│   │       │   ├── terminal.astro
-│   │       │   ├── git.astro
-│   │       │   └── search.astro
-│   │       ├── language-servers/
-│   │       │   ├── index.astro
-│   │       │   ├── typescript.astro
-│   │       │   ├── go.astro
-│   │       │   ├── python.astro
-│   │       │   └── rust.astro
-│   │       ├── customization/
-│   │       │   ├── themes.astro
-│   │       │   ├── settings.astro
-│   │       │   ├── keybindings.astro
-│   │       │   └── extensions.astro
-│   │       └── development/
-│   │           ├── building.astro
-│   │           ├── contributing.astro
-│   │           └── release-process.astro
+│   │   └── releases/[...slug].astro
 │   │
 │   ├── styles/
 │   │   ├── global.css        # Tailwind + base
@@ -78,13 +51,8 @@ axoneditor/
 │   ├── lib/
 │   │   ├── github.ts         # Fetch releases from GitHub API
 │   │   ├── theme.ts          # Dark/light theme detection
-│   │   └── navigation.ts     # Sidebar navigation data
 │   │
-│   ├── data/
-│   │   └── releases.json     # Cached release data (build-time)
-│   │
-│   └── content/
-│       └── docs/             # Future MDX migration (optional)
+│   └── data/                 # Blog and release data
 │
 ├── astro.config.mjs
 ├── tailwind.config.mjs

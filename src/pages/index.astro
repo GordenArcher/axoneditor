@@ -44,33 +44,6 @@ const dailyFlow = [
   ["04", "Ship", "Release notes, downloads, diagnostics, and extension contributions are becoming part of the same production-grade workflow."],
 ];
 
-const productScenes = [
-  {
-    image: "axon-latest-10.png",
-    label: "Syntax",
-    title: "Rich code color in the editor, not a screenshot promise.",
-    body: "The latest build shows the token-coloring work inside a real file: scoped syntax, comments, delimiters, strings, and nested structures all carrying the theme properly.",
-  },
-  {
-    image: "axon-latest-13.png",
-    label: "Source control",
-    title: "Git state belongs inside the workspace.",
-    body: "The source control surface shows changed files, workspace status, and review context without forcing the user back into a raw terminal for every decision.",
-  },
-  {
-    image: "axon-latest-05.png",
-    label: "Extensions",
-    title: "Built-ins are visible as extension-shaped product surfaces.",
-    body: "Themes, icons, language tooling, and future installs have a real place in the editor UI instead of being hidden behind implementation details.",
-  },
-  {
-    image: "axon-latest-17.png",
-    label: "Agent",
-    title: "The terminal agent has its own visual identity.",
-    body: "Axon Agent appears as a serious local workflow surface, not a plain prompt dumped into a generic terminal window.",
-  },
-];
-
 const proofPoints = [
   ["Token coloring", "Custom rendering path for TextMate + semantic token gaps."],
   ["Terminal sessions", "PTY transport work continues toward reliable long-output agents."],
@@ -78,27 +51,6 @@ const proofPoints = [
   ["Git watcher", "File and folder status updates are tied to active workspace state."],
   ["Extension registry", "Built-in themes/icons and future installs move through manifests."],
   ["Release pipeline", "CI, package builds, release notes, and diagnostics are being hardened."],
-];
-
-const interfaceMoments = [
-  ["axon-latest-04.png", "Settings", "Appearance and editor preferences in a focused desktop modal."],
-  ["axon-latest-07.png", "Command search", "A fast command surface for actions and workspace navigation."],
-  ["axon-latest-08.png", "Workspace picker", "Folder selection that feels like part of the product, not the OS leaking through."],
-  ["axon-latest-14.png", "Hover", "Language intelligence appears inline where the code is being read."],
-  ["axon-latest-15.png", "Autocomplete", "Completion UI stays close to the cursor with useful context."],
-  ["axon-latest-18.png", "Docs/editor", "Markdown and project notes stay inside the same editor workspace."],
-];
-
-const galleryImages = [
-  "axon-latest-01.png",
-  "axon-latest-02.png",
-  "axon-latest-04.png",
-  "axon-latest-05.png",
-  "axon-latest-09.png",
-  "axon-latest-13.png",
-  "axon-latest-14.png",
-  "axon-latest-16.png",
-  "axon-latest-17.png",
 ];
 ---
 
@@ -155,74 +107,6 @@ const galleryImages = [
 
   <section class="border-y border-white/10 px-5 py-16">
     <div class="mx-auto max-w-7xl">
-      <div class="mb-10 grid gap-6 lg:grid-cols-[0.45fr_0.55fr] lg:items-end">
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-axon-muted">Product surfaces</p>
-          <h2 class="mt-3 text-3xl font-semibold leading-tight text-zinc-100 md:text-5xl">
-            The interesting work is happening inside the editor.
-          </h2>
-        </div>
-        <p class="text-lg leading-8 text-axon-muted">
-          These are direct captures from the desktop build: code coloring,
-          source control, extension browsing, command surfaces, and Axon Agent
-          all shown as product UI instead of abstract feature claims.
-        </p>
-      </div>
-
-      <div class="grid gap-5">
-        {productScenes.map((scene, index) => (
-          <article class:list={["grid gap-6 rounded-2xl border border-white/10 bg-white/[0.025] p-3 md:p-4 lg:grid-cols-2 lg:items-center", index % 2 ? "lg:[&>div:first-child]:order-2" : ""]}>
-            <div class="overflow-hidden rounded-xl bg-[#080b10]">
-              <img
-                src={`/media/screenshots/${scene.image}`}
-                alt={`${scene.title} screenshot`}
-                class="aspect-[16/10] w-full object-cover object-left-top transition duration-500 hover:scale-[1.02]"
-              />
-            </div>
-            <div class="p-3 md:p-6">
-              <p class="text-xs font-semibold uppercase tracking-[0.16em] text-axon-muted">{scene.label}</p>
-              <h3 class="mt-3 text-3xl font-semibold leading-tight text-zinc-100">{scene.title}</h3>
-              <p class="mt-4 text-base leading-7 text-axon-muted">{scene.body}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="px-5 py-16">
-    <div class="mx-auto max-w-7xl">
-      <div class="mb-10 max-w-3xl">
-        <p class="text-xs font-semibold uppercase tracking-[0.16em] text-axon-muted">Interaction details</p>
-        <h2 class="mt-3 text-3xl font-semibold leading-tight text-zinc-100 md:text-5xl">
-          The small surfaces matter as much as the big editor view.
-        </h2>
-        <p class="mt-5 text-lg leading-8 text-axon-muted">
-          Settings, command search, autocomplete, hover, workspace selection,
-          and docs all need to feel like the same desktop product.
-        </p>
-      </div>
-
-      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {interfaceMoments.map(([image, title, body]) => (
-          <article class="group overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025] p-3 transition hover:-translate-y-1 hover:border-white/25">
-            <img
-              src={`/media/screenshots/${image}`}
-              alt={`${title} screenshot`}
-              class="aspect-[16/10] w-full rounded-xl object-cover object-left-top transition duration-500 group-hover:scale-[1.02]"
-            />
-            <div class="p-3">
-              <h3 class="text-lg font-semibold text-zinc-100">{title}</h3>
-              <p class="mt-2 text-sm leading-6 text-axon-muted">{body}</p>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="border-y border-white/10 px-5 py-16">
-    <div class="mx-auto max-w-7xl">
       <div class="grid gap-8 lg:grid-cols-[0.42fr_0.58fr]">
         <div>
           <p class="text-xs font-semibold uppercase tracking-[0.16em] text-axon-muted">Workbench</p>
@@ -251,19 +135,14 @@ const galleryImages = [
 
   <section class="px-5 py-16">
     <div class="mx-auto max-w-7xl">
-      <div class="grid gap-8 lg:grid-cols-[minmax(0,0.58fr)_minmax(20rem,0.42fr)] lg:items-center">
-        <div class="overflow-hidden rounded-2xl border border-white/10 bg-[#080b10] p-2 shadow-2xl shadow-black/40">
-          <img
-            src="/media/screenshots/axon-latest-11.png"
-            alt="Axon split editor workspace screenshot"
-            class="aspect-[16/10] w-full rounded-xl object-cover object-left-top"
-          />
-        </div>
+      <div class="grid gap-8 lg:grid-cols-[0.42fr_0.58fr] lg:items-start">
         <div>
           <p class="text-xs font-semibold uppercase tracking-[0.16em] text-axon-muted">Foundations</p>
           <h2 class="mt-3 text-3xl font-semibold leading-tight text-zinc-100 md:text-5xl">
             Built like an editor, not a web app pretending.
           </h2>
+        </div>
+        <div>
           <div class="mt-8 grid gap-4">
             {foundations.map(([title, body]) => (
               <article class="border-t border-white/10 pt-4">
@@ -303,71 +182,4 @@ const galleryImages = [
     </div>
   </section>
 
-  <section class="border-y border-white/10 px-5 py-16">
-    <div class="mx-auto max-w-7xl">
-      <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.16em] text-axon-muted">Screenshots</p>
-          <h2 class="mt-3 text-3xl font-semibold leading-tight text-zinc-100 md:text-5xl">
-            Real desktop surfaces from the current build.
-          </h2>
-        </div>
-        <a href="/docs" class="rounded-md border border-white/10 px-4 py-2 text-sm font-semibold text-zinc-100 transition hover:border-white/25 hover:bg-white/[0.04]">
-          Explore docs
-        </a>
-      </div>
-
-      <div class="grid gap-4 md:grid-cols-3">
-        {galleryImages.map((image) => (
-          <button
-            type="button"
-            class="group block overflow-hidden rounded-2xl border border-white/10 bg-white/[0.025] p-2 text-left transition hover:-translate-y-1 hover:border-white/25"
-            data-screenshot-src={`/media/screenshots/${image}`}
-            data-screenshot-alt={`Axon editor screenshot ${image}`}
-          >
-            <img
-              src={`/media/screenshots/${image}`}
-              alt={`Axon editor screenshot ${image}`}
-              class="aspect-[16/11] w-full rounded-xl object-cover object-left-top transition group-hover:opacity-90"
-            />
-          </button>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <div class="fixed inset-0 z-[80] hidden place-items-center bg-black/85 p-8 data-[open]:grid" data-screenshot-lightbox aria-hidden="true">
-    <button type="button" class="fixed right-5 top-5 grid h-10 w-10 place-items-center rounded-lg border border-white/20 bg-black/70 text-zinc-100" data-screenshot-close aria-label="Close screenshot">×</button>
-    <img class="max-h-[min(86vh,900px)] max-w-[min(94vw,1400px)] rounded-lg" src="" alt="" data-screenshot-image />
-  </div>
-
-  <script type="module">
-    const lightbox = document.querySelector("[data-screenshot-lightbox]");
-    const lightboxImage = document.querySelector("[data-screenshot-image]");
-    const closeLightbox = document.querySelector("[data-screenshot-close]");
-
-    const closeScreenshot = () => {
-      if (!(lightbox instanceof HTMLElement)) return;
-      lightbox.removeAttribute("data-open");
-      lightbox.setAttribute("aria-hidden", "true");
-    };
-
-    document.querySelectorAll("[data-screenshot-src]").forEach((button) => {
-      button.addEventListener("click", () => {
-        if (!(button instanceof HTMLElement) || !(lightbox instanceof HTMLElement) || !(lightboxImage instanceof HTMLImageElement)) return;
-        lightboxImage.src = button.dataset.screenshotSrc || "";
-        lightboxImage.alt = button.dataset.screenshotAlt || "Axon screenshot";
-        lightbox.setAttribute("data-open", "");
-        lightbox.setAttribute("aria-hidden", "false");
-      });
-    });
-
-    closeLightbox?.addEventListener("click", closeScreenshot);
-    lightbox?.addEventListener("click", (event) => {
-      if (event.target === lightbox) closeScreenshot();
-    });
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") closeScreenshot();
-    });
-  </script>
 </HomeLayout>

@@ -839,7 +839,7 @@ spawn(goplsPath, args, {
           },
           {
             label: "Language server docs",
-            href: "/docs/language-servers",
+            href: "https://axoneditor-docs.vercel.app/docs/language-servers",
             description: "How Axon treats language servers as real editor infrastructure.",
           },
           {
