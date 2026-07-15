@@ -12,7 +12,7 @@ const workbenchCards = [
   {
     label: "Editor",
     title: "Rich code, real project state",
-    body: "Axon treats Monaco, TextMate scopes, semantic tokens, file models, dirty state, previews, and split panes as one editor system.",
+    body: "Axon treats Monaco, syntax tokens, file models, live indentation controls, code snapshots, previews, and split panes as one editor system.",
   },
   {
     label: "Source control",
@@ -34,19 +34,19 @@ const workbenchCards = [
 const foundations = [
   ["Go core", "Workspace services, file watching, PTY sessions, Git, tests, and backend APIs live outside the renderer."],
   ["Extension path", "Themes, icons, search, settings, terminal, source control, testing, and Problems are moving behind contribution points."],
-  ["Syntax pipeline", "A custom coloring layer fills Monaco gaps with TextMate scopes, LSP semantic tokens, and Axon-owned decorations."],
+  ["Syntax pipeline", "A custom coloring layer fills Monaco gaps with TextMate scopes, LSP semantic tokens, Axon-owned decorations, and theme-aware snapshot exports."],
 ];
 
 const dailyFlow = [
   ["01", "Open", "Axon opens the workspace, restores tabs, warms file services, and keeps the UI responsive while project systems start."],
-  ["02", "Understand", "Language servers, syntax scopes, Problems, Git state, and search all describe the same folder instead of drifting apart."],
+  ["02", "Understand", "Language servers discover nested and cross-directory projects while syntax scopes, Problems, Git state, and search stay aligned with the workspace."],
   ["03", "Change", "Split panes, terminal sessions, tests, file watching, previews, and source control stay close to the code being edited."],
   ["04", "Ship", "Release notes, downloads, diagnostics, and extension contributions are becoming part of the same production-grade workflow."],
 ];
 
 const proofPoints = [
-  ["Token coloring", "Custom rendering path for TextMate + semantic token gaps."],
-  ["Terminal sessions", "PTY transport work continues toward reliable long-output agents."],
+  ["Code snapshots", "Theme-aware PNG exports include syntax color, line controls, and Axon branding."],
+  ["Editor formatting", "Tab width, spaces, guide visibility, active scopes, and code spacing update live."],
   ["Project tests", "Workspace-aware discovery avoids generated folders and wrong roots."],
   ["Git watcher", "File and folder status updates are tied to active workspace state."],
   ["Extension registry", "Built-in themes/icons and future installs move through manifests."],

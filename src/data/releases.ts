@@ -1,4 +1,4 @@
-export const githubOwner = "GordenArcher";
+export const githubOwner = "axon-editor";
 export const githubRepo = "axon";
 export const githubReleasesUrl = `https://github.com/${githubOwner}/${githubRepo}/releases`;
 export const githubReleaseDocsUrl = `https://github.com/${githubOwner}/${githubRepo}/tree/main/docs/releases`;
@@ -24,6 +24,19 @@ export interface Release {
 
 const rawReleaseDocsBase = `https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/main/docs/releases`;
 const fallbackReleaseTags = [
+  "v1.3.0",
+  "v1.2.10",
+  "v1.2.9",
+  "v1.2.8",
+  "v1.2.7",
+  "v1.2.6",
+  "v1.2.5",
+  "v1.2.4",
+  "v1.2.3",
+  "v1.2.2",
+  "v1.2.1",
+  "v1.2.0",
+  "v1.1.10",
   "v1.1.9",
   "v1.1.8",
   "v1.1.7",

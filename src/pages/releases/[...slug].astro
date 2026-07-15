@@ -1,120 +1,14 @@
 ---
-import HomeLayout from "@layouts/HomeLayout.astro";
-import Container from "@components/ui/Container.astro";
-import Button from "@components/ui/Button.astro";
+import { loadReleases } from "@data/releases";
 
 export async function getStaticPaths() {
-    const releases = [
-        { slug: "v1.1.5", version: "1.1.5", date: "June 7, 2026" },
-        { slug: "v1.1.4", version: "1.1.4", date: "June 1, 2026" },
-        { slug: "v1.1.3", version: "1.1.3", date: "May 24, 2026" },
-    ];
-
-    return releases.map((release) => ({
-        params: { slug: release.slug },
-        props: release,
-    }));
+  const releases = await loadReleases();
+  return releases.map((release) => ({
+    params: { slug: release.tag },
+    props: { tag: release.tag },
+  }));
 }
 
-interface Props {
-    version: string;
-    date: string;
-}
-
-const { version, date } = Astro.props;
+const { tag } = Astro.props;
+return Astro.redirect(`/releases/tag/${tag}`, 301);
 ---
-
-<HomeLayout
-    title={`Release ${version}`}
-    description={`Axon Editor ${version} release notes`}
->
-    <section class="py-16 md:py-24">
-        <Container size="md">
-            <div class="mb-8">
-                <a
-                    href="/releases"
-                    class="text-axon-cyan hover:underline dark:text-axon-cyan"
-                >
-                    ← Back to releases
-                </a>
-            </div>
-
-            <h1
-                class="text-4xl font-semibold text-axon-text md:text-5xl dark:text-axon-text"
-            >
-                {version}
-            </h1>
-            <p class="mt-2 text-axon-muted dark:text-axon-muted">{date}</p>
-
-            <div class="mt-8 space-y-6">
-                <div>
-                    <h2
-                        class="text-2xl font-semibold text-axon-text dark:text-axon-text"
-                    >
-                        Downloads
-                    </h2>
-                    <div class="mt-4 space-y-2">
-                        <div
-                            class="flex items-center justify-between rounded-lg border border-axon-border p-3 dark:border-axon-border"
-                        >
-                            <span>macOS Apple Silicon</span>
-                            <Button
-                                href="#"
-                                variant="secondary"
-                                class="text-sm py-1">Download</Button
-                            >
-                        </div>
-                        <div
-                            class="flex items-center justify-between rounded-lg border border-axon-border p-3 dark:border-axon-border"
-                        >
-                            <span>macOS Intel</span>
-                            <Button
-                                href="#"
-                                variant="secondary"
-                                class="text-sm py-1">Download</Button
-                            >
-                        </div>
-                        <div
-                            class="flex items-center justify-between rounded-lg border border-axon-border p-3 dark:border-axon-border"
-                        >
-                            <span>Windows</span>
-                            <Button
-                                href="#"
-                                variant="secondary"
-                                class="text-sm py-1">Download</Button
-                            >
-                        </div>
-                        <div
-                            class="flex items-center justify-between rounded-lg border border-axon-border p-3 dark:border-axon-border"
-                        >
-                            <span>Linux AppImage</span>
-                            <Button
-                                href="#"
-                                variant="secondary"
-                                class="text-sm py-1">Download</Button
-                            >
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <h2
-                        class="text-2xl font-semibold text-axon-text dark:text-axon-text"
-                    >
-                        Release Notes
-                    </h2>
-                    <ul class="mt-4 space-y-2">
-                        <li
-                            class="flex items-start gap-2 text-axon-muted dark:text-axon-muted"
-                        >
-                            <span
-                                class="mt-1.5 h-1.5 w-1.5 rounded-full bg-axon-cyan shrink-0"
-                            ></span>
-                            <span>Release notes content would appear here</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </Container>
-    </section>
-</HomeLayout>

@@ -1,6 +1,6 @@
 # Axon Editor Website
 
-Landing website, blog, downloads, and release history for [Axon](https://github.com/GordenArcher/axon), a lightweight AI-powered code editor built with Electron, React, TypeScript, and Go.
+Landing website, blog, downloads, and release history for [Axon](https://github.com/axon-editor/axon), a lightweight AI-powered code editor built with Electron, React, TypeScript, and Go.
 
 Product documentation is maintained separately at [axoneditor-docs.vercel.app](https://axoneditor-docs.vercel.app).
 

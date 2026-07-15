@@ -844,7 +844,7 @@ spawn(goplsPath, args, {
           },
           {
             label: "Axon on GitHub",
-            href: "https://github.com/GordenArcher/axon",
+            href: "https://github.com/axon-editor/axon",
             description: "The source code and release builds.",
           },
         ],
