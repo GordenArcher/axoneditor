@@ -1,6 +1,8 @@
 ---
-import HomeLayout from "@layouts/HomeLayout.astro";
+import MermaidDiagram from "@components/blog/MermaidDiagram.astro";
 import { blogPosts, getBlogPost, type BlogSection } from "@data/blog";
+import HomeLayout from "@layouts/HomeLayout.astro";
+import { codeToHtml } from "shiki";
 
 export function getStaticPaths() {
   return blogPosts.map((post) => ({
@@ -15,17 +17,50 @@ if (!post) {
   return Astro.redirect("/blog");
 }
 
+function headingId(title: string) {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function formatDate(value: string) {
+  return new Intl.DateTimeFormat("en", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(`${value}T00:00:00`));
+}
+
 const contentHeadings = post.sections
   .filter((section): section is Extract<BlogSection, { kind: "heading" }> =>
     section.kind === "heading",
   )
-  .map((section) => ({
-    title: section.title,
-    id: section.title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-|-$/g, ""),
-  }));
+  .map((section) => ({ title: section.title, id: headingId(section.title) }));
+
+const seriesPosts = post.series
+  ? blogPosts
+      .filter((candidate) => candidate.series === post.series)
+      .sort((left, right) => (left.seriesOrder ?? 0) - (right.seriesOrder ?? 0))
+  : [];
+const seriesIndex = seriesPosts.findIndex((candidate) => candidate.slug === post.slug);
+const previousPost = seriesIndex > 0 ? seriesPosts[seriesIndex - 1] : null;
+const nextPost = seriesIndex >= 0 ? seriesPosts[seriesIndex + 1] ?? null : null;
+const titleWords = post.title.split(" ");
+
+const highlightedCode = new Map<BlogSection, string>();
+await Promise.all(
+  post.sections.map(async (section) => {
+    if (section.kind !== "code") return;
+    highlightedCode.set(
+      section,
+      await codeToHtml(section.code, {
+        lang: section.language === "txt" ? "text" : section.language,
+        theme: "github-dark-default",
+      }),
+    );
+  }),
+);
 
 function splitHoverPhrases(section: Extract<BlogSection, { kind: "paragraph" }>) {
   const phrases = section.hoverPhrases ?? [];
@@ -37,9 +72,7 @@ function splitHoverPhrases(section: Extract<BlogSection, { kind: "paragraph" }>)
   for (const phrase of phrases) {
     const index = remaining.indexOf(phrase.text);
     if (index === -1) continue;
-    if (index > 0) {
-      segments.push({ text: remaining.slice(0, index), note: "" });
-    }
+    if (index > 0) segments.push({ text: remaining.slice(0, index), note: "" });
     segments.push({ text: phrase.text, note: phrase.note });
     remaining = remaining.slice(index + phrase.text.length);
   }
@@ -47,6 +80,12 @@ function splitHoverPhrases(section: Extract<BlogSection, { kind: "paragraph" }>)
   if (remaining) segments.push({ text: remaining, note: "" });
   return segments;
 }
+
+const calloutClasses = {
+  info: "border-[#59c2ff]/55 bg-[#59c2ff]/[0.045]",
+  warning: "border-[#ffb454]/60 bg-[#ffb454]/[0.045]",
+  success: "border-[#aad94c]/55 bg-[#aad94c]/[0.04]",
+};
 ---
 
 <HomeLayout
@@ -58,207 +97,296 @@ function splitHoverPhrases(section: Extract<BlogSection, { kind: "paragraph" }>)
   updatedAt={post.updatedAt}
   tags={post.tags}
 >
-  <article>
-    <div class="mx-auto grid max-w-7xl gap-8 px-5 py-10 lg:grid-cols-[15rem_minmax(0,1fr)_15rem]">
-      <aside class="hidden lg:block">
-        <div class="sticky top-24">
-        <a href="/blog" class="text-sm font-medium text-axon-muted transition hover:text-zinc-100">← Blog</a>
-        <p class="mt-8 text-xs font-semibold uppercase text-axon-muted">Articles</p>
-        <nav aria-label="Blog articles" class="mt-3 grid gap-1">
-          {blogPosts.map((item) => (
-            <a
-              href={`/blog/${item.slug}`}
-              class:list={[
-                "rounded-md px-2 py-1.5 text-sm leading-5 transition",
-                item.slug === post.slug
-                  ? "bg-axon-panel text-zinc-100"
-                  : "text-axon-muted hover:bg-axon-panel hover:text-zinc-100",
-              ]}
-            >
-              {item.title}
-            </a>
-          ))}
-        </nav>
+  <div class="fixed inset-x-0 top-[57px] z-30 h-px bg-white/5" aria-hidden="true">
+    <div class="h-full origin-left scale-x-0 bg-zinc-100 will-change-transform" data-reading-progress></div>
+  </div>
+
+  <article data-blog-article>
+    <header class="px-5 pb-10 pt-10 md:pb-14 md:pt-14">
+      <div class="mx-auto max-w-5xl">
+        <div class="flex flex-wrap items-center justify-between gap-4 text-xs uppercase text-axon-muted">
+          <a href="/blog" class="transition hover:text-zinc-100">Back to journal</a>
+          <span>
+            {post.series ?? post.tags[0] ?? "Engineering"}
+            {post.seriesOrder ? ` / Part ${String(post.seriesOrder).padStart(2, "0")}` : ""}
+          </span>
         </div>
-      </aside>
 
-      <main class="min-w-0">
-        <header class="rounded-lg border border-white/10 p-6 md:p-8">
-          <div class="text-sm text-axon-muted">Blog / Debugging</div>
-          <h1
-            class="mt-4 text-4xl font-semibold leading-tight text-zinc-100 md:text-5xl data-[writing=true]:after:ml-1 data-[writing=true]:after:inline-block data-[writing=true]:after:h-[0.82em] data-[writing=true]:after:w-0.5 data-[writing=true]:after:animate-[caret-pulse_900ms_steps(1)_infinite] data-[writing=true]:after:bg-current data-[writing=true]:after:content-['']"
-            data-blog-title
-            data-titles={JSON.stringify(post.animatedTitles)}
-          >
-            {post.title}
-          </h1>
-          <p class="mt-5 text-lg leading-8 text-axon-muted">{post.excerpt}</p>
+        <h1 class="mt-10 max-w-5xl text-4xl font-semibold leading-[1.06] text-zinc-100 sm:text-5xl md:text-7xl" aria-label={post.title}>
+          {titleWords.map((word, index) => (
+            <span
+              class="blog-title-word mr-[0.24em] inline-block opacity-0"
+              style={`animation-delay: ${index * 42}ms`}
+              aria-hidden="true"
+            >
+              {word}
+            </span>
+          ))}
+        </h1>
 
-          <div class="mt-5 flex flex-wrap gap-3 text-xs uppercase text-axon-muted">
-            <span>{post.publishedAt}</span>
-            <span>{post.readingTime}</span>
-            <span>Updated {post.updatedAt}</span>
-          </div>
+        <p class="mt-7 max-w-4xl text-lg leading-8 text-axon-muted md:text-xl md:leading-9">{post.excerpt}</p>
 
-          <div class="mt-6 flex flex-wrap gap-3">
+        <div class="mt-9 flex flex-wrap items-center justify-between gap-6 border-t border-white/10 pt-6">
+          <div class="flex flex-wrap items-center gap-4">
             {post.authors.map((author) => (
-              <a href={author.github} class="inline-flex items-center gap-3 rounded-full border border-white/10 px-3 py-2 text-sm text-axon-muted transition hover:border-white/25 hover:text-zinc-100" target="_blank" rel="noreferrer">
-                <img src={author.avatar} alt="" class="h-8 w-8 rounded-full" />
-                <span>
-                  <strong class="block text-zinc-100">{author.name}</strong>
-                  <small class="block text-xs text-axon-muted">{author.role} · {author.github.replace("https://github.com/", "@")}</small>
+              <a href={author.github} class="group inline-flex items-center gap-3" target="_blank" rel="noreferrer">
+                <img src={author.avatar} alt="" class="h-10 w-10 rounded-full border border-white/15" />
+                <span class="text-sm">
+                  <strong class="block font-medium text-zinc-200 transition group-hover:text-white">{author.name}</strong>
+                  <small class="block text-xs text-axon-muted">{author.role}</small>
                 </span>
               </a>
             ))}
           </div>
-
-          <div class="mt-5 flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <span class="rounded-full border border-white/10 px-2.5 py-1 text-xs text-axon-muted">{tag}</span>
-            ))}
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-axon-muted">
+            <time datetime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
+            <span>{post.readingTime}</span>
+            <button type="button" class="cursor-pointer rounded-md border border-white/10 px-2.5 py-1.5 transition hover:border-white/25 hover:text-zinc-100" data-copy-article-link>
+              Copy link
+            </button>
           </div>
-        </header>
+        </div>
+      </div>
+    </header>
 
-        <div class="mt-8">
-          <div class="grid gap-8">
-            {post.sections.map((section) => {
-              if (section.kind === "paragraph") {
-                return (
-                  <p class="text-base leading-8 text-axon-muted">
-                    {splitHoverPhrases(section).map((segment) =>
-                      segment.note ? (
-                        <span class="group/phrase relative inline-flex cursor-help text-zinc-100 decoration-dotted underline-offset-4 hover:underline focus-within:underline" tabindex="0">
-                          {segment.text}
-                          <span class="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 hidden w-64 -translate-x-1/2 rounded-md border border-white/10 bg-[#0d1117] px-3 py-2 text-left text-xs leading-5 text-zinc-300 shadow-2xl shadow-black/50 group-hover/phrase:block group-focus-within/phrase:block">
-                            {segment.note}
-                          </span>
+    <figure class="mx-auto max-w-7xl px-5" data-article-cover>
+      <div class="overflow-hidden rounded-lg border border-white/10 bg-[#08090a]">
+        <img
+          src={post.coverImage}
+          alt={`${post.title} shown in Axon Editor`}
+          class="aspect-[16/8] w-full object-cover object-top"
+          loading="eager"
+        />
+      </div>
+      <figcaption class="mt-3 flex flex-wrap justify-between gap-2 text-xs text-axon-muted">
+        <span>Axon Editor engineering journal</span>
+        <span>Updated {formatDate(post.updatedAt)}</span>
+      </figcaption>
+    </figure>
+
+    <div class="mx-auto grid max-w-7xl gap-8 px-5 pb-24 pt-14 lg:grid-cols-[5rem_minmax(0,48rem)_minmax(12rem,1fr)] lg:items-start lg:justify-center xl:gap-12">
+      <aside class="hidden lg:block">
+        <div class="sticky top-24 text-center">
+          <span class="block text-[10px] font-semibold uppercase text-axon-muted">Part</span>
+          <strong class="mt-2 block font-mono text-xl font-normal text-zinc-300">{String(post.seriesOrder ?? 1).padStart(2, "0")}</strong>
+          <span class="mx-auto mt-4 block h-16 w-px bg-white/10"></span>
+          <span class="mt-4 block text-[10px] uppercase text-axon-muted">{contentHeadings.length} sections</span>
+        </div>
+      </aside>
+
+      <main class="min-w-0" data-article-content>
+        <div class="grid gap-8 md:gap-10">
+          {post.sections.map((section) => {
+            if (section.kind === "paragraph") {
+              return (
+                <p class="text-[1.04rem] leading-8 text-zinc-400 md:text-[1.08rem] md:leading-9" data-article-reveal>
+                  {splitHoverPhrases(section).map((segment) =>
+                    segment.note ? (
+                      <span class="group/phrase relative inline cursor-help text-zinc-200 decoration-white/35 underline decoration-dotted underline-offset-4" tabindex="0">
+                        {segment.text}
+                        <span class="pointer-events-none absolute bottom-full left-1/2 z-20 mb-3 hidden w-72 -translate-x-1/2 rounded-md border border-white/10 bg-[#0b0b0c] px-3 py-2.5 text-left text-xs font-normal leading-5 text-zinc-300 shadow-2xl shadow-black/60 group-hover/phrase:block group-focus/phrase:block">
+                          {segment.note}
                         </span>
-                      ) : (
-                        segment.text
-                      ),
-                    )}
-                  </p>
-                );
-              }
+                      </span>
+                    ) : segment.text
+                  )}
+                </p>
+              );
+            }
 
-              if (section.kind === "heading") {
-                const headingId = section.title
-                  .toLowerCase()
-                  .replace(/[^a-z0-9]+/g, "-")
-                  .replace(/^-|-$/g, "");
-                return (
-                  <section class="scroll-mt-24" id={headingId}>
-                    {section.kicker ? <p class="text-xs font-semibold uppercase text-axon-muted">{section.kicker}</p> : null}
-                    <h2 class="mt-2 text-3xl font-semibold text-zinc-100">{section.title}</h2>
-                  </section>
-                );
-              }
+            if (section.kind === "heading") {
+              return (
+                <section class="scroll-mt-28 border-t border-white/10 pt-10" id={headingId(section.title)} data-article-reveal>
+                  {section.kicker ? <p class="text-xs font-semibold uppercase text-axon-muted">{section.kicker}</p> : null}
+                  <h2 class="mt-3 text-3xl font-semibold leading-tight text-zinc-100 md:text-4xl">{section.title}</h2>
+                </section>
+              );
+            }
 
-              if (section.kind === "code") {
-                return (
-                  <figure class="overflow-hidden rounded-lg border border-white/10 bg-black">
-                    <figcaption class="flex items-center justify-between border-b border-white/10 px-4 py-3 text-xs text-axon-muted">
-                      <span>{section.filename ?? section.language}</span>
-                      <small>{section.language}</small>
-                    </figcaption>
-                    <pre class="overflow-x-auto p-4 text-sm leading-6 text-zinc-200"><code>{section.code}</code></pre>
-                  </figure>
-                );
-              }
+            if (section.kind === "code") {
+              return (
+                <figure class="group/code overflow-hidden rounded-lg border border-white/10 bg-[#08090a]" data-code-block data-article-reveal>
+                  <figcaption class="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 text-xs text-axon-muted">
+                    <span>{section.filename ?? section.language}</span>
+                    <button type="button" class="cursor-pointer rounded px-2 py-1 transition hover:bg-white/[0.06] hover:text-zinc-100" data-copy-code>Copy</button>
+                  </figcaption>
+                  <div class="article-highlight overflow-x-auto" set:html={highlightedCode.get(section) ?? ""}></div>
+                </figure>
+              );
+            }
 
-              if (section.kind === "callout") {
-                return (
-                  <aside class="rounded-lg border border-white/10 bg-axon-panel p-5">
-                    <h3 class="text-base font-semibold text-zinc-100">{section.title}</h3>
-                    <p class="mt-2 text-sm leading-6 text-axon-muted">{section.body}</p>
-                  </aside>
-                );
-              }
+            if (section.kind === "mermaid") {
+              return <div data-article-reveal><MermaidDiagram title={section.title} diagram={section.diagram} /></div>;
+            }
 
-              if (section.kind === "timeline") {
-                return (
-                  <div class="grid gap-4">
+            if (section.kind === "callout") {
+              return (
+                <aside class:list={["border-l-2 px-5 py-1", calloutClasses[section.tone]]} data-article-reveal>
+                  <h3 class="text-base font-semibold text-zinc-100">{section.title}</h3>
+                  <p class="mt-2 text-sm leading-7 text-zinc-400">{section.body}</p>
+                </aside>
+              );
+            }
+
+            if (section.kind === "timeline") {
+              return (
+                <ol class="relative ml-3 border-l border-white/10" data-article-reveal>
+                  {section.items.map((item) => (
+                    <li class="relative pb-8 pl-8 last:pb-0">
+                      <span class="absolute -left-[0.3rem] top-1.5 h-2 w-2 rounded-full border border-zinc-400 bg-[#050505]"></span>
+                      <div class="flex flex-wrap items-baseline gap-3">
+                        <span class="font-mono text-xs text-axon-muted">{item.label}</span>
+                        <h3 class="font-semibold text-zinc-200">{item.title}</h3>
+                      </div>
+                      <p class="mt-2 text-sm leading-7 text-zinc-400">{item.body}</p>
+                    </li>
+                  ))}
+                </ol>
+              );
+            }
+
+            if (section.kind === "links") {
+              return (
+                <section class="border-t border-white/10 pt-9" data-article-reveal>
+                  <h2 class="text-2xl font-semibold text-zinc-100">{section.title}</h2>
+                  <div class="mt-5 divide-y divide-white/10 border-y border-white/10">
                     {section.items.map((item) => (
-                      <article class="grid gap-4 rounded-lg border border-white/10 p-5 md:grid-cols-[5rem_1fr]">
-                        <span class="font-mono text-sm text-axon-muted">{item.label}</span>
-                        <div>
-                          <h3 class="font-semibold text-zinc-100">{item.title}</h3>
-                          <p class="mt-2 text-sm leading-6 text-axon-muted">{item.body}</p>
-                        </div>
-                      </article>
+                      <a class="group grid gap-2 py-4 transition sm:grid-cols-[11rem_1fr]" href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noreferrer" : undefined}>
+                        <strong class="text-sm font-medium text-zinc-200 transition group-hover:text-white">{item.label}</strong>
+                        <span class="text-sm leading-6 text-axon-muted">{item.description}</span>
+                      </a>
                     ))}
                   </div>
-                );
-              }
+                </section>
+              );
+            }
+          })}
 
-              if (section.kind === "links") {
-                return (
-                  <section>
-                    <h2 class="text-2xl font-semibold text-zinc-100">{section.title}</h2>
-                    <div class="mt-4 grid gap-3">
-                      {section.items.map((item) => (
-                        <a class="rounded-lg border border-white/10 p-4 transition hover:bg-white/[0.04]" href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel={item.href.startsWith("http") ? "noreferrer" : undefined}>
-                          <strong class="block text-zinc-100">{item.label}</strong>
-                          <span class="mt-1 block text-sm leading-6 text-axon-muted">{item.description}</span>
-                        </a>
-                      ))}
-                    </div>
-                  </section>
-                );
-              }
-            })}
+          <section class="scroll-mt-28 border-y border-white/10 py-10" id="conclusion" data-article-reveal>
+            <p class="text-xs font-semibold uppercase text-axon-muted">Conclusion</p>
+            <h2 class="mt-3 text-3xl font-semibold text-zinc-100">What finally stayed fixed</h2>
+            <p class="mt-5 text-lg leading-8 text-zinc-400">{post.conclusion}</p>
+          </section>
 
-            <section class="scroll-mt-24 rounded-lg border border-white/10 p-5" id="conclusion">
-              <p class="text-xs uppercase text-axon-muted">Conclusion</p>
-              <h2 class="mt-2 text-2xl font-semibold text-zinc-100">What finally stayed fixed</h2>
-              <p class="mt-3 leading-7 text-axon-muted">{post.conclusion}</p>
-            </section>
-          </div>
+          {post.series ? (
+            <nav aria-label="Architecture series navigation" class="grid border-y border-white/10 sm:grid-cols-2" data-article-reveal>
+              {previousPost ? (
+                <a class="group border-b border-white/10 py-5 pr-5 transition hover:bg-white/[0.025] sm:border-b-0 sm:border-r" href={`/blog/${previousPost.slug}`}>
+                  <span class="text-xs uppercase text-axon-muted">Previous</span>
+                  <strong class="mt-2 block text-sm leading-6 text-zinc-300 transition group-hover:text-white">{previousPost.title}</strong>
+                </a>
+              ) : <span class="hidden sm:block" />}
+              {nextPost ? (
+                <a class="group py-5 text-right sm:pl-5" href={`/blog/${nextPost.slug}`}>
+                  <span class="text-xs uppercase text-axon-muted">Next</span>
+                  <strong class="mt-2 block text-sm leading-6 text-zinc-300 transition group-hover:text-white">{nextPost.title}</strong>
+                </a>
+              ) : null}
+            </nav>
+          ) : null}
         </div>
       </main>
 
       <aside class="hidden lg:block">
-        <div class="sticky top-24">
-        <p class="text-sm font-semibold text-zinc-100">On this page</p>
-        <nav aria-label="On this page" class="mt-3 grid gap-1 border-l border-white/10 pl-4">
-          {contentHeadings.map((heading) => (
-            <a class="text-sm leading-5 text-axon-muted transition hover:text-zinc-100" href={`#${heading.id}`}>{heading.title}</a>
-          ))}
-          <a class="text-sm leading-5 text-axon-muted transition hover:text-zinc-100" href="#conclusion">What finally stayed fixed</a>
-        </nav>
+        <div class="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pr-2">
+          <p class="text-xs font-semibold uppercase text-zinc-300">In this article</p>
+          <nav aria-label="On this page" class="mt-4 grid gap-0 border-l border-white/10" data-article-toc>
+            {contentHeadings.map((heading) => (
+              <a class="border-l border-transparent py-1.5 pl-4 text-xs leading-5 text-axon-muted transition hover:text-zinc-200 data-[active=true]:border-zinc-200 data-[active=true]:text-zinc-100" href={`#${heading.id}`} data-heading-id={heading.id}>{heading.title}</a>
+            ))}
+            <a class="border-l border-transparent py-1.5 pl-4 text-xs leading-5 text-axon-muted transition hover:text-zinc-200 data-[active=true]:border-zinc-200 data-[active=true]:text-zinc-100" href="#conclusion" data-heading-id="conclusion">Conclusion</a>
+          </nav>
+          <div class="mt-7 flex flex-wrap gap-1.5">
+            {post.tags.slice(0, 4).map((tag) => (
+              <span class="rounded border border-white/10 px-2 py-1 text-[10px] text-axon-muted">{tag}</span>
+            ))}
+          </div>
         </div>
       </aside>
     </div>
   </article>
 
-  <script type="module">
-    const title = document.querySelector("[data-blog-title]");
-    if (title instanceof HTMLElement) {
-      const titles = JSON.parse(title.dataset.titles || "[]");
-      let index = 0;
+  <div class="pointer-events-none fixed bottom-5 left-1/2 z-40 -translate-x-1/2 translate-y-3 rounded-md border border-white/10 bg-[#0b0b0c] px-3 py-2 text-xs text-zinc-200 opacity-0 shadow-xl transition" role="status" data-blog-toast>
+    Copied
+  </div>
 
-      const writeTitle = (nextText) => {
-        title.textContent = "";
-        title.dataset.writing = "true";
-        let charIndex = 0;
+  <script>
+    const article = document.querySelector<HTMLElement>("[data-blog-article]");
+    const progress = document.querySelector<HTMLElement>("[data-reading-progress]");
+    const toast = document.querySelector<HTMLElement>("[data-blog-toast]");
 
-        const tick = () => {
-          title.textContent = nextText.slice(0, charIndex);
-          if (charIndex < nextText.length) {
-            charIndex += 1;
-            window.setTimeout(tick, 38);
-            return;
-          }
-          title.dataset.writing = "false";
-        };
-
-        tick();
-      };
-
-      window.setInterval(() => {
-        index = (index + 1) % titles.length;
-        writeTitle(titles[index]);
-      }, 120000);
+    function showToast(message: string) {
+      if (!toast) return;
+      toast.textContent = message;
+      toast.classList.remove("opacity-0", "translate-y-3");
+      window.setTimeout(() => toast.classList.add("opacity-0", "translate-y-3"), 1400);
     }
+
+    function updateProgress() {
+      if (!article || !progress) return;
+      const start = article.offsetTop;
+      const distance = Math.max(1, article.offsetHeight - window.innerHeight);
+      const value = Math.min(1, Math.max(0, (window.scrollY - start) / distance));
+      progress.style.transform = `scaleX(${value})`;
+    }
+
+    document.querySelector("[data-copy-article-link]")?.addEventListener("click", async () => {
+      await navigator.clipboard.writeText(window.location.href);
+      showToast("Article link copied");
+    });
+
+    document.querySelectorAll<HTMLElement>("[data-code-block]").forEach((block) => {
+      block.querySelector("[data-copy-code]")?.addEventListener("click", async () => {
+        const code = block.querySelector("code")?.textContent ?? "";
+        await navigator.clipboard.writeText(code);
+        showToast("Code copied");
+      });
+    });
+
+    const revealNodes = Array.from(document.querySelectorAll<HTMLElement>("[data-article-reveal]"));
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("article-motion-ready");
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            (entry.target as HTMLElement).dataset.visible = "true";
+            revealObserver.unobserve(entry.target);
+          }
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
+      );
+      revealNodes.forEach((node) => revealObserver.observe(node));
+    } else {
+      revealNodes.forEach((node) => (node.dataset.visible = "true"));
+    }
+
+    const tocLinks = new Map(
+      Array.from(document.querySelectorAll<HTMLAnchorElement>("[data-heading-id]")).map((link) => [link.dataset.headingId, link]),
+    );
+    const observedHeadings = Array.from(document.querySelectorAll<HTMLElement>("[data-article-content] [id]"));
+    function updateActiveHeading() {
+      const activationLine = window.innerHeight * 0.28;
+      let activeHeading = observedHeadings[0];
+      for (const heading of observedHeadings) {
+        if (heading.getBoundingClientRect().top > activationLine) break;
+        activeHeading = heading;
+      }
+      if (!activeHeading) return;
+      tocLinks.forEach((link, id) => {
+        link.dataset.active = String(id === activeHeading.id);
+      });
+    }
+
+    updateProgress();
+    updateActiveHeading();
+    window.addEventListener("scroll", () => {
+      updateProgress();
+      updateActiveHeading();
+    }, { passive: true });
+    window.addEventListener("resize", () => {
+      updateProgress();
+      updateActiveHeading();
+    });
   </script>
 </HomeLayout>

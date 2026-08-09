@@ -1,3 +1,5 @@
+import { architectureBlogPosts } from "./architectureBlogPosts";
+
 export type BlogAuthor = {
   name: string;
   role: string;
@@ -24,6 +26,11 @@ export type BlogSection =
       language: string;
       filename?: string;
       code: string;
+    }
+  | {
+      kind: "mermaid";
+      title: string;
+      diagram: string;
     }
   | {
       kind: "callout";
@@ -59,12 +66,15 @@ export type BlogPost = {
   updatedAt: string;
   readingTime: string;
   tags: string[];
+  series?: string;
+  seriesOrder?: number;
   coverImage: string;
   conclusion: string;
   sections: BlogSection[];
 };
 
 export const blogPosts: BlogPost[] = [
+  ...architectureBlogPosts,
   {
     slug: "why-axon-needed-its-own-token-coloring-pipeline",
     title: "Why Axon Needed Its Own Token Coloring Pipeline",

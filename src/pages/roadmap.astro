@@ -3,28 +3,40 @@ import HomeLayout from "@layouts/HomeLayout.astro";
 
 const roadmap = [
   {
-    title: "Finish the extension host wiring",
-    body: "Activation, commands, contributed views, theme and icon selection, terminal profiles, language metadata, agents, tasks, and install state should flow through the same registry path.",
+    title: "Finish the extension platform boundary",
+    body: "Complete contribution-driven selection and activation for views, icon themes, terminal profiles, languages, agents, tasks, debuggers, and index providers; replace the temporary renderer asset mirror with a real installed-extension asset protocol.",
   },
   {
-    title: "Move built-in workbench features behind extensions",
-    body: "Terminal, Agent, Source Control, Search, Settings, Problems, Testing, themes, and icons are being moved under extensions/builtin with explicit service boundaries.",
+    title: "Carry multi-root ownership through every project service",
+    body: "Problems, search, navigation, Git repositories, terminals, language servers, tests, diagnostics exports, and Axon Agent context must consistently identify the root that owns an action.",
   },
   {
-    title: "Complete the terminal and agent boundary",
-    body: "The PTY session layer, terminal workbench extension, Axon CLI, resume flow, slash commands, and future Charmbracelet chat composer need one reliable contract.",
+    title: "Deepen language intelligence and refactoring",
+    body: "Continue semantic-token coverage, inlay hints, workspace symbols, call hierarchy, imports, refactors, per-language settings, richer code actions, workspace edits across unopened files, and reliable external source navigation.",
   },
   {
-    title: "Keep hardening language intelligence",
-    body: "External definition jumps, cross-file autocomplete, package export imports, TSX and HTML tokenization, semantic tokens, inlay hints, workspace symbols, and richer code actions remain active work.",
+    title: "Complete Git review workflows",
+    body: "Improve conflict editing, stash safety, cherry-pick and rebase flows, worktree management, side-by-side review ergonomics, and later add first-class pull-request and GitHub review surfaces.",
   },
   {
-    title: "Make startup and diagnostics observable",
-    body: "Electron ready, preload availability, renderer ready, core health, workspace restore, extension activation, build failures, and first terminal prompt need clear timing and cause reports.",
+    title: "Turn Test Explorer into a complete testing loop",
+    body: "Expand project-root discovery, focused file and test runs, inline outcomes, failing-location navigation, provider coverage, coverage visualization, and eventually test debugging.",
   },
   {
-    title: "Push multi-root project state through every surface",
-    body: "Problems, Git, search, terminals, tests, language servers, and Axon Agent should all understand which workspace root owns the current action.",
+    title: "Finish the terminal-native Agent experience",
+    body: "Move the remaining composer behind explicit interfaces, build the fuller Charmbracelet interaction layer when dependencies align, add a packaged CLI-to-PATH installer, and improve axon fix quality across languages.",
+  },
+  {
+    title: "Strengthen local Agent reliability",
+    body: "Add model-specific prompt profiles, deterministic answers for simple workspace facts, stronger tool-call enforcement, clearer context traces, and more reliable project edits without exposing raw runtime details.",
+  },
+  {
+    title: "Make performance and resource use observable",
+    body: "Connect Electron-ready, preload, renderer, core, restore, extension, and first-terminal timing; expose renderer memory, Monaco model count, watcher count, language-server processes, Git queues, tests, and local runtime warmup.",
+  },
+  {
+    title: "Continue workbench quality and visual identity",
+    body: "Keep splitting oversized editor and CLI responsibilities, polish remaining fixed-color surfaces, tighten tabs and file-tree hierarchy, improve warning and destructive states, and preserve responsiveness across every modal and window size.",
   },
 ];
 ---
@@ -43,7 +55,7 @@ const roadmap = [
       <div class="mt-12 grid gap-0">
         {roadmap.map((item, index) => (
           <div class="grid gap-4 border-t border-white/10 py-6 md:grid-cols-[4rem_1fr]">
-            <span class="font-mono text-sm text-axon-muted">0{index + 1}</span>
+            <span class="font-mono text-sm text-axon-muted">{String(index + 1).padStart(2, "0")}</span>
             <div>
               <h2 class="text-lg font-semibold text-zinc-100">{item.title}</h2>
               <p class="mt-2 max-w-3xl text-sm leading-6 text-axon-muted">{item.body}</p>

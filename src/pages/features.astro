@@ -1,0 +1,208 @@
+---
+import HomeLayout from "@layouts/HomeLayout.astro";
+
+const featureGroups = [
+  {
+    label: "Editing",
+    title: "A fast editor surface with Axon-owned document behavior",
+    summary: "Monaco provides proven text editing while Axon's buffer, cache, pane, formatting, preview, and syntax layers shape the complete workflow.",
+    items: [
+      "Path-keyed buffers shared across tabs and split panes, with bounded clean-model retention and dirty-state protection.",
+      "Fast reopen through synchronous Monaco model reuse and a validated main-process text cache shared across windows.",
+      "Horizontal and vertical split panes with draggable dividers, tab movement, pinning, preview tabs, and session restore.",
+      "Adaptive large-document mode that keeps huge text and generated files editable without launching every expensive provider.",
+      "Live indentation width, tab size, code padding, guide visibility, active-scope guides, font, zoom, minimap, and autocomplete controls.",
+      "Theme-aware code snapshots with line controls, syntax color, Axon branding, clipboard copy, and PNG export.",
+      "Markdown, Mermaid, HTML, image, audio, video, and document previews that open as editor tabs instead of blocking modals.",
+      "Selection-aware find, breadcrumbs, symbol outline, file search reveal, command navigation, external-file opening, and drag-to-open behavior.",
+    ],
+  },
+  {
+    label: "Language intelligence",
+    title: "Language recognition first, heavy analyzers only when needed",
+    summary: "Axon detects language files immediately, supplies baseline tokens, and connects richer LSP intelligence through bundled or managed tools.",
+    items: [
+      "Completion, hover, diagnostics, definitions, references, rename, formatting, code actions, signature help, document symbols, semantic tokens, and workspace configuration.",
+      "TypeScript and TSX project discovery, package export-aware completion, React editing, HTML template completion, and embedded JSX/TSX token color.",
+      "Built-in recognition for mainstream, systems, data, infrastructure, JVM, scripting, markup, and configuration languages.",
+      "On-demand managed analyzers for heavyweight language services, with trusted downloads, checksum verification, safe extraction, atomic activation, cancellation, and persistent progress.",
+      "Go remains available as a first-party bundled path, while existing system tools are detected before Axon offers another installation.",
+      "Project-aware Python environment discovery using pyvenv.cfg, active environments, manager metadata, bounded parent search, runtime probing, and workspace-specific persistence.",
+      "External definition navigation can open exact dependency or SDK files without granting the renderer access to the surrounding directory.",
+      "A language status surface reports detected workspace languages, tool availability, installation, startup, failures, and active servers without exposing one giant settings list.",
+    ],
+  },
+  {
+    label: "Workspace",
+    title: "Files, watchers, and windows follow the same disk truth",
+    summary: "Workspace state remains live when changes come from Axon, a terminal, Git, an agent, Finder, a formatter, or another editor window.",
+    items: [
+      "Native recursive events and Chokidar coverage feed targeted file-tree refresh instead of repeatedly reloading the entire root.",
+      "Agent-created files and folders appear without opening Source Control, and git init activates repository state without reopening the workspace.",
+      "Clean open models reload external changes while dirty models remain protected from silent overwrite.",
+      "Expanded folders load lazily, refresh only affected branches, preserve selection and scroll, and support full-name horizontal inspection.",
+      "Folder selection, recent workspaces, clone progress, clone-and-open, CLI folder opens, drag-to-open, and folder movement share workspace handlers.",
+      "Multiple Axon windows keep renderer-specific subscriptions and capabilities while reusing safe underlying cache and watcher work.",
+      "Multi-root foundations track roots explicitly so Problems, search, Git, terminals, tests, LSP, and Agent can continue moving away from a single folder path.",
+    ],
+  },
+  {
+    label: "Terminal and CLI",
+    title: "Long-running shells and agents are not tied to a React panel",
+    summary: "A dedicated Go PTY host owns shell processes and replayable bytes while xterm owns the visible terminal and acknowledged render cursor.",
+    items: [
+      "Terminal sessions survive panel hides, view remounts, and renderer reconnects without treating a temporary UI loss as process termination.",
+      "A committed-byte delivery protocol acknowledges output only after xterm applies it, preserving ordered replay and scrollback while the user reads older output.",
+      "Bounded WebSocket frames, renderer write batches, in-flight bytes, replay protection, and health counters prevent a fast agent from freezing the UI or silently skipping output.",
+      "The terminal keeps up to 200,000 visible scrollback lines and preserves viewport position when live data arrives above a reader who is not following the bottom.",
+      "The axon CLI opens workspaces, starts interactive project-aware Agent sessions, asks one-off questions, resumes conversations, drafts commits, and applies validated fixes from Problems.",
+      "Slash commands, model selection, multiline editing, prompt history, cursor control, Axon styling, and concise progress keep the terminal Agent usable without exposing backend runtime noise.",
+    ],
+  },
+  {
+    label: "Source control",
+    title: "Git review lives beside the files it describes",
+    summary: "Axon combines compact source-control actions with a full editor-tab commit graph and theme-aware diff review.",
+    items: [
+      "Repository status, staging, unstaging, commits, branches, history, graph lanes, commit details, stashes, worktrees, and repository initialization.",
+      "Real folder structure for changed files, workspace file colors, editor gutter paint, inline blame, author avatars, and delayed custom commit popovers.",
+      "Side-by-side compare, file-click diff modals, scrollable commit details, conflict listing, resolution helpers, and commit-aware navigation.",
+      "Watcher-driven refresh for index, refs, HEAD, merge, rebase, cherry-pick, worktree, packed-ref, and newly created repository state.",
+      "Local-Agent commit message drafting uses staged changes while preserving user confirmation before Git writes the commit.",
+    ],
+  },
+  {
+    label: "Problems and testing",
+    title: "Diagnostics and tests are project surfaces, not terminal snippets",
+    summary: "Problems and Test Explorer keep structured project results close to source locations and running process state.",
+    items: [
+      "Problems merge Monaco, LSP, and project-check diagnostics, cap volume, deduplicate entries, group by file, copy details, and remain workspace-aware.",
+      "The axon fix command can read the current Problems snapshot, ask the local agent for edits, validate paths, and let normal watcher and LSP flows update the result.",
+      "Test Explorer discovers provider targets, runs all tests or focused targets, streams output, displays status, and supports stopping active runs.",
+      "Generated folders and irrelevant environments are pruned so discovery reflects the opened project instead of dependency and cache trees.",
+      "Test and Problems views are registered as workbench contributions with commands and activation events rather than being anonymous app-only panels.",
+    ],
+  },
+  {
+    label: "Axon Agent",
+    title: "Local assistance receives project facts before it answers",
+    summary: "Axon Agent uses the same workspace, file, Problems, Git, and terminal context as the rest of the editor.",
+    items: [
+      "Project-aware streaming chat, workspace conversation storage, resume lists, direct session restore, local model discovery, and managed model downloads.",
+      "Backend tools for file listing, focused reads, workspace search, Git context, Problems, and edit proposal validation inside authorized roots.",
+      "Conversation history remains real user and assistant turns so resumed sessions preserve follow-up context instead of flattening everything into one prompt.",
+      "Exact workspace roots, file counts, diagnostics, and tool results are attached when relevant, with guardrails against invented paths, filenames, commands, URLs, APIs, and project facts.",
+      "Agent edits flow through workspace-safe validation and normal disk watchers, allowing the file tree, Git status, diagnostics, and language services to react together.",
+    ],
+  },
+  {
+    label: "Extensions",
+    title: "Built-in features use an extension-oriented workbench",
+    summary: "Manifests and normalized contribution registries make features discoverable without adding every implementation to the application root.",
+    items: [
+      "Bundled, workspace, user, and marketplace extension discovery with validation, disabled state, errors, contribution counts, installation, reload, and removal.",
+      "Contribution points for commands, themes, icon themes, languages, snippets, views, agents, terminal profiles, tasks, debuggers, workspace index providers, and language packs.",
+      "Activation events for startup, commands, languages, and filesystem contexts so installed features do not all execute during startup.",
+      "Terminal, Search, Settings, Git, Problems, Testing, Agent, preview, debugger, tasks, themes, icons, and language support are represented through built-in extension packages.",
+      "The public @axon/extension-api package and JSON schema let external projects target stable contracts without importing hardcoded Axon source paths.",
+    ],
+  },
+  {
+    label: "Appearance",
+    title: "Themes control the whole workbench, not only code text",
+    summary: "Axon applies theme tokens to editor chrome, syntax, terminals, Git state, previews, popovers, icons, snapshots, and status surfaces.",
+    items: [
+      "Built-in Axon black and white themes, Ayu, One, Catppuccin, Solarized, ArctikAI, Parchment, and additional curated theme contributions.",
+      "A capture-oriented syntax layer merges Monaco, TextMate, semantic tokens, language fallbacks, and Axon decorations for richer language color.",
+      "Theme-aware file and folder icon packages, colored folder mappings, Git paint, gutters, diffs, source-control views, status icons, hover surfaces, and modal actions.",
+      "Configurable interface and editor fonts, clear font-family differences, sidebar placement, agent width, terminal height, panel sizing, zoom, and persistent workspace ergonomics.",
+      "A thin moving status accent, focused active controls, compact chrome, faint dark-theme borders, custom scrollbars, and native window-control spacing shape Axon's visual identity.",
+    ],
+  },
+  {
+    label: "Security and reliability",
+    title: "Powerful local workflows stay behind explicit boundaries",
+    summary: "Main-process capabilities, archive validation, process isolation, and focused error handling protect the editor without blocking normal work.",
+    items: [
+      "Per-renderer workspace root and exact-file capabilities validate reads, writes, directory operations, watchers, previews, LSP external files, Git, and terminal working directories.",
+      "Canonical path checks prevent traversal and sibling-prefix escapes, while read-only dependency files remain narrower than user-selected writable files.",
+      "Language-tool downloads restrict redirect hosts, declared and observed sizes, checksums, archive paths, links, entry counts, and expanded bytes.",
+      "PTY tickets are short-lived and replay-resistant, services bind to loopback, and terminal process ownership is isolated from renderer lifecycle.",
+      "User-facing failures remove Electron remote-invocation noise and report the useful cause, while startup, modal, watcher, LSP, terminal, and extension timing remain inspectable.",
+    ],
+  },
+  {
+    label: "Performance",
+    title: "Fast paths are architecture, not loading decoration",
+    summary: "Axon avoids repeated work, delays nonessential systems, bounds expensive pipelines, and records where startup and interaction time is spent.",
+    items: [
+      "A native boot entry creates the first window before importing the heavy application graph, while core and local AI warm asynchronously.",
+      "BrowserWindow creation does not wait on backend health, language servers start from relevant active files, and project diagnostics avoid workspace-open and watcher-burst execution.",
+      "File reads join in flight, clean models stay reusable under memory limits, workspace trees stay lazy, searches cancel obsolete work, and watcher bursts collapse into latest-state refreshes.",
+      "Modal fast paths avoid unnecessary blur and animation, loading surfaces stay opaque, and editor tabs keep the themed Monaco surface instead of flashing placeholder panes.",
+      "Performance marks cover boot, registry loading, workspace reads, restore, CLI opens, first editor mount, and shared modal lifecycle, with deeper process telemetry continuing on the roadmap.",
+    ],
+  },
+];
+---
+
+<HomeLayout
+  title="Axon Features - Editor, Terminal, Git, Languages, and Agent"
+  description="A complete view of the editing, language, terminal, Git, testing, extension, security, performance, and local Agent capabilities in Axon Editor."
+  image="/media/screenshots/axon-latest-14.png"
+>
+  <section class="border-b border-white/10 px-5 py-12 md:py-16">
+    <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[minmax(0,0.75fr)_minmax(24rem,1.25fr)] lg:items-end">
+      <div>
+        <p class="text-xs font-semibold uppercase text-axon-muted">Product capabilities</p>
+        <h1 class="mt-4 text-4xl font-semibold leading-tight text-zinc-100 md:text-6xl">Axon Features</h1>
+        <p class="mt-5 max-w-2xl text-lg leading-8 text-axon-muted">
+          The current workbench combines editing, project services, language
+          intelligence, terminals, Git, tests, extensions, and local assistance
+          around one workspace state.
+        </p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="/download" class="rounded-md bg-zinc-100 px-4 py-2 text-sm font-semibold text-black transition hover:bg-white">Download Axon</a>
+          <a href="/roadmap" class="rounded-md border border-white/15 px-4 py-2 text-sm font-semibold text-zinc-100 transition hover:border-white/30 hover:bg-white/[0.04]">View roadmap</a>
+        </div>
+      </div>
+      <img
+        src="/media/screenshots/axon-latest-14.png"
+        alt="Axon Editor showing its project workbench"
+        class="aspect-video w-full rounded-lg border border-white/10 object-cover object-top"
+      />
+    </div>
+  </section>
+
+  <div>
+    {featureGroups.map((group, index) => (
+      <section class:list={["border-b border-white/10 px-5 py-12 md:py-16", index % 2 === 1 && "bg-white/[0.018]"]}>
+        <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[minmax(16rem,0.72fr)_minmax(0,1.28fr)]">
+          <div>
+            <p class="text-xs font-semibold uppercase text-axon-muted">{group.label}</p>
+            <h2 class="mt-3 max-w-xl text-2xl font-semibold leading-tight text-zinc-100 md:text-3xl">{group.title}</h2>
+            <p class="mt-4 max-w-xl text-sm leading-7 text-axon-muted">{group.summary}</p>
+          </div>
+          <ul class="divide-y divide-white/10 border-t border-white/10">
+            {group.items.map((item, itemIndex) => (
+              <li class="grid gap-3 py-4 sm:grid-cols-[2.5rem_1fr]">
+                <span class="font-mono text-xs text-axon-muted">{String(itemIndex + 1).padStart(2, "0")}</span>
+                <span class="text-sm leading-7 text-zinc-300">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <section class="px-5 py-14">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-5">
+      <div>
+        <p class="text-xs font-semibold uppercase text-axon-muted">Engineering detail</p>
+        <h2 class="mt-2 text-2xl font-semibold text-zinc-100">See how the systems are built.</h2>
+      </div>
+      <a href="/blog" class="rounded-md border border-white/15 px-4 py-2 text-sm font-semibold text-zinc-100 transition hover:border-white/30 hover:bg-white/[0.04]">Read the architecture series</a>
+    </div>
+  </section>
+</HomeLayout>
