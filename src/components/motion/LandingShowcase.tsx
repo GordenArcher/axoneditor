@@ -138,7 +138,7 @@ export default function LandingShowcase() {
         >
           <video
             src="/media/demo/axon-demo-full.mp4"
-            poster="/media/screenshots/axon-screenshot-05.png"
+            poster="/media/screenshots/captures/axon-capture-42.png"
             className="block h-auto w-[84%] rounded-2xl border border-white/15 bg-[#080b10] shadow-2xl shadow-black/50 max-lg:w-full"
             autoPlay
             muted

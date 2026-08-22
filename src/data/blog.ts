@@ -98,7 +98,7 @@ export const blogPosts: BlogPost[] = [
     updatedAt: "2026-07-07",
     readingTime: "18 min read",
     tags: ["Axon", "Syntax Highlighting", "Monaco", "TextMate", "LSP", "Debugging"],
-    coverImage: "/media/screenshots/axon-screenshot-05.png",
+    coverImage: "/media/screenshots/captures/axon-capture-58.png",
     conclusion:
       "The final architecture is the part I want to keep protecting: Monaco owns editing, TextMate and LSP add richer language meaning, Axon fallbacks repair obvious local gaps, and Axon's decoration layer owns the final paint when Monaco's built-in theme path is not enough. The painful lesson is that rich code color is not one feature. It is a pipeline, and the editor has to prove every layer before I trust what I see on screen.",
     sections: [
@@ -360,7 +360,7 @@ export const blogPosts: BlogPost[] = [
     updatedAt: "2026-06-16",
     readingTime: "16 min read",
     tags: ["Axon", "Go", "gopls", "LSP", "Electron", "Debugging"],
-    coverImage: "/media/screenshots/axon-screenshot-05.png",
+    coverImage: "/media/screenshots/captures/axon-capture-57.png",
     conclusion:
       "The final lesson was simple but painful: a bundled language server is only truly bundled when the process you spawn has the environment it needs to behave like the user's real development machine. gopls was present. gopls was executable. gopls initialized. But until Axon gave it the same shell environment I had in Terminal, it could not complete the job. Now Go works from the packaged app, and that one stubborn bug made the whole LSP layer stronger.",
     sections: [

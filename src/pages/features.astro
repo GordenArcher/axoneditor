@@ -4,6 +4,8 @@ import HomeLayout from "@layouts/HomeLayout.astro";
 const featureGroups = [
   {
     label: "Editing",
+    image: "/media/screenshots/captures/axon-capture-58.png",
+    imageAlt: "Axon editor showing TypeScript completions in a project workspace",
     title: "A fast editor surface with Axon-owned document behavior",
     summary: "Monaco provides proven text editing while Axon's buffer, cache, pane, formatting, preview, and syntax layers shape the complete workflow.",
     items: [
@@ -19,6 +21,8 @@ const featureGroups = [
   },
   {
     label: "Language intelligence",
+    image: "/media/screenshots/captures/axon-capture-25.png",
+    imageAlt: "Axon Language Tools showing active workspace language servers",
     title: "Language recognition first, heavy analyzers only when needed",
     summary: "Axon detects language files immediately, supplies baseline tokens, and connects richer LSP intelligence through bundled or managed tools.",
     items: [
@@ -34,6 +38,8 @@ const featureGroups = [
   },
   {
     label: "Workspace",
+    image: "/media/screenshots/captures/axon-capture-64.png",
+    imageAlt: "Axon project picker showing open and recent workspaces",
     title: "Files, watchers, and windows follow the same disk truth",
     summary: "Workspace state remains live when changes come from Axon, a terminal, Git, an agent, Finder, a formatter, or another editor window.",
     items: [
@@ -48,6 +54,8 @@ const featureGroups = [
   },
   {
     label: "Terminal and CLI",
+    image: "/media/screenshots/captures/axon-capture-08.png",
+    imageAlt: "Axon integrated terminal open below the editor",
     title: "Long-running shells and agents are not tied to a React panel",
     summary: "A dedicated Go PTY host owns shell processes and replayable bytes while xterm owns the visible terminal and acknowledged render cursor.",
     items: [
@@ -61,6 +69,8 @@ const featureGroups = [
   },
   {
     label: "Source control",
+    image: "/media/screenshots/captures/axon-capture-30.png",
+    imageAlt: "Axon Git Graph showing commit history and commit details",
     title: "Git review lives beside the files it describes",
     summary: "Axon combines compact source-control actions with a full editor-tab commit graph and theme-aware diff review.",
     items: [
@@ -73,6 +83,8 @@ const featureGroups = [
   },
   {
     label: "Problems and testing",
+    image: "/media/screenshots/captures/axon-capture-06.png",
+    imageAlt: "Axon Test Explorer showing a completed passing test run",
     title: "Diagnostics and tests are project surfaces, not terminal snippets",
     summary: "Problems and Test Explorer keep structured project results close to source locations and running process state.",
     items: [
@@ -85,6 +97,8 @@ const featureGroups = [
   },
   {
     label: "Axon Agent",
+    image: "/media/screenshots/captures/axon-capture-18.png",
+    imageAlt: "Axon Agent settings showing its local model and provider controls",
     title: "Local assistance receives project facts before it answers",
     summary: "Axon Agent uses the same workspace, file, Problems, Git, and terminal context as the rest of the editor.",
     items: [
@@ -97,6 +111,8 @@ const featureGroups = [
   },
   {
     label: "Extensions",
+    image: "/media/screenshots/captures/axon-capture-35.png",
+    imageAlt: "Axon Extensions surface showing installed built-in extensions",
     title: "Built-in features use an extension-oriented workbench",
     summary: "Manifests and normalized contribution registries make features discoverable without adding every implementation to the application root.",
     items: [
@@ -109,6 +125,8 @@ const featureGroups = [
   },
   {
     label: "Appearance",
+    image: "/media/screenshots/captures/axon-capture-15.png",
+    imageAlt: "Axon appearance settings for background, opacity, and glass blur",
     title: "Themes control the whole workbench, not only code text",
     summary: "Axon applies theme tokens to editor chrome, syntax, terminals, Git state, previews, popovers, icons, snapshots, and status surfaces.",
     items: [
@@ -121,6 +139,8 @@ const featureGroups = [
   },
   {
     label: "Security and reliability",
+    image: "/media/screenshots/captures/axon-capture-66.png",
+    imageAlt: "Axon asking whether to trust a newly opened workspace",
     title: "Powerful local workflows stay behind explicit boundaries",
     summary: "Main-process capabilities, archive validation, process isolation, and focused error handling protect the editor without blocking normal work.",
     items: [
@@ -133,6 +153,8 @@ const featureGroups = [
   },
   {
     label: "Performance",
+    image: "/media/screenshots/captures/axon-capture-52.png",
+    imageAlt: "Axon Output panel showing workspace and language service activity",
     title: "Fast paths are architecture, not loading decoration",
     summary: "Axon avoids repeated work, delays nonessential systems, bounds expensive pipelines, and records where startup and interaction time is spent.",
     items: [
@@ -149,7 +171,7 @@ const featureGroups = [
 <HomeLayout
   title="Axon Features - Editor, Terminal, Git, Languages, and Agent"
   description="A complete view of the editing, language, terminal, Git, testing, extension, security, performance, and local Agent capabilities in Axon Editor."
-  image="/media/screenshots/axon-latest-14.png"
+  image="/media/screenshots/captures/axon-capture-42.png"
 >
   <section class="border-b border-white/10 px-5 py-12 md:py-16">
     <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[minmax(0,0.75fr)_minmax(24rem,1.25fr)] lg:items-end">
@@ -167,8 +189,8 @@ const featureGroups = [
         </div>
       </div>
       <img
-        src="/media/screenshots/axon-latest-14.png"
-        alt="Axon Editor showing its project workbench"
+        src="/media/screenshots/captures/axon-capture-42.png"
+        alt="Axon Editor showing two active editor panes in a project workspace"
         class="aspect-video w-full rounded-lg border border-white/10 object-cover object-top"
       />
     </div>
@@ -182,6 +204,12 @@ const featureGroups = [
             <p class="text-xs font-semibold uppercase text-axon-muted">{group.label}</p>
             <h2 class="mt-3 max-w-xl text-2xl font-semibold leading-tight text-zinc-100 md:text-3xl">{group.title}</h2>
             <p class="mt-4 max-w-xl text-sm leading-7 text-axon-muted">{group.summary}</p>
+            <img
+              src={group.image}
+              alt={group.imageAlt}
+              loading="lazy"
+              class="mt-6 aspect-video w-full rounded-lg border border-white/10 object-cover object-top"
+            />
           </div>
           <ul class="divide-y divide-white/10 border-t border-white/10">
             {group.items.map((item, itemIndex) => (
