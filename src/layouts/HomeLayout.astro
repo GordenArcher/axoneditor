@@ -59,10 +59,17 @@ const imageUrl = new URL(image, Astro.site ?? "https://axoneditor.com").toString
     <main>
       <slot />
     </main>
-    <footer class="border-t border-white/10 px-5 py-8 text-sm text-axon-muted">
-      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3">
-        <p>Axon is a personal AI-powered code editor built seriously for daily work.</p>
-        <a href="/releases" class="transition hover:text-zinc-100">Releases</a>
+    <footer class="border-t border-white/[0.07] px-5 py-8 text-sm text-zinc-600">
+      <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-2.5">
+          <img src="/media/icons/axon.png" alt="" class="h-6 w-6 rounded" />
+          <p>Axon Editor. Built for the whole project.</p>
+        </div>
+        <div class="flex items-center gap-5">
+          <a href="/blog" class="transition hover:text-zinc-200">Blog</a>
+          <a href="/releases" class="transition hover:text-zinc-200">Releases</a>
+          <a href="https://axoneditor-docs.vercel.app" class="transition hover:text-zinc-200">Docs</a>
+        </div>
       </div>
     </footer>
   </body>

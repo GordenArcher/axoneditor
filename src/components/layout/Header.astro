@@ -1,26 +1,24 @@
 ---
 const navItems = [
-    { href: "/", label: "Home" },
     { href: "https://axoneditor-docs.vercel.app", label: "Docs" },
     { href: "/features", label: "Features" },
     { href: "/blog", label: "Blog" },
-    { href: "/download", label: "Download" },
     { href: "/releases", label: "Releases" },
 ];
 ---
 
 <header
-    class="sticky top-0 z-20 border-b border-axon-border bg-axon-bg/95 backdrop-blur"
+    class="sticky top-0 z-50 border-b border-white/[0.07] bg-[#050505]/85 backdrop-blur-xl"
 >
     <div
         class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-3"
     >
         <a
             href="/"
-            class="flex cursor-pointer items-center gap-3 text-sm font-semibold text-axon-text"
+            class="flex cursor-pointer items-center gap-2.5 text-sm font-semibold tracking-tight text-zinc-100"
         >
-            <img src="/media/icons/axon.png" alt="Axon logo" class="h-8 w-8 rounded-md" />
-            <span>Axon</span>
+            <img src="/media/icons/axon.png" alt="Axon logo" class="h-7 w-7 rounded-md" />
+            <span>Axon Editor</span>
         </a>
 
         <button
@@ -51,7 +49,7 @@ const navItems = [
         <div class="flex items-center gap-3">
             <a
                 href="/download"
-                class="hidden items-center gap-2 rounded-md bg-axon-text px-4 py-2 text-sm font-medium text-axon-bg transition hover:opacity-90 sm:inline-flex"
+                class="hidden min-h-9 items-center gap-2 rounded-md bg-[#e6b76f] px-4 text-sm font-semibold text-[#17120c] transition hover:bg-[#f1c37e] sm:inline-flex"
             >
                 Download
             </a>
