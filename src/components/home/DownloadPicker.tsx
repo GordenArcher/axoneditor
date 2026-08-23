@@ -194,7 +194,7 @@ export default function DownloadPicker({
 
   return (
     <div ref={rootRef} className="relative z-50 w-full sm:w-[22rem]">
-      <div className="flex overflow-hidden rounded-xl border border-[#e3b66f]/35 bg-[#e3b66f] shadow-[0_16px_48px_rgba(227,182,111,0.16)] transition hover:bg-[#edc27f]">
+      <div className="axon-primary flex overflow-hidden rounded-xl border border-[var(--axon-accent)] shadow-[0_16px_48px_rgba(227,182,111,0.16)] transition">
         <motion.a
           href={selectedAsset.downloadUrl}
           className="group flex min-h-16 min-w-0 flex-1 items-center gap-3 px-4 text-left text-[#17120c]"
@@ -282,7 +282,7 @@ export default function DownloadPicker({
                     <span className="block text-sm font-medium text-zinc-200">{shortPlatform(asset.platform)}</span>
                     <span className="mt-0.5 block truncate text-[10px] text-zinc-600">{asset.name}</span>
                   </span>
-                  <span className="grid h-5 w-5 place-items-center text-[#e3b66f]">
+                  <span className="grid h-5 w-5 place-items-center text-[var(--axon-accent)]">
                     {selected && <Check className="h-3.5 w-3.5" />}
                   </span>
                 </button>

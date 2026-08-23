@@ -107,7 +107,7 @@ export default function BlogOverviewMotion({ posts }: Props) {
               <img
                 src={featuredPost.coverImage}
                 alt={`Axon Editor accompanying ${featuredPost.title}`}
-                className="aspect-video h-full w-full object-cover object-top transition duration-700 group-hover:scale-[1.015]"
+                className="aspect-video h-full w-full object-cover object-top"
               />
               <span className="absolute left-4 top-4 rounded-md border border-white/15 bg-black/80 px-2.5 py-1 text-xs font-semibold uppercase text-zinc-200 backdrop-blur">
                 Lead story
@@ -129,7 +129,7 @@ export default function BlogOverviewMotion({ posts }: Props) {
                   <span className="block text-zinc-200">{formatDate(featuredPost.publishedAt)}</span>
                   <span>{featuredPost.readingTime}</span>
                 </div>
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-zinc-100 transition group-hover:border-white/35 group-hover:bg-white group-hover:text-black">
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-zinc-100 transition group-hover:border-[var(--axon-accent)] group-hover:bg-[var(--axon-accent)] group-hover:text-[var(--axon-accent-ink)]">
                   <ArrowUpRight size={17} aria-hidden="true" />
                 </span>
               </div>
@@ -142,7 +142,7 @@ export default function BlogOverviewMotion({ posts }: Props) {
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-xs font-semibold uppercase text-axon-muted">Twelve-part series</p>
+              <p className="text-xs font-semibold uppercase text-[var(--axon-accent)]">Twelve-part series</p>
               <h2 className="mt-2 text-2xl font-semibold text-zinc-100">Inside Axon&apos;s Architecture</h2>
             </div>
             <span className="text-sm text-axon-muted">Read in order or enter anywhere</span>
@@ -168,7 +168,7 @@ export default function BlogOverviewMotion({ posts }: Props) {
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-6 border-b border-white/10 pb-7 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
             <div>
-              <p className="text-xs font-semibold uppercase text-axon-muted">The archive</p>
+              <p className="text-xs font-semibold uppercase text-[var(--axon-accent)]">The archive</p>
               <h2 className="mt-2 text-3xl font-semibold text-zinc-100">All field notes</h2>
               <div className="mt-5 flex flex-wrap gap-1" role="group" aria-label="Filter blog posts">
                 {filters.map((filter) => (
@@ -179,7 +179,7 @@ export default function BlogOverviewMotion({ posts }: Props) {
                     aria-pressed={activeFilter === filter.label}
                     className={`cursor-pointer rounded-md px-3 py-1.5 text-sm transition ${
                       activeFilter === filter.label
-                        ? "bg-zinc-100 text-black"
+                        ? "bg-[var(--axon-accent)] text-[var(--axon-accent-ink)]"
                         : "text-axon-muted hover:bg-white/[0.05] hover:text-zinc-100"
                     }`}
                   >
@@ -245,7 +245,7 @@ export default function BlogOverviewMotion({ posts }: Props) {
                     src={post.coverImage}
                     alt=""
                     loading="lazy"
-                    className="aspect-[16/9] w-full object-cover object-top opacity-75 transition duration-500 group-hover:scale-[1.025] group-hover:opacity-100"
+                    className="aspect-[16/9] w-full object-cover object-top opacity-85"
                   />
                 </div>
               </motion.article>

@@ -98,7 +98,7 @@ const calloutClasses = {
   tags={post.tags}
 >
   <div class="fixed inset-x-0 top-[57px] z-30 h-px bg-white/5" aria-hidden="true">
-    <div class="h-full origin-left scale-x-0 bg-zinc-100 will-change-transform" data-reading-progress></div>
+    <div class="h-full origin-left scale-x-0 bg-[var(--axon-accent)] will-change-transform" data-reading-progress></div>
   </div>
 
   <article data-blog-article>
@@ -197,7 +197,7 @@ const calloutClasses = {
             if (section.kind === "heading") {
               return (
                 <section class="scroll-mt-28 border-t border-white/10 pt-10" id={headingId(section.title)} data-article-reveal>
-                  {section.kicker ? <p class="text-xs font-semibold uppercase text-axon-muted">{section.kicker}</p> : null}
+                  {section.kicker ? <p class="text-xs font-semibold uppercase text-[var(--axon-accent)]">{section.kicker}</p> : null}
                   <h2 class="mt-3 text-3xl font-semibold leading-tight text-zinc-100 md:text-4xl">{section.title}</h2>
                 </section>
               );
@@ -263,7 +263,7 @@ const calloutClasses = {
           })}
 
           <section class="scroll-mt-28 border-y border-white/10 py-10" id="conclusion" data-article-reveal>
-            <p class="text-xs font-semibold uppercase text-axon-muted">Conclusion</p>
+            <p class="text-xs font-semibold uppercase text-[var(--axon-accent)]">Conclusion</p>
             <h2 class="mt-3 text-3xl font-semibold text-zinc-100">What finally stayed fixed</h2>
             <p class="mt-5 text-lg leading-8 text-zinc-400">{post.conclusion}</p>
           </section>

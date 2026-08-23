@@ -38,7 +38,7 @@ const navItems = [
                 navItems.map((item) => (
                     <a
                         href={item.href}
-                        class="shrink-0 cursor-pointer rounded-md px-2 py-2 text-sm text-axon-muted transition hover:text-axon-text md:px-0 md:py-0"
+                        class="shrink-0 cursor-pointer rounded-md px-2 py-2 text-sm text-axon-muted transition hover:text-[var(--axon-accent)] md:px-0 md:py-0"
                     >
                         {item.label}
                     </a>
@@ -49,7 +49,7 @@ const navItems = [
         <div class="flex items-center gap-3">
             <a
                 href="/download"
-                class="hidden min-h-9 items-center gap-2 rounded-md bg-[#e6b76f] px-4 text-sm font-semibold text-[#17120c] transition hover:bg-[#f1c37e] sm:inline-flex"
+                class="axon-primary hidden min-h-9 items-center gap-2 rounded-md px-4 text-sm font-semibold transition sm:inline-flex"
             >
                 Download
             </a>

@@ -10,7 +10,7 @@ const latestRelease = releases[0] ?? null;
   <section class="px-5 py-16 md:py-20">
     <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
       <div class="animate-[reveal-up_720ms_cubic-bezier(0.16,1,0.3,1)_both]">
-        <p class="text-xs font-semibold uppercase text-axon-muted">Download</p>
+        <p class="text-xs font-semibold uppercase text-[var(--axon-accent)]">Download</p>
         <h1 class="mt-4 text-4xl font-semibold leading-tight text-zinc-100 md:text-6xl">
           Get the Axon build for your machine.
         </h1>
@@ -39,7 +39,7 @@ const latestRelease = releases[0] ?? null;
         <div class="grid border-y border-white/10">
           {latestRelease?.assets.length ? (
             latestRelease.assets.map((asset) => (
-              <a href={asset.downloadUrl} class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-white/10 py-4 transition hover:text-zinc-100 last:border-b-0">
+              <a href={asset.downloadUrl} class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-white/10 py-4 transition hover:text-[var(--axon-accent)] last:border-b-0">
                 <span>
                   <span class="block text-sm font-semibold text-zinc-100">{asset.platform}</span>
                   <span class="mt-1 block break-all text-xs text-axon-muted">{asset.name}</span>

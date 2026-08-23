@@ -1,6 +1,15 @@
 @import "tailwindcss";
 @config "../../tailwind.config.mjs";
 
+:root {
+  --axon-accent: #e3b66f;
+  --axon-accent-hover: #edc27f;
+  --axon-accent-ink: #17120c;
+  --axon-info: #73b7d6;
+  --axon-success: #9dcc82;
+  --axon-agent: #d8b4e2;
+}
+
 html {
   scroll-behavior: smooth;
   background: #050505;
@@ -11,8 +20,17 @@ body {
 }
 
 ::selection {
-  color: #17120c;
-  background: #d5a45f;
+  color: var(--axon-accent-ink);
+  background: var(--axon-accent);
+}
+
+.axon-primary {
+  color: var(--axon-accent-ink);
+  background-color: var(--axon-accent);
+}
+
+.axon-primary:hover {
+  background-color: var(--axon-accent-hover);
 }
 
 .hero-grid {
@@ -24,7 +42,7 @@ body {
 }
 
 .section-kicker {
-  color: #b68a52;
+  color: var(--axon-accent);
   font-family: "Monaspace Neon", "SF Mono", Menlo, monospace;
   font-size: 0.68rem;
   font-weight: 600;

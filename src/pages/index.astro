@@ -1,6 +1,6 @@
 ---
 import DownloadPicker from "@components/home/DownloadPicker";
-import LandingShowcase from "@components/motion/LandingShowcase";
+import LandingShowcase from "@components/motion/LandingShowcase.astro";
 import HomeLayout from "@layouts/HomeLayout.astro";
 import { loadReleases } from "@data/releases";
 
@@ -37,7 +37,6 @@ const flow = [
   image="/media/screenshots/captures/axon-capture-61.png"
 >
   <LandingShowcase
-    client:load
     assets={latestRelease?.assets ?? []}
     releaseTag={latestRelease?.tag}
   />
@@ -59,7 +58,7 @@ const flow = [
       </div>
 
       <div class="mt-14 grid gap-4 lg:grid-cols-12">
-        <article class="feature-panel group relative overflow-hidden lg:col-span-7 lg:row-span-2">
+        <article class="feature-panel relative overflow-hidden lg:col-span-7 lg:row-span-2">
           <div class="relative z-10 max-w-lg p-6 sm:p-8">
             <span class="feature-index">01 / Editor</span>
             <h3 class="mt-5 text-2xl font-semibold tracking-tight text-zinc-100 sm:text-3xl">Code stays at the center.</h3>
@@ -73,7 +72,7 @@ const flow = [
               src="/media/screenshots/captures/axon-capture-42.png"
               alt="Axon split editor showing TypeScript and Go code side by side"
               loading="lazy"
-              class="block w-full opacity-80 transition duration-700 group-hover:scale-[1.015] group-hover:opacity-100"
+              class="block w-full opacity-80"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b0a] via-transparent to-transparent"></div>
           </div>
@@ -90,13 +89,13 @@ const flow = [
           </div>
           <div class="mx-6 mb-6 overflow-hidden rounded-xl border border-white/[0.08] bg-black sm:mx-8">
             <div class="flex items-center gap-2 border-b border-white/[0.07] px-4 py-3 font-mono text-[10px] text-zinc-600">
-              <span class="h-1.5 w-1.5 rounded-full bg-[#9dcc82]"></span>
+              <span class="h-1.5 w-1.5 rounded-full bg-[var(--axon-success)]"></span>
               project services / ready
             </div>
             <div class="space-y-3 p-4 font-mono text-xs">
-              <p class="flex items-center justify-between"><span class="text-zinc-400">typescript.lsp</span><span class="text-[#9dcc82]">warm</span></p>
-              <p class="flex items-center justify-between"><span class="text-zinc-400">workspace.tests</span><span class="text-[#9dcc82]">12 passing</span></p>
-              <p class="flex items-center justify-between"><span class="text-zinc-400">git.watcher</span><span class="text-[#9dcc82]">synced</span></p>
+              <p class="flex items-center justify-between"><span class="text-zinc-400">typescript.lsp</span><span class="text-[var(--axon-success)]">warm</span></p>
+              <p class="flex items-center justify-between"><span class="text-zinc-400">workspace.tests</span><span class="text-[var(--axon-success)]">12 passing</span></p>
+              <p class="flex items-center justify-between"><span class="text-zinc-400">git.watcher</span><span class="text-[var(--axon-success)]">synced</span></p>
             </div>
           </div>
         </article>
@@ -170,11 +169,11 @@ const flow = [
             <div><h3>Go workspace core</h3><p>File services, PTYs, Git, tests, and backend APIs.</p></div>
           </article>
           <article class="foundation-card">
-            <span class="foundation-pip bg-[#73b7d6]"></span>
+            <span class="foundation-pip bg-[var(--axon-info)]"></span>
             <div><h3>Language aware</h3><p>LSP, TextMate scopes, and semantic tokens.</p></div>
           </article>
           <article class="foundation-card">
-            <span class="foundation-pip bg-[#9dcc82]"></span>
+            <span class="foundation-pip bg-[var(--axon-success)]"></span>
             <div><h3>Extension ready</h3><p>Contribution points, manifests, and activation events.</p></div>
           </article>
         </div>

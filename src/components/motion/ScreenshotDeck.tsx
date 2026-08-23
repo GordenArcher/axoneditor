@@ -50,7 +50,7 @@ export default function ScreenshotDeck() {
   const [departingIndex, setDepartingIndex] = useState<number | null>(null);
   const [recyclingIndex, setRecyclingIndex] = useState<number | null>(null);
   const [manualPaused, setManualPaused] = useState(false);
-  const [interactionPaused, setInteractionPaused] = useState(false);
+  const [focusPaused, setFocusPaused] = useState(false);
   const animationLock = useRef(false);
   const unlockTimer = useRef<number | null>(null);
   const recycleTimer = useRef<number | null>(null);
@@ -87,11 +87,11 @@ export default function ScreenshotDeck() {
   }, [activeIndex, showCard]);
 
   useEffect(() => {
-    if (reduceMotion || manualPaused || interactionPaused) return;
+    if (reduceMotion || manualPaused || focusPaused) return;
 
     const timer = window.setTimeout(showNextCard, 4600);
     return () => window.clearTimeout(timer);
-  }, [activeIndex, interactionPaused, manualPaused, reduceMotion, showNextCard]);
+  }, [activeIndex, focusPaused, manualPaused, reduceMotion, showNextCard]);
 
   useEffect(() => {
     return () => {
@@ -107,11 +107,9 @@ export default function ScreenshotDeck() {
   return (
     <div
       className="relative mx-auto mt-14 max-w-6xl pb-16 lg:mt-16"
-      onMouseEnter={() => setInteractionPaused(true)}
-      onMouseLeave={() => setInteractionPaused(false)}
-      onFocusCapture={() => setInteractionPaused(true)}
+      onFocusCapture={() => setFocusPaused(true)}
       onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setInteractionPaused(false);
+        if (!event.currentTarget.contains(event.relatedTarget)) setFocusPaused(false);
       }}
     >
       <div className="pointer-events-none absolute -inset-8 -z-10 rounded-[2rem] bg-[#c99a5b]/10 blur-3xl" />
@@ -199,11 +197,12 @@ export default function ScreenshotDeck() {
               aria-current={index === activeIndex ? "true" : undefined}
             >
               <motion.span
-                className="block h-1.5 rounded-full bg-zinc-600 group-hover:bg-zinc-400"
-                animate={{
-                  width: index === activeIndex ? 16 : 6,
-                  backgroundColor: index === activeIndex ? "#e3b66f" : "#52525b",
-                }}
+                className={`block h-1.5 rounded-full transition-colors ${
+                  index === activeIndex
+                    ? "bg-[var(--axon-accent)]"
+                    : "bg-zinc-600 group-hover:bg-zinc-400"
+                }`}
+                animate={{ width: index === activeIndex ? 16 : 6 }}
               />
             </button>
           ))}
