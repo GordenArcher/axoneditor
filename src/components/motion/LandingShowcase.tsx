@@ -7,14 +7,15 @@ import {
   ArrowRight,
   Bot,
   Braces,
-  Check,
   GitBranch,
   Play,
   Search,
-  Sparkles,
   TerminalSquare,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import type { ReleaseAsset } from "@data/releases";
+import DownloadPicker from "../home/DownloadPicker";
+import ScreenshotDeck from "./ScreenshotDeck";
 
 const workbenchTools = [
   { label: "Editor", icon: Braces },
@@ -34,7 +35,12 @@ const heroLines = [
 
 const springEase = [0.16, 1, 0.3, 1] as const;
 
-export default function LandingShowcase() {
+interface Props {
+  assets: ReleaseAsset[];
+  releaseTag?: string;
+}
+
+export default function LandingShowcase({ assets, releaseTag }: Props) {
   const reduceMotion = useReducedMotion();
   const [lineIndex, setLineIndex] = useState(0);
   const activeLine = heroLines[lineIndex] ?? heroLines[0];
@@ -142,16 +148,14 @@ export default function LandingShowcase() {
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <a
-              href="/download"
-              className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#e6b76f] px-5 text-sm font-semibold text-[#17120c] shadow-[0_12px_40px_rgba(201,154,91,0.18)] transition hover:bg-[#f1c37e] sm:w-auto"
-            >
-              Download Axon
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </a>
+            <DownloadPicker
+              assets={assets}
+              releaseTag={releaseTag}
+              menuPlacement="bottom"
+            />
             <a
               href="https://axoneditor-docs.vercel.app"
-              className="inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-white/12 bg-white/[0.025] px-5 text-sm font-semibold text-zinc-200 transition hover:border-white/25 hover:bg-white/[0.05] sm:w-auto"
+              className="inline-flex min-h-16 w-full items-center justify-center rounded-xl border border-white/12 bg-white/[0.025] px-5 text-sm font-semibold text-zinc-200 transition hover:border-white/25 hover:bg-white/[0.05] sm:w-auto"
             >
               Explore the docs
             </a>
@@ -159,51 +163,7 @@ export default function LandingShowcase() {
           <p className="mt-4 text-xs text-zinc-600">Available for macOS, Windows, and Linux</p>
         </motion.div>
 
-        <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 34, scale: 0.985 }}
-          animate={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
-          transition={{ delay: 0.12, duration: 0.9, ease: springEase }}
-          className="relative mx-auto mt-14 max-w-6xl lg:mt-16"
-        >
-          <div className="pointer-events-none absolute -inset-6 -z-10 rounded-[2rem] bg-[#c99a5b]/10 blur-3xl" />
-          <div className="overflow-hidden rounded-xl border border-white/15 bg-[#080808] shadow-[0_40px_100px_rgba(0,0,0,0.75)] sm:rounded-2xl">
-            <div className="relative flex h-10 items-center border-b border-white/[0.08] bg-[#101010] px-3 sm:h-12 sm:px-4">
-              <div className="flex gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-                <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
-              </div>
-              <div className="absolute left-1/2 flex -translate-x-1/2 items-center gap-2 text-[11px] text-zinc-500 sm:text-xs">
-                <img src="/media/icons/axon.png" alt="" className="h-4 w-4 rounded" />
-                axon / workspace
-              </div>
-            </div>
-            <img
-              src="/media/screenshots/captures/axon-capture-61.png"
-              alt="Axon editing a TypeScript project with the workspace tree, tabs, tests, and syntax highlighting visible"
-              className="block aspect-[16/9] w-full object-cover object-top"
-            />
-          </div>
-
-          <motion.div
-            animate={reduceMotion ? undefined : { y: [0, -7, 0] }}
-            transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -bottom-7 right-3 hidden w-64 rounded-xl border border-white/10 bg-[#11110f]/95 p-3.5 shadow-2xl shadow-black/60 backdrop-blur-xl md:block lg:-right-8 lg:bottom-10"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs font-medium text-zinc-200">
-                <Sparkles className="h-3.5 w-3.5 text-[#d5a45f]" />
-                Project context
-              </div>
-              <span className="rounded-full bg-[#8fbf74]/10 px-2 py-0.5 text-[10px] text-[#9dcc82]">ready</span>
-            </div>
-            <div className="mt-3 space-y-2 font-mono text-[10px] text-zinc-500">
-              <p className="flex items-center gap-2"><Check className="h-3 w-3 text-[#9dcc82]" /> workspace indexed</p>
-              <p className="flex items-center gap-2"><Check className="h-3 w-3 text-[#9dcc82]" /> language server warm</p>
-              <p className="flex items-center gap-2"><Check className="h-3 w-3 text-[#9dcc82]" /> git state synchronized</p>
-            </div>
-          </motion.div>
-        </motion.div>
+        <ScreenshotDeck />
 
         <div className="mx-auto mt-14 max-w-5xl border-y border-white/[0.07] py-5 lg:mt-20">
           <p className="mb-4 text-center text-[10px] font-semibold uppercase tracking-[0.22em] text-zinc-600">

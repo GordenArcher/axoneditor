@@ -1,5 +1,5 @@
 ---
-import PlatformDownload from "@components/home/DownloadCard.astro";
+import DownloadPicker from "@components/home/DownloadPicker";
 import LandingShowcase from "@components/motion/LandingShowcase";
 import HomeLayout from "@layouts/HomeLayout.astro";
 import { loadReleases } from "@data/releases";
@@ -36,7 +36,11 @@ const flow = [
   description="Axon is a local-first code editor where language tooling, Git, tests, terminals, and your AI agent work from the same project context."
   image="/media/screenshots/captures/axon-capture-61.png"
 >
-  <LandingShowcase client:load />
+  <LandingShowcase
+    client:load
+    assets={latestRelease?.assets ?? []}
+    releaseTag={latestRelease?.tag}
+  />
 
   <section class="px-5 py-20 sm:py-28">
     <div class="mx-auto max-w-7xl">
@@ -179,8 +183,10 @@ const flow = [
   </section>
 
   <section class="px-5 pb-20 sm:pb-28">
-    <div class="relative mx-auto max-w-7xl overflow-hidden rounded-2xl border border-[#c99a5b]/20 bg-[#100e0b] px-6 py-10 sm:px-10 sm:py-12">
-      <div class="pointer-events-none absolute -right-24 -top-32 h-80 w-80 rounded-full bg-[#c99a5b]/10 blur-3xl"></div>
+    <div class="relative mx-auto max-w-7xl rounded-2xl border border-[#c99a5b]/20 bg-[#100e0b] px-6 py-10 sm:px-10 sm:py-12">
+      <div class="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl">
+        <div class="absolute -right-24 -top-32 h-80 w-80 rounded-full bg-[#c99a5b]/10 blur-3xl"></div>
+      </div>
       <div class="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
         <div>
           <p class="section-kicker">Start where the work is</p>
@@ -191,7 +197,7 @@ const flow = [
             Download the latest desktop build for macOS, Windows, or Linux.
           </p>
         </div>
-        <PlatformDownload assets={latestRelease?.assets ?? []} releaseTag={latestRelease?.tag} />
+        <DownloadPicker client:load assets={latestRelease?.assets ?? []} releaseTag={latestRelease?.tag} />
       </div>
     </div>
   </section>
