@@ -26,10 +26,10 @@ const workbenchTools = [
 ];
 
 const heroLines = [
-  { text: "moves together.", color: "text-[#e3b66f]" },
-  { text: "stays in context.", color: "text-[#73b7d6]" },
-  { text: "keeps its momentum.", color: "text-[#9dcc82]" },
-  { text: "is fully in view.", color: "text-[#d8b4e2]" },
+  { text: "moves together.", highlight: "#e3b66f" },
+  { text: "stays in context.", highlight: "#73b7d6" },
+  { text: "keeps its momentum.", highlight: "#9dcc82" },
+  { text: "is fully in view.", highlight: "#d8b4e2" },
 ];
 
 const springEase = [0.16, 1, 0.3, 1] as const;
@@ -97,26 +97,40 @@ export default function LandingShowcase() {
                       },
                     },
                   }}
-                  className={`absolute inset-x-0 top-0 ${activeLine.color}`}
+                  className="absolute inset-x-0 top-0 flex justify-center"
                 >
-                  {Array.from(activeLine.text).map((letter, index) => (
+                  <span className="relative inline-block px-[0.08em] pb-[0.06em] text-[#17120c]">
                     <motion.span
-                      key={`${activeLine.text}-${index}`}
-                      variants={{
-                        hidden: reduceMotion
-                          ? { opacity: 1, y: 0, filter: "blur(0px)" }
-                          : { opacity: 0, y: 34, filter: "blur(8px)" },
-                        visible: { opacity: 1, y: 0, filter: "blur(0px)" },
-                        exit: reduceMotion
-                          ? { opacity: 1, y: 0, filter: "blur(0px)" }
-                          : { opacity: 0, y: -24, filter: "blur(8px)" },
+                      aria-hidden="true"
+                      className="absolute inset-0 z-0"
+                      style={{
+                        backgroundColor: activeLine.highlight,
+                        transformOrigin: "left center",
                       }}
-                      transition={{ duration: 0.55, ease: springEase }}
-                      className="inline-block whitespace-pre"
-                    >
-                      {letter}
-                    </motion.span>
-                  ))}
+                      initial={reduceMotion ? false : { opacity: 0, scaleX: 0 }}
+                      animate={{ opacity: 1, scaleX: 1 }}
+                      exit={reduceMotion ? undefined : { opacity: 0, scaleX: 0.94 }}
+                      transition={{ duration: 0.62, ease: springEase }}
+                    />
+                    {Array.from(activeLine.text).map((letter, index) => (
+                      <motion.span
+                        key={`${activeLine.text}-${index}`}
+                        variants={{
+                          hidden: reduceMotion
+                            ? { opacity: 1, y: 0, filter: "blur(0px)" }
+                            : { opacity: 0, y: 34, filter: "blur(8px)" },
+                          visible: { opacity: 1, y: 0, filter: "blur(0px)" },
+                          exit: reduceMotion
+                            ? { opacity: 1, y: 0, filter: "blur(0px)" }
+                            : { opacity: 0, y: -24, filter: "blur(8px)" },
+                        }}
+                        transition={{ duration: 0.55, ease: springEase }}
+                        className="relative z-10 inline-block whitespace-pre"
+                      >
+                        {letter}
+                      </motion.span>
+                    ))}
+                  </span>
                 </motion.span>
               </AnimatePresence>
             </span>
