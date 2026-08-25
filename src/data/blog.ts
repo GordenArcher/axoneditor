@@ -1,4 +1,5 @@
 import { architectureBlogPosts } from "./architectureBlogPosts";
+import { terminalEatingBugBlogPost } from "./terminalEatingBugBlogPost";
 
 export type BlogAuthor = {
   name: string;
@@ -74,6 +75,7 @@ export type BlogPost = {
 };
 
 export const blogPosts: BlogPost[] = [
+  terminalEatingBugBlogPost,
   ...architectureBlogPosts,
   {
     slug: "why-axon-needed-its-own-token-coloring-pipeline",
